@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+      <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-1">House Mercere</h1>
+            <p>A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
+            <br />
+            <p>
+{#                <a class="btn btn-primary btn-lg" href="{% url 'signup' %}"></a>#}
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <a href="{% url 'register' %}">Sign up</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>{{ saga.name }}</h1>
+    <p>StoryGuide:</p>
+    {% if saga.storyGuide.all %}
+        {% for storyGuide in saga.storyGuide.all %}
+            <li>{{ storyGuide.get_username }}</li>
+        {% endfor %}
+        <br>
+    {% endif %}
+    <p>Members:</p>
+    {% if saga.members.all %}
+        {% for member in saga.members.all %}
+            <li>{{ member.get_username }}</li>
+        {% endfor %}
+        <br>
+    {% endif %}
+    <p>Characters:</p>
+    {% if saga.character_set.all %}
+        {% for char in saga.character_set.all %}
+            <li><a href="{{ char.get_absolute_url }}">{{ char.name }}</a></li>
+        {% endfor %}
+    {% else %}
+        <li>This saga contains no characters</li>
+    {% endif %}
+    <br>
+
+    <a href="{% url 'saga-update' saga.name %}">Update Saga</a>
+    <a href="{% url 'saga-delete' saga.name %}">Delete Saga</a>
+{% endblock %}

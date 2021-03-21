@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>List of Sagas</h1>
+    {% if saga_list %}
+        <p>House Mercere hosts the following sagas:</p>
+        <ul>
+        {% for saga in saga_list %}
+            <li> <a href="{{  saga.get_absolute_url }}">{{ saga.name }}</a></li>
+        {% endfor %}
+
+        </ul>
+    {% else %}
+        <p>House Mercere is not hosting any sagas.</p>
+    {% endif %}
+{% endblock %}

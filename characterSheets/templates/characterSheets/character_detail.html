@@ -1,0 +1,6 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>{{ character.name }}</h1>
+    <a href="{% url 'edit-character' character.id %}">Edit Character</a>
+{% endblock %}

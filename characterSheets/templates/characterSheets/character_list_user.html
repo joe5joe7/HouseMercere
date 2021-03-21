@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Characters</h1>
+    {% if character_list %}
+    <ul>
+        {% for char in character_list %}
+            <li> <a href="{{ char.get_absolute_url }}">{{ char.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+        <p>You have no characters.</p>
+
+    {% endif %}
+
+{% endblock %}

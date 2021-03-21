@@ -1,0 +1,106 @@
+{% load generic_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}<title>House Mercere</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/generic.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container-fluid h-100">
+<div class="row h-100">
+    <div class="col-1 collapse sidebar h-100" id="collapseSidebar">
+        {% block sidebar %}
+                    {% if user.is_authenticated %}
+                        <div class="row align-items-end border-bottom border-dark border-5" style="min-height: 30px;">
+                            <div class="col-4">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div class="col-8">
+                                {{ user.get_username}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="background-color: #9fcdff">
+                                <p>Sagas<p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                {% if sagaStoryGuideList %}
+                                    {% for saga in sagaStoryGuideList %}
+                                        <i class="bi bi-book"></i>
+                                        <a href="{{ saga.get_absolute_url }}">{{ saga.name }}</a>
+                                        {% for character in sSagaCharacterList|get_item:saga%}
+                                            <a href="{{ character.get_absolute_url }}">{{ character.name }}</a>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% if sagaMemberList %}
+                                {% for saga in sagaMemberList %}
+                                    <a href="{{ saga.get_absolute_url }}">{{ saga.name }}</a>
+                                    <a data-toggle="collapse" href="#{{ saga.name_id }}" role="button" aria-expanded="false" aria-controls="collapse{{ saga.name }}" style="color:#000000;">
+                                        <i onclick="dropdownToggle(this)" class="bi bi-menu-up" ></i>
+                                    </a>
+                                    <div class="collapse" id="{{ saga.name_id }}">
+                                    {% for character in mSagaCharacterList|get_item:saga %}
+                                        <div class="row"><div class="col">
+                                            <a href="{{ character.get_absolute_url }}">{{ character.name }}</a>
+                                        </div></div>
+                                    {% endfor %}
+                                    </div>
+                                    <br>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row"><div class="col-12">
+                            <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                        </div></div>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                    {% endif %}
+        {% endblock %}
+    </div>
+    <div class="col-11 padding-0">
+        <nav class="navbar navbar-expand-md">
+            <a class="navbar-brand" href="{% url 'index' %}">HM</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'character-create' %}">Create Character</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sagas' %}">All Sagas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <button class="btn rounded-bottom" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseSidebar" onfocus="this.blur()">
+            <i class="bi bi-person-lines-fill"></i>
+        </button>
+        <div class="container-fluid">
+            <div class="col-sm-12 ">{% block content %}{% endblock %}</div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'js/generic.js' %}"></script>
+</body>
+</html>
