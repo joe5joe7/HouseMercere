@@ -1,0 +1,52 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+<div class="row">
+<div class="col">
+    {{ ss.name }}
+    <br>
+    {% for user in ss.subscribers.all %}
+        {{ user }}
+        <br>
+    {% endfor %}
+    {% for saga in ss.saga_set.all %}
+        {{ saga }}
+        <br>
+    {% endfor %}
+</div>
+</div>
+<div class="row">
+<div class="col">
+    {% for ability in ss.ability_set.all %}
+    {{ ability }}
+    <br>
+    {% endfor %}
+</div>
+</div>
+<div class="row">
+<div class="col">
+    {% for virtue in ssVirtues %}
+    {{ virtue }}
+    <br>
+    {% endfor %}
+</div>
+</div>
+<div class="row">
+<div class="col">
+    {% for flaw in ssFlaws %}
+    {{ flaw }}
+    <br>
+    {% endfor %}
+</div>
+</div>
+<div class="row">
+<div class="col">
+    {% for equip in ss.equipment_set.all %}
+    {{ equip }}
+    <br>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}

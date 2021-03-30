@@ -1,0 +1,70 @@
+{% extends "character_view.html" %}
+{% load generic_extras %}
+
+
+{% block edit_page %}
+<div class="col">
+    <a role='button' class="btn btn-primary disabled" href="#" aria-disabled="true">Edit Page</a>
+</div>
+{% endblock %}
+
+
+{% block character_content %}
+
+<div class="row align-items-center justify-content-end">
+<div class="col-sm-2 text-center">Fatigue:</div>
+<div class="col-sm-10">
+<div class="progress w-100 border border-dark" style="height: 40px">
+
+<div class="progress-bar bg-danger" style="width: {{ character.fatigueScorePercentage }}%" role="progressbar" aria-valuenow="{{ character.fatigueScorePercentage }}" aria-valuemin="0" aria-valuemax="100">
+    {{ character.fatigueStr }}
+</div>
+</div>
+</div>
+</div>
+<div class="row justify-content-end">
+<div class="col-sm-5">
+    <a class="btn btn-primary btn-block" href="{% url 'add-fatigue' character.id %}">Add Fatigue</a>
+</div>
+<div class="col-sm-5">
+    <a class="btn btn-primary btn-block" href="{% url 'subtract-fatigue' character.id %}">Remove Fatigue</a>
+</div>
+</div>
+<br>
+{% for wound in character.woundsRange.keys %}
+<div class="row justify-content-end">
+    <div class="col-sm-3">
+        <a class="btn btn-sm btn-primary" href="{% url 'add-wound' character.id wound %}">Add Wound</a>
+    </div>
+    <div class="col-sm-3">
+        <a class="btn btn-primary btn-sm" href="{% url 'remove-wound' character.id wound %}">Remove Wound</a>
+    </div>
+</div>
+<div class="row">
+<div class="col-2 text-center">
+    {% if wound != 'incapacitated' and wound != 'dead' %}
+        {{ wound }} Wounds
+    {% else %}
+        {{ wound }}
+    {% endif %}
+</div>
+<div class="col-2 text-center">
+    {% if wound != 'dead' %}
+        {{ character.woundsRange|get_item:wound|get_item:0 }} - {{ character.woundsRange|get_item:wound|get_item:1 }}
+    {% else %}
+        {{ character.woundsRange|get_item:wound|get_item:0 }}
+    {% endif %}
+</div>
+<div class="col-sm">
+    <div class="progress w-100 border border-dark" style="height: 10px">
+        <div class="progress-bar bg-danger" style="width: {{ character.wounds|get_item:wound }}%" role="progressbar" aria-valuenow="{{ character.wounds|get_item:wound  }}" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</div>
+</div>
+
+<br>
+
+
+{% endfor %}
+{% endblock %}

@@ -2,32 +2,12 @@
 {% load generic_extras %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <h1>{{ user.get_username }}</h1>
-        {% if sagaStoryGuideList %}
-            {% for saga in sagaStoryGuideList %}
-                <h5>Storyguide in:</h5>
-                <li><a href="{{ saga.get_absolute_url }}">{{ saga.name }}</a>:</li>
-                {% for character in sSagaCharacterList|get_item:saga%}
-                    <li><a href="{{ character.get_absolute_url }}">{{ character.name }}</a></li>
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <p>Not currently storyguiding any games.</p>
-
-        {% endif %}
-        <br>
-        {% if sagaMemberList %}
-            {% for saga in sagaMemberList %}
-                <h5>Playing in:</h5>
-                <li><a href="{{ saga.get_absolute_url }}">{{ saga.name }}</a>:</li>
-                {% for character in mSagaCharacterList|get_item:saga %}
-                    <li><a href="{{ character.get_absolute_url }}">{{ character.name }}</a></li>
-                {% endfor %}
-                <br>
-            {% endfor %}
-        {% else %}
-            <h5>Not currently playing in any games.</h5>
-        {% endif %}
+    {% if ownedSets %}
+        {% for set in ownedSets %}
+            <a href="{{ set.get_absolute_url }}">{{ set }}</a>
+            <br>
+        {% endfor %}
     {% endif %}
+    <a class="btn btn-primary" href="{% url 'add-sourceset' %}">Add Source Set</a>
+
 {% endblock %}

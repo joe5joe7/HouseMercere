@@ -1,0 +1,59 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block extraLoads %}
+<script src="{% static 'js/addForm.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-12">
+    Virtues
+</div>
+</div>
+<form action="" method="post" id="form-container">
+    {% csrf_token %}
+    {{ virtueFormset.management_form }}
+    {% for form in virtueFormset %}
+    <div class="row form-row spacer" id="form-row{{ form.auto_id }}">
+        <div class="col-4">
+            <label>Reference Virtue</label>
+            {{ virtueFormset.referenceVirtue }}
+        </div>
+        <div class="col-4">
+            <label>Specification Details (if necessary)</label>
+            {{ virtueFormset.specificationDetails }}
+            <div class="input-group-append">
+                <button class="btn remove-form" id="rem-{{ form.auto_id }}" type="button">-</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="button" id="add-form-virtue">Add another virtue</button>
+<div class="row">
+<div class="col-12">
+    Flaws
+</div>
+    {{ flawFormset.management_form }}
+    {% for form in flawFormset %}
+    <div class="row form-row spacer" id="form-row{{ form.auto_id }}">
+        <div class="col-4">
+            <label>Reference Flaw</label>
+            {{ flawFormset.referenceFlaw }}
+        </div>
+        <div class="col-4">
+            <label>Specification Details (if necessary)</label>
+            {{ flawFormset.specificationDetails }}
+            <div class="input-group-append">
+                <button class="btn remove-form" id="rem-{{ form.auto_id }}" type="button">-</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="button" id="add-form-flaw">Add another virtue</button>
+    <button type="submit" class="btn btn-block btn-primary">submit virtues and flaws</button>
+</form>
+
+{% endblock %}

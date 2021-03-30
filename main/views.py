@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from guardian.shortcuts import get_objects_for_user
 
-from characterSheets.models import Saga, Character
+from characterSheets.models import Saga, Character, SourceSet
 from main.forms import NewUserForm
 
 
@@ -16,34 +17,32 @@ def index(request):
     }
     return render(request, 'index.html', context=context)
 
-# @login_required
-# def profile(request):
-#     sagaMemberList = Saga.objects.filter(members=request.user)
-#     sagaStoryGuideList = Saga.objects.filter(storyGuide=request.user)
-#     sgCharacterBySaga = []
-#     mSagaCharacterList={}
-#     for mSaga in sagaMemberList:
-#         mSagaCharacterList[mSaga] = Character.objects.filter(saga=mSaga,player=request.user)
-#     sSagaCharacterList = {}
-#     for sSaga in sagaStoryGuideList:
-#         sSagaCharacterList[sSaga] = Character.objects.filter(saga=sSaga , player=request.user)
-#
-#     context = {
-#         'sagaMemberList': sagaMemberList,
-#         'sagaStoryGuideList': sagaStoryGuideList,
-#         'mSagaCharacterList': mSagaCharacterList,
-#         'sSagaCharacterList': sSagaCharacterList,
-#     }
-#     return render(request, 'profile.html', context=context)
+
+@login_required
+def profile(request):
+    ownedSets = get_objects_for_user(request.user,'characterSheets.source_can_edit')
+    # for x in SourceSet.objects.all():
+    #     if request.user.has_perm('can_edit',x):
+    #         ownedSets.append(x)
+
+
+    context = {
+        'ownedSets': ownedSets,
+    }
+
+    return render(request, 'profile.html', context)
+
 
 def register(request):
+    form = NewUserForm(None)
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Registration successful.")
             return redirect('index')
-        messages.error(request, "Unsuccessful registration, please correct errors.")
-    form = NewUserForm
-    return render(request, 'register.html', context={'form':form})
+        else:
+            messages.error(request, "Unsuccessful registration, please correct errors.")
+
+    return render(request, 'register.html', context={'form': form})

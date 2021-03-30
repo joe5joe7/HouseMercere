@@ -1,0 +1,64 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block extraLoads %}
+{#<script src="{% static 'js/addForm.js' %}"></script>#}
+{#<script src="{% static 'js/jquery.js' %}"></script>#}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.form-row').formset({
+            deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 2rem;color: #F34435;"></i>',
+            addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Ability</i></button>',
+            keepFieldValues: '.save',
+            deleteContainerClass: 'deleteButton',
+        });
+    })
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-12">
+    Abilities:
+</div>
+</div>
+<form action="" method="post" id="abilityForm">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <div class="row form-row">
+        <div class="col-4 input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm"> Reference Ability</span>
+        </div>
+            {{ form.referenceAbility }}
+            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+        </div>
+        <div class="col-4 input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Specialty</span>
+        </div>
+            {{ form.specialty }}
+        </div>
+        <div class="col input-group" >
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">XP</span>
+        </div>
+            {{ form.xp|default:0 }}
+        </div>
+        <div class="col input-group deleteButton">
+        <div class="input-group-prepend">
+            <span class="input-group-text"  id="inputGroup-sizing-sm">Score</span>
+        </div>
+            {{ form.score|default:0 }}
+        </div>
+    </div>
+    {% endfor %}
+{#    <button type="button" id="add-form">Add another ability</button>#}
+</form>
+<button type="submit" class="btn btn-block btn-primary" form="abilityForm">Add Abilities</button>
+
+{% endblock %}
+
+

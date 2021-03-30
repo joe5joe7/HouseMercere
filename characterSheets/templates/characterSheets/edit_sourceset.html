@@ -1,0 +1,347 @@
+{% extends "base_generic.html" %}
+{% block extraLoads %}
+    {% load static %}
+{#    <link rel="stylesheet" href="{% static 'css/edit-character.css' %}">#}
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+            $('div.abi-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Ability</i></button>',
+                prefix: '{{ abilityForm.prefix }}',
+                formCssClass: 'dynamic-abi-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-abi',
+                deleteCssClass: 'delete-row-abi',
+            });
+            $('div.virtue-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Virtue</i></button>',
+                prefix: '{{ virtueForm.prefix }}',
+                formCssClass: 'dynamic-virtue-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-virtue',
+                deleteCssClass: 'delete-row-virtue',
+            });
+            $('div.flaw-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Flaw</i></button>',
+                prefix: '{{ flawForm.prefix }}',
+                formCssClass: 'dynamic-flaw-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-flaw',
+                deleteCssClass: 'delete-row-flaw',
+            });
+            $('div.equip-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Equipment</i></button>',
+                prefix: '{{ equipForm.prefix }}',
+                formCssClass: 'dynamic-equip-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-equip',
+                deleteCssClass: 'delete-row-equip',
+            });
+        })
+</script>
+{% endblock %}
+
+{% block content %}
+<form id="sourceSetForm" method="post">
+{% csrf_token %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row border-bottom border-dark">
+                <div class="col">
+                    Ability Name
+                </div>
+                <div class="col">
+                    Description
+                </div>
+                <div class="col">
+                    Type
+                </div>
+                <div class="col-sm-2">
+                    Needs Training
+                </div>
+            </div>
+            <div>
+            {% for form in abilityForm %}
+                {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+                {% endif %}
+                <div class="row border-bottom abi-formset">
+                {{ form.id }}
+                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+
+                <div class="col input-group">
+                    {{ form.name }}
+                </div>
+                <div class="col input-group">
+                    {{ form.description }}
+                </div>
+                <div class="col input-group save">
+                    {{ form.type }}
+                </div>
+                <div class="col-sm-2  input-group delete-button-abi save">
+                    {{ form.needTraining }}
+                </div>
+                </div>
+
+            {% endfor %}
+            </div>
+            {{ abilityForm.management_form }}
+
+            <br>
+            <div class="row border-bottom border-dark">
+                <div class="col">
+                    Virtue Name
+                </div>
+                <div class="col">
+                    Description
+                </div>
+                <div class="col">
+                    Value
+                </div>
+                <div class="col">
+                    Type
+                </div>
+            </div>
+            <div>
+                {% for form in virtueForm %}
+                    {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="row border-bottom virtue-formset">
+                    {{ form.id }}
+                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                        <div class="col">
+                            {{ form.name }}
+                        </div>
+                        <div class="col">
+                            {{ form.description }}
+                        </div>
+                        <div class="col">
+                            {{ form.value }}
+                        </div>
+                        <div class="col delete-button-virtue">
+                            {{ form.type }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {{ virtueForm.management_form }}
+            </div>
+
+            <br>
+            <div class="row border-bottom border-dark">
+                <div class="col">
+                    Flaw Name
+                </div>
+                <div class="col">
+                    Description
+                </div>
+                <div class="col">
+                    Value
+                </div>
+                <div class="col">
+                    Type
+                </div>
+            </div>
+            <div>
+                {% for form in flawForm %}
+                    {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div class="row border-bottom flaw-formset">
+                    {{ form.id }}
+                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                        <div class="col">
+                            {{ form.name }}
+                        </div>
+                        <div class="col">
+                            {{ form.description }}
+                        </div>
+                        <div class="col">
+                            {{ form.value }}
+                        </div>
+                        <div class="col delete-button-flaw">
+                            {{ form.type }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {{ flawForm.management_form }}
+            </div>
+
+            <div class="row bg-info border-bottom border-dark">
+                <div class="col-10">
+                    Equipment
+                </div>
+                <div class="col-2">
+                    Score
+                </div>
+            </div>
+            <div>
+            {% for form in equipForm %}
+                {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+                {% endif %}
+                <div class="equip-formset">
+                <div class="row">
+                {{ form.id }}
+                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+                    </div>
+                        {{ form.name }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
+                    </div>
+                        {{ form.description }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Ability</span>
+                    </div>
+                        {{ form.ability }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Type</span>
+                    </div>
+                        {{ form.type }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Init</span>
+                    </div>
+                        {{ form.init }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Atk</span>
+                    </div>
+                        {{ form.atk }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Dfn</span>
+                    </div>
+                        {{ form.dfn }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">dam</span>
+                    </div>
+                        {{ form.dam }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Str</span>
+                    </div>
+                        {{ form.strength }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Range</span>
+                    </div>
+                        {{ form.range }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Prot</span>
+                    </div>
+                        {{ form.prot }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Load</span>
+                    </div>
+                        {{ form.load }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Partial Prot</span>
+                    </div>
+                        {{ form.partialProt }}
+                    </div>
+                    <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Partial Load</span>
+                    </div>
+                        {{ form.partialLoad }}
+                    </div>
+                    <div class="col input-group delete-button-equip">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Cost</span>
+                    </div>
+                        {{ form.cost }}
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+            {{ equipForm.management_form }}
+            </div>
+
+
+        <br>
+        <button class="btn btn-primary" type="submit">Submit Changes</button>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

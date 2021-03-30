@@ -1,6 +1,197 @@
-{% extends "base_generic.html" %}
+{% extends "character_view.html" %}
 
-{% block content %}
-    <h1>{{ character.name }}</h1>
-    <a href="{% url 'edit-character' character.id %}">Edit Character</a>
+
+{% block edit_page %}
+<div class="col">
+    <a class="btn btn-primary" href="{% url 'edit-character' character.id %}">Edit Page</a>
+</div>
+{% endblock %}
+
+
+{% block character_content %}
+
+                <div class="row border-top border-right border-left border-dark">
+                <div class="col">
+                    Intelligence (int): <br>{{ character.int }}
+                </div>
+                <div class="col-3">
+                    Perception (per): <br>{{ character.per }}
+                </div>
+                <div class="col">
+                    Strength (str): <br>{{ character.str }}
+                </div>
+                <div class="col">
+                    Stamina (sta):  <br>{{ character.sta }}
+                </div>
+                </div>
+                <div class="row border-bottom border-right border-left border-dark">
+                <div class="col">
+                    Presence (pre): <br>{{ character.pre }}
+                </div>
+                <div class="col-3">
+                    Communication(com): <br>{{ character.com }}
+                </div>
+                <div class="col">
+                    Dexterity (dex): <br>{{ character.dex }}
+                </div>
+                <div class="col">
+                    Quickness (qik): <br>{{ character.qik }}
+                </div>
+                </div>
+                <br>
+
+                <div class="row bg-info border-bottom border-dark">
+                    <div class="col-10">
+                        Personality
+                    </div>
+                    <div class="col-2">
+                        Score
+                    </div>
+                </div>
+                {% for personality in personalityList %}
+                    <div class="row">
+                        <div class="col-10">
+                        {{ personality.name }}
+                        </div>
+                        <div class="col-2">
+                        {{ personality.score }}
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <br>
+
+                <div class="row bg-info border-bottom border-dark">
+                    <div class="col-5">
+                        Reputation
+                    </div>
+                    <div class="col-5">
+                        Type
+                    </div>
+                    <div class="col-2">
+                        Score
+                    </div>
+                </div>
+
+                {% for reputation in reputationList %}
+                    <div class="row">
+                    <div class="col-5">
+                    {{ reputation.content }}
+                    </div>
+                    <div class="col-5">
+                    {{ reputation.get_type_display }}
+                    </div>
+                    <div class="col-2">
+                    {{ reputation.score }}
+                    </div>
+                    </div>
+                {% endfor %}
+
+                <br>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row border-bottom border-dark bg-info">
+                            <div class="col-sm-6">
+                                Virtue Name
+                            </div>
+                            <div class="col-sm-6">
+                                Specification
+                            </div>
+                        </div>
+                        {% for virtue in virtueList %}
+                            <div class="row border-bottom virtue-formset">
+                                <div class="col-sm-6">
+                                    {{ virtue.referenceVirtue }}
+                                </div>
+                                <div class="col-sm-6 delete-button">
+                                    {{ virtue.specificationDetails }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-6">
+                        <div class="row border-bottom border-dark bg-info">
+                            <div class="col-sm-6">
+                                Flaw Name
+                            </div>
+                            <div class="col-sm-6">
+                                Specification
+                            </div>
+                        </div>
+                            {% for flaw in flawList %}
+                                <div class="row border-bottom flaw-formset">
+                                    <div class="col-sm-6">
+                                        {{ flaw.referenceFlaw }}
+                                    </div>
+                                    <div class="col-sm-6 delete-button">
+                                        {{ flaw.specificationDetails }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                <div class="col-7">
+                    <div class="row border-bottom border-dark bg-info">
+                        <div class="col-sm-4">
+                            Ability Name
+                        </div>
+                        <div class="col-sm-4">
+                            Specialty
+                        </div>
+                        <div class="col-sm-2">
+                            Score
+                        </div>
+                        <div class="col-sm-1">
+                            XP
+                        </div>
+                        </div>
+                    {% for ability in abilityList %}
+                        <div class="row border-bottom">
+                        <div class="col-sm-4">
+                            {% filter force_escape|title %}{{ ability }}{% endfilter %}
+                        </div>
+                        <div class="col-sm-4">
+                            {{ ability.specialty }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ ability.score }}
+                        </div>
+                        <div class="col-sm-1">
+                            {{ ability.xp }}
+                        </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+                </div>
+        </div>
+        <div class="col-4">
+            <ul style="list-style-type: none">
+                <li>Size: {{ character.size }}</li>
+                <li>Confidence: {{ character.confidence }}</li>
+                <li>Decrepitude Score: {{ character.decrepitude }}</li>
+                <li>Warping Score: {{ character.warping }}</li>
+                <li>Birth name: {{ character.birthName }}</li>
+                <li>Year Born: {{ character.yearBorn }}</li>
+                <li>Gender: {{ character.gender }}</li>
+                <li>Race/Nationality: {{ character.nationality }}</li>
+                <li>Place of Origin: {{ character.origin }}</li>
+                <li>Religion: {{ character.religion }}</li>
+                <li>Title/Profession: {{ character.title }}</li>
+                <li>Height: {{ character.height }}</li>
+                <li>Weight: {{ character.weight }}</li>
+                <li>Hair: {{ character.hair }}</li>
+                <li>Eyes: {{ character.eyes }}</li>
+                <li>Handedness: {{ character.handedness }}</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
 {% endblock %}

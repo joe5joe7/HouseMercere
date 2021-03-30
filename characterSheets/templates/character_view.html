@@ -1,0 +1,125 @@
+{% extends "base_generic.html" %}
+{% load generic_extras %}
+
+{% block extraLoads %}
+<div class="modal fade" tabindex="-1" role="dialog" id="addSaga" aria-labelledby="Saga List">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add to saga</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="saga" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ addCharacterToSaga }}
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="saga" value="add" name="add">Save Saga</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="removeSaga" aria-labelledby="Remove from saga">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Remove from saga</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to remove {{ character.name }} from {{ character.saga }}?
+        <form id="remove-saga" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ removeSaga }}
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="remove-saga" value="remove" name="remove">Confirm Saga Removal</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteCharacter" aria-labelledby="Remove from saga">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Character</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete {{ character.name }}?
+        <form id="delete-character" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ deleteCharacter }}
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="delete-character" value="del" name="del">Confirm Character Deletion</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="{% url 'character-detail' character.id %}">General</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="{% url 'character-combat' character.id %}">Combat</a>
+        </div>
+        {% if character.saga == None %}
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSaga">Add to saga</button>
+            </div>
+        {% else %}
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#removeSaga">Remove from saga</button>
+            </div>
+        {% endif %}
+        {% block edit_page %}
+        {% endblock %}
+        <div class="col">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteCharacter">Delete</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+                <div class="row border-bottom">
+                <div class="col-3">
+                    <i class="bi bi-person-square" style="font-size: xxx-large"></i>
+                </div>
+                <div class="col">
+                    <p>{{ character.name }}</p>
+                    <p>{{ character.player }}</p>
+                    <p>{{ character.age }}</p>
+                    <p>{{ character.get_type_display }}</p>
+                </div>
+                <div class="col">
+                    <a href="{{ character.saga.get_absolute_url }}">{{ character.saga }}</a>
+                    <p>current year</p>
+                    <p>house</p>
+                </div>
+                </div>
+    {% block character_content %}
+    {% endblock %}
+{% endblock %}

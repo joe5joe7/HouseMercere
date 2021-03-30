@@ -1,13 +1,312 @@
 {% extends "base_generic.html" %}
+{% block extraLoads %}
+    {% load static %}
+{#    <link rel="stylesheet" href="{% static 'css/edit-character.css' %}">#}
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+            $('div.abi-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Ability</i></button>',
+                prefix: '{{ abilityForm.prefix }}',
+                formCssClass: 'dynamic-abi-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-abi',
+                deleteCssClass: 'delete-row-abi',
+            });
+            $('div.virtue-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Virtue</i></button>',
+                prefix: '{{ virtueForm.prefix }}',
+                formCssClass: 'dynamic-virtue-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-virtue',
+                deleteCssClass: 'delete-row-virtue',
+            });
+            $('div.flaw-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Flaw</i></button>',
+                prefix: '{{ flawForm.prefix }}',
+                formCssClass: 'dynamic-flaw-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-flaw',
+                deleteCssClass: 'delete-row-flaw',
+            });
+            $('div.personality-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Personality</i></button>',
+                prefix: '{{ personalityForm.prefix }}',
+                formCssClass: 'dynamic-personality-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-personality',
+                deleteCssClass: 'delete-row-personality',
+            });
+            $('div.reputation-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Personality</i></button>',
+                prefix: '{{ reputationForm.prefix }}',
+                formCssClass: 'dynamic-reputation-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-reputation',
+                deleteCssClass: 'delete-row-reputation',
+            });
+        })
+</script>
+{% endblock %}
 
 {% block content %}
-    <h1>Edit: {{ character.name }}</h1>
+<form id="characterForm" method="post">
+{% csrf_token %}
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+                <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                    <div class="col-3">
+                        <i class="bi bi-person-square" style="font-size: xxx-large"></i>
+                    </div>
+                    <div class="col">
+                        <p>Name: {{ basicDetailsForm.name }}</p>
+                        <p>Age: {{ basicDetailsForm.age }}</p>
+                        <p>Type: {{ basicDetailsForm.type }}</p>
+                    </div>
+                    <div class="col">
+                        <p>Current Year: placeholder</p>
+                        <p>House: placeholder</p>
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Intelligence(int):  </span>
+                        </div>
+                        {{ basicDetailsForm.int }}
+                    </div>
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Perception(per):    </span>
+                        </div>{{ basicDetailsForm.per }}
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Strength(str):      </span>
+                        </div>{{ basicDetailsForm.str }}
+                    </div>
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Stamina(sta):       </span>
+                        </div>{{ basicDetailsForm.sta }}
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Presence(pre):      </span>
+                        </div>{{ basicDetailsForm.pre }}
+                    </div>
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Communication(com): </span>
+                        </div>{{ basicDetailsForm.com }}
+                    </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Dexterity(dex):     </span>
+                        </div>{{ basicDetailsForm.dex }}
+                    </div>
+                    <div class="col input-group">
+                        <div class="input-group-prepend w-50">
+                            <span class="input-group-text w-100" id="inputGroup-sizing-sm"> Quickness(qik):     </span>
+                        </div>{{ basicDetailsForm.qik }}
+                    </div>
+                    </div>
+                </div>
+                </div>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit">
+                <div class="row bg-info border-bottom border-dark">
+                    <div class="col-10">
+                        Personality
+                    </div>
+                    <div class="col-2">
+                        Score
+                    </div>
+                </div>
+                <div>
+                {% for form in personalityForm %}
+                    <div class="row personality-formset">
+                    {{ form.id }}
+                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                        <div class="col-10">
+                        {{ form.name }}
+                        </div>
+                        <div class="col-2 delete-button-personality">
+                        {{ form.score }}
+                        </div>
+                    </div>
+                {% endfor %}
+                {{ personalityForm.management_form }}
+                </div>
+
+                <br>
+
+                <div class="row bg-info border-bottom border-dark">
+                    <div class="col-5">
+                        Reputation
+                    </div>
+                    <div class="col-5">
+                        Type
+                    </div>
+                    <div class="col-2">
+                        Score
+                    </div>
+                </div>
+                <div>
+                {% for form in reputationForm %}
+                    <div class="row reputation-formset">
+                    {{ form.id }}
+                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                    <div class="col-5">
+                    {{ form.content }}
+                    </div>
+                    <div class="col-5">
+                    {{ form.type }}
+                    </div>
+                    <div class="col-2 delete-button-reputation">
+                    {{ form.score }}
+                    </div>
+                    </div>
+                {% endfor %}
+                {{ reputationForm.management_form }}
+                </div>
+                <br>
+
+
+
+
+
+                <br>
+                        <div class="row border-bottom border-dark">
+                            <div class="col-6">
+                                Virtue Name
+                            </div>
+                            <div class="col-6">
+                                Specification
+                            </div>
+                        </div>
+                        <div>
+                            {% for form in virtueForm %}
+                                <div class="row border-bottom virtue-formset">
+                                {{ form.id }}
+                                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                    <div class="col-sm-6">
+                                        {{ form.referenceVirtue }}
+                                    </div>
+                                    <div class="col-sm-6 delete-button-virtue">
+                                        {{ form.specificationDetails }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {{ virtueForm.management_form }}
+                        </div>
+
+                        <div class="row border-bottom border-dark">
+                            <div class="col-sm-6">
+                                Flaw Name
+                            </div>
+                            <div class="col-sm-6">
+                                Specification
+                            </div>
+                        </div>
+                        <div>
+                            {% for form in flawForm %}
+                                <div class="row border-bottom flaw-formset">
+                                {{ form.id }}
+                                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                    <div class="col-sm-6">
+                                        {{ form.referenceFlaw }}
+                                    </div>
+                                    <div class="col-sm-6 delete-button-flaw">
+                                        {{ form.specificationDetails }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {{ flawForm.management_form }}
+                        </div>
+
+
+
+                <div class="row">
+                <div class="col-12">
+                    <div class="row border-bottom border-dark">
+                        <div class="col-sm-4">
+                            Ability Name
+                        </div>
+                        <div class="col-sm-4">
+                            Specialty
+                        </div>
+                        <div class="col-sm-2">
+                            Score
+                        </div>
+                        <div class="col-sm-2">
+                            XP
+                        </div>
+                        </div>
+                <div>
+                    {% for form in abilityForm %}
+                        <div class="row border-bottom abi-formset">
+                        {{ form.id }}
+                        {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+
+                        <div class="col-sm-4 input-group">
+                            {{ form.referenceAbility }}
+                        </div>
+                        <div class="col-sm-4 input-group">
+                            {{ form.specialty }}
+                        </div>
+                        <div class="col-sm-2 input-group save">
+                            {{ form.score }}
+                        </div>
+                        <div class="col-sm-2  input-group delete-button-abi save">
+                            {{ form.xp }}
+                        </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+                {{ abilityForm.management_form }}
+
+                </div>
+                </div>
+                <br>
+                <button class="btn btn-primary" type="submit">Submit Changes</button>
+                <a href="{% url 'character-detail' character.id %}" class="btn btn-primary">Cancel</a>
+        </div>
+        <div class="col-3">
+            <ul style="list-style-type: none">
+                <li>Size: {{ moreDetailsForm.size }}</li>
+                <li>Confidence: {{ moreDetailsForm.confidence }}</li>
+                <li>Decrepitude Score: {{ moreDetailsForm.decrepitude }}</li>
+                <li>Warping Score: {{ moreDetailsForm.warping }}</li>
+                <li>Birth name: {{ moreDetailsForm.birthName }}</li>
+                <li>Year Born: {{ moreDetailsForm.yearBorn }}</li>
+                <li>Gender: {{ moreDetailsForm.gender }}</li>
+                <li>Race/Nationality: {{ moreDetailsForm.nationality }}</li>
+                <li>Place of Origin: {{ moreDetailsForm.origin }}</li>
+                <li>Religion: {{ moreDetailsForm.religion }}</li>
+                <li>Title/Profession: {{ moreDetailsForm.title }}</li>
+                <li>Height: {{ moreDetailsForm.height }}</li>
+                <li>Weight: {{ moreDetailsForm.weight }}</li>
+                <li>Hair: {{ moreDetailsForm.hair }}</li>
+                <li>Eyes: {{ moreDetailsForm.eyes }}</li>
+                <li>Handedness: {{ moreDetailsForm.handedness }}</li>
+            </ul>
+        </div>
+    </div>
+    </div>
     </form>
 {% endblock %}

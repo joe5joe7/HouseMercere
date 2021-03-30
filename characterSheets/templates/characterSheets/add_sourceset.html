@@ -1,25 +1,26 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <form method="POST">
-  {% csrf_token %}
-      {% if form.errors %}
-        {% for field in form %}
+    <form method="POST">
+    {% csrf_token %}
+      {% if sourceset.errors %}
+        {% for field in sourceset %}
             {% for error in field.errors %}
                 <div class="alert alert-danger">
                     <strong>{{ error|escape }}</strong>
                 </div>
             {% endfor %}
         {% endfor %}
-        {% for error in form.non_field_errors %}
+        {% for error in sourceset.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
         {% endif %}
-      <table>
-        {{  form.as_table }}
-      </table>
-      <button type="submit">Submit</button>
-  </form>
+    <table>
+        {{ sourceset.as_table }}
+    </table>
+    <button class="btn btn-primary" type="submit" value="submit">Submit</button>
+    </form>
+
 {% endblock %}

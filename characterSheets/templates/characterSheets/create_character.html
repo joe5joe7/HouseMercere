@@ -1,0 +1,77 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                    <div class="col-3">
+                        <i class="bi bi-person-square" style="font-size: xxx-large"></i>
+                    </div>
+                    <div class="col">
+                        <p>Name: {{ form.name }}</p>
+                        <p>Age: {{ form.age }}</p>
+                        <p>Type: {{ form.type }}</p>
+                    </div>
+                    <div class="col">
+                        <p>Current Year: placeholder</p>
+                        <p>House: placeholder</p>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                        Intelligence(int): <br>{{ form.int }}
+                    </div>
+                    <div class="col-3">
+                        Perception(per): <br>{{ form.per }}
+                    </div>
+                    <div class="col">
+                        Strength(str): <br>{{ form.str }}
+                    </div>
+                    <div class="col">
+                        Stamina(sta):  <br>{{ form.sta }}
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                        Presence(pre): <br>{{ form.pre }}
+                    </div>
+                    <div class="col-3">
+                        Communication(com): <br>{{ form.com }}
+                    </div>
+                    <div class="col">
+                        Dexterity(dex): <br>{{ form.dex }}
+                    </div>
+                    <div class="col">
+                        Quickness(qik): <br>{{ form.qik }}
+                    </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <ul style="list-style-type: none">
+                        <li>Size: {{ form.size }}</li>
+                        <li>Confidence: {{ form.confidence }}</li>
+                        <li>Decrepitude Score: {{ form.decrepitude }}</li>
+                        <li>Warping Score: {{ form.warping }}</li>
+                        <li>Birth name: {{ form.birthName }}</li>
+                        <li>Year Born: {{ form.yearBorn }}</li>
+                        <li>Gender: {{ form.gender }}</li>
+                        <li>Race/Nationality: {{ form.nationality }}</li>
+                        <li>Place of Origin: {{ form.origin }}</li>
+                        <li>Religion: {{ form.religion }}</li>
+                        <li>Title/Profession: {{ form.title }}</li>
+                        <li>Height: {{ form.height }}</li>
+                        <li>Weight: {{ form.weight }}</li>
+                        <li>Hair: {{ form.hair }}</li>
+                        <li>Eyes: {{ form.eyes }}</li>
+                        <li>Handedness: {{ form.handedness }}</li>
+                    </ul>
+                </div>
+                </div>
+            <input type="submit" class="btn btn-primary" value="Submit Character" />
+            </form>
+</div>
+
+{% endblock %}
