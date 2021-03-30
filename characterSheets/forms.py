@@ -363,6 +363,8 @@ class importVirtuesForm(forms.Form):
                 newVirtue.description = data[key]['description']
                 newVirtue.value = data[key]['value'].lower()
                 newVirtue.type = data[key]['type'].lower()
+                if data[key]['type'].lower() == 'social status':
+                    newVirtue.type = 'socialStatus'
                 newVirtue.virtueOrFlaw = 'virtue'
                 output.append(newVirtue)
             return output

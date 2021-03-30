@@ -581,6 +581,23 @@ def import_virtues(request, pk):
     return render(request, 'characterSheets/import_virtues.html', context)
 
 
+def export_virtues(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    output = '{'
+    ssVirtues = ss.vf_set.filter(virtueOrFlaw='virtue')
+    for virtue in ssVirtues:
+        output += '"' + virtue.name + '":{"name":"' + virtue.name + '","description":"' + virtue.description + '","value":"' + virtue.value + '","type":"' + virtue.type + '"},'
+    output = output[:-1]
+    output += '}'
+
+    context = {
+        'ss': ss,
+        'output': output
+    }
+
+    return render(request, 'characterSheets/export_virtues.html', context)
+
+
 def sourceset_virtues(request, pk):
     ss = get_object_or_404(SourceSet, pk=pk)
     ssVirtues = ss.vf_set.filter(virtueOrFlaw='virtue')

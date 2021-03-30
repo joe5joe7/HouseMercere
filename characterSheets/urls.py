@@ -29,4 +29,5 @@ urlpatterns = [
     path('sourceset_abilities/<int:pk>',views.sourceset_abilities, name='sourceset-abilities'),
     path('sourceset_equipment/<int:pk>',views.sourceset_equipment, name='sourceset-equipment'),
     path('sourceset_editvirtues/<int:pk>',views.edit_virtues, name='edit-virtues'),
+    path('sourceset_exportvirtues/<int:pk>', views.export_virtues, name='export-virtues'),
 ]
