@@ -579,3 +579,44 @@ def import_virtues(request, pk):
         'importForm': importForm,
     }
     return render(request, 'characterSheets/import_virtues.html', context)
+
+
+def sourceset_virtues(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ssVirtues = ss.vf_set.filter(virtueOrFlaw='virtue')
+
+    context = {
+        'ssVirtues': ssVirtues,
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/sourceset_virtues.html', context)
+
+def sourceset_flaws(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ssFlaws = ss.vf_set.filter(virtueOrFlaw='flaw')
+
+    context = {
+        'ssFlaws': ssFlaws,
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/sourceset_flaws.html', context)
+
+def sourceset_abilities(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+
+    context = {
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/sourceset_abilities.html', context)
+
+def sourceset_equipment(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+
+    context = {
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/sourceset_equipment.html', context)
