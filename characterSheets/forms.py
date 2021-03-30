@@ -347,3 +347,7 @@ class equipLibForm(ModelForm):
         self.source = kwargs.pop('source', None)
         super(equipLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
+
+
+class importVirtuesForm(forms.Form):
+    data = forms.JSONField(label='Import Data', max_length=100000)

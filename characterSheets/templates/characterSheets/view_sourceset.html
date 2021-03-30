@@ -15,38 +15,53 @@
         <br>
     {% endfor %}
 </div>
-</div>
-<div class="row">
 <div class="col">
+    <a class= 'btn btn-primary' href="{% url 'edit-sourceset' ss.id %}"> Edit Source</a>
+</div>
+</div>
+<div class="row bg-info border-bottom">
+<div class="col">
+    Abilities
+</div>
+</div>
     {% for ability in ss.ability_set.all %}
-    {{ ability }}
-    <br>
+        <div class="row"><div class="col">
+            {{ ability }}
+        </div></div>
     {% endfor %}
+
+<div class="row bg-info border-bottom">
+    <div class="col">
+        Virtues
+    </div>
 </div>
-</div>
-<div class="row">
-<div class="col">
     {% for virtue in ssVirtues %}
-    {{ virtue }}
-    <br>
+        <div class="row"><div class="col">
+            {{ virtue }}
+        </div></div>
     {% endfor %}
+
+<div class="row bg-info border-bottom">
+    <div class="col">
+        Flaws
+    </div>
 </div>
-</div>
-<div class="row">
-<div class="col">
     {% for flaw in ssFlaws %}
+        <div class="row"><div class="col">
     {{ flaw }}
-    <br>
+        </div></div>
     {% endfor %}
+
+<div class="row bg-info border-bottom">
+    <div class="col">
+        Equipment
+    </div>
 </div>
-</div>
-<div class="row">
-<div class="col">
     {% for equip in ss.equipment_set.all %}
-    {{ equip }}
-    <br>
+        <div class="row"><div class="col">
+            {{ equip }}
+        </div></div>
     {% endfor %}
-</div>
-</div>
+
 
 {% endblock %}
