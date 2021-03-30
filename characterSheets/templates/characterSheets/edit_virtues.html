@@ -33,18 +33,43 @@
         <a href="{% url 'import-virtues' ss.id %}" class="btn btn-primary">Import Virtues</a>
     </div>
 </div>
-    {% for virtue in ssVirtues %}
-        <div class="row border-bottom"><div class="col">
-            {{ virtue }}
-        </div>
-        <div class="col">
-            <ul class='list-group'>
-                <li class='list-group-item'><b>Description: </b>{{ virtue.description }}</li>
-                <li class='list-group-item'><b>Value: </b>{{ virtue.value }}</li>
-                <li class='list-group-item'><b>Type: </b>{{ virtue.type }}</li>
-            </ul>
-        </div>
-        </div>
-    {% endfor %}
+<form method="post">
+    <div>
+        {% for form in virtueForm %}
+            {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+            {% endif %}
+            <div class="row border-bottom virtue-formset">
+            {{ form.id }}
+            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                <div class="col">
+                    {{ form.name }}
+                </div>
+                <div class="col">
+                    {{ form.description }}
+                </div>
+                <div class="col">
+                    {{ form.value }}
+                </div>
+                <div class="col delete-button-virtue">
+                    {{ form.type }}
+                </div>
+            </div>
+        {% endfor %}
+    {{ virtueForm.management_form }}
+    </div>
+    <button type="submit" value="Submit"> Submit </button>
+</form>
 
 {% endblock %}
