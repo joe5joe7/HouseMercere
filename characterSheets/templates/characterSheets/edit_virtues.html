@@ -1,4 +1,23 @@
 {% extends 'base_generic.html' %}
+{% block extraLoads %}
+{% load static %}
+{#    <link rel="stylesheet" href="{% static 'css/edit-character.css' %}">#}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+            $('div.virtue-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Virtue</i></button>',
+                prefix: '{{ virtueForm.prefix }}',
+                formCssClass: 'dynamic-virtue-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-virtue',
+                deleteCssClass: 'delete-row-virtue',
+            });
+        })
+</script>
+{% endblock %}
+
 {% block content %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -69,7 +88,7 @@
         {% endfor %}
     {{ virtueForm.management_form }}
     </div>
-    <button type="submit" value="Submit"> Submit </button>
+    <button type="submit" value="Submit" class="btn btn-primary"> Submit </button>
 </form>
 
 {% endblock %}
