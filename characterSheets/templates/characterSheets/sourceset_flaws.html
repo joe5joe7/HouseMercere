@@ -26,6 +26,15 @@
     <div class="col">
         Flaws
     </div>
+    <div class="col">
+        <a href="{% url 'edit-flaws' ss.id %}" class="btn btn-primary">Edit Flaws</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-flaws' ss.id %}" class="btn btn-primary">Import Flaws</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'export-flaws' ss.id %}" class="btn btn-primary">Export Flaws</a>
+    </div>
 </div>
     {% for flaw in ssFlaws %}
         <div class="row"><div class="col">
