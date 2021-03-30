@@ -571,6 +571,7 @@ def import_virtues(request, pk):
         if importForm.is_valid():
             data = importForm.cleaned_data['iData']
             for virtue in data:
+                virtue.source = ss
                 virtue.save()
             return HttpResponseRedirect(ss.get_absolute_url())
 
