@@ -569,7 +569,7 @@ def import_virtues(request, pk):
     if request.method == 'POST':
         importForm = importVirtuesForm(request.POST)
         if importForm.is_valid():
-            for virtue in importForm:
+            for virtue in importForm['iData']:
                 virtue.save()
             return HttpResponseRedirect(ss.get_absolute_url())
 
