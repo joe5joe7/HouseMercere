@@ -17,7 +17,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
-    vfLibForm, equipLibForm, importVirtuesForm
+    vfLibForm, equipLibForm, importVirtuesForm, importFlawsForm
 
 import logging
 
@@ -446,6 +446,13 @@ def remove_wound(request, pk, wound_type):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+def delete_sourceset(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ss.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def add_sourceset(request):
     sourceset = addSourceSet(request.POST or None)
     if request.POST:
@@ -598,6 +605,111 @@ def export_virtues(request, pk):
     return render(request, 'characterSheets/export_virtues.html', context)
 
 
+def edit_virtues(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+
+    virtExtra = 0
+    if len(ss.vf_set.filter(virtueOrFlaw='virtue')) == 0:
+        virtExtra = 1
+
+    vFormset = modelformset_factory(VF, form=vfLibForm, extra=virtExtra, can_delete=True)
+    virtueForm = vFormset(
+        None,
+        queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
+        form_kwargs={'source': ss, 'vf': 'virtue'},
+        prefix='virtue-form',
+    )
+
+    if request.method == 'POST':
+        virtueForm = vFormset(
+            request.POST,
+            queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
+            form_kwargs={'source': ss, 'vf': 'virtue'},
+            prefix='virtue-form',
+        )
+
+        if virtueForm.is_valid():
+            virtueForm.save()
+            return HttpResponseRedirect(ss.get_absolute_url())
+
+    context = {
+        'virtueForm': virtueForm,
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/edit_virtues.html', context)
+
+
+def import_flaws(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    importForm = importFlawsForm(None)
+    if request.method == 'POST':
+        importForm = importFlawsForm(request.POST)
+        if importForm.is_valid():
+            data = importForm.cleaned_data['iData']
+            for flaw in data:
+                flaw.source = ss
+                flaw.save()
+            return HttpResponseRedirect(ss.get_absolute_url())
+
+    context = {
+        'importForm': importForm,
+    }
+    return render(request, 'characterSheets/import_virtues.html', context)
+
+
+def export_flaws(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    output = '{'
+    ssFlaws = ss.vf_set.filter(virtueOrFlaw='flaw')
+    for flaw in ssFlaws:
+        output += '"' + flaw.name + '":{"name":"' + flaw.name + '","description":"' + flaw.description + '","value":"' + flaw.value + '","type":"' + flaw.type + '"},'
+    output = output[:-1]
+    output += '}'
+
+    context = {
+        'ss': ss,
+        'output': output
+    }
+
+    return render(request, 'characterSheets/export_virtues.html', context)
+
+
+def edit_flaws(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+
+    flawExtra = 0
+    if len(ss.vf_set.filter(virtueOrFlaw='flaw')) == 0:
+        flawExtra = 1
+
+    vFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
+    flawForm = vFormset(
+        None,
+        queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
+        form_kwargs={'source': ss, 'vf': 'flaw'},
+        prefix='flaw-form',
+    )
+
+    if request.method == 'POST':
+        flawForm = vFormset(
+            request.POST,
+            queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
+            form_kwargs={'source': ss, 'vf': 'flaw'},
+            prefix='flaw-form',
+        )
+
+        if flawForm.is_valid():
+            flawForm.save()
+            return HttpResponseRedirect(ss.get_absolute_url())
+
+    context = {
+        'flawForm': flawForm,
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/edit_flaws.html', context)
+
+
 def sourceset_virtues(request, pk):
     ss = get_object_or_404(SourceSet, pk=pk)
     ssVirtues = ss.vf_set.filter(virtueOrFlaw='virtue')
@@ -640,38 +752,3 @@ def sourceset_equipment(request, pk):
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)
-
-
-def edit_virtues(request, pk):
-    ss = get_object_or_404(SourceSet, pk=pk)
-
-    virtExtra = 0
-    if len(ss.vf_set.filter(virtueOrFlaw='virtue')) == 0:
-        virtExtra = 1
-
-    vFormset = modelformset_factory(VF, form=vfLibForm, extra=virtExtra, can_delete=True)
-    virtueForm = vFormset(
-        None,
-        queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-        form_kwargs={'source': ss, 'vf': 'virtue'},
-        prefix='virtue-form',
-    )
-
-    if request.method == 'POST':
-        virtueForm = vFormset(
-            request.POST,
-            queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-            form_kwargs={'source': ss, 'vf': 'virtue'},
-            prefix='virtue-form',
-        )
-
-        if virtueForm.is_valid():
-            virtueForm.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
-
-    context = {
-        'virtueForm': virtueForm,
-        'ss': ss,
-    }
-
-    return render(request, 'characterSheets/edit_virtues.html', context)

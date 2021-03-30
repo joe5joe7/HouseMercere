@@ -38,6 +38,9 @@
 <div class="col">
     <a class= 'btn btn-primary' href="{% url 'edit-sourceset' ss.id %}"> Edit Source</a>
 </div>
+<div class="col">
+    <a class="btn btn-primary" href="{% url 'delete-sourceset' ss.id %}"> Delete Source</a>
+</div>
 </div>
 <div class="row bg-info border-bottom">
 <div class="col">
@@ -51,11 +54,17 @@
     {% endfor %}
 
 <div class="row bg-info border-bottom">
-    <div class="col">
+    <div class="col-6">
         Virtues
     </div>
     <div class="col">
-        <a href="{% url 'import-virtues' ss.id %}" class="btn btn-primary">Import Virtues</a>
+        <a href="{% url 'edit-virtues' ss.id %}" class="btn btn-primary">Edit Virtues</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-virtues' ss.id %}" class="btn btn-primary">Import Virtues (JSON)</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'export-virtues' ss.id %}" class="btn btn-primary">Export Virtues (JSON)</a>
     </div>
 </div>
     {% for virtue in ssVirtues %}

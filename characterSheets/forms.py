@@ -370,3 +370,47 @@ class importVirtuesForm(forms.Form):
             return output
         except:
             raise ValidationError('JSON data is improperly formatted.')
+
+
+class importFlawsForm(forms.Form):
+    iData = forms.JSONField(label='Import Data', max_length=100000)
+
+    def clean_iData(self):
+        data = self.cleaned_data['iData']
+        output = []
+        try:
+            for key in data.keys():
+                newFlaw = VF()
+                newFlaw.name = data[key]['name']
+                newFlaw.description = data[key]['description']
+                newFlaw.value = data[key]['value'].lower()
+                newFlaw.type = data[key]['type'].lower()
+                if data[key]['type'].lower() == 'social status':
+                    newFlaw.type = 'socialStatus'
+                newFlaw.virtueOrFlaw = 'flaw'
+                output.append(newFlaw)
+            return output
+        except:
+            raise ValidationError('JSON data is improperly formatted.')
+
+
+class importAbilitiesForm(forms.Form):
+    iData = forms.JSONField(label='Import Data', max_length=100000)
+
+    def clean_iData(self):
+        data = self.cleaned_data['iData']
+        output = []
+        try:
+            for key in data.keys():
+                newAbility = Ability()
+                newAbility.name = data[key]['name']
+                newAbility.description = data[key]['description']
+                newAbility.value = data[key]['value'].lower()
+                newAbility.type = data[key]['type'].lower()
+                newAbility.needTraining = data[key]['needTraining']
+                specialties = data[key]['specialties']
+                output.append([newAbility,specialties])
+
+            return output
+        except:
+            raise ValidationError('JSON data is improperly formatted.')

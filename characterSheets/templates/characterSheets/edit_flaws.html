@@ -1,0 +1,95 @@
+{% extends 'base_generic.html' %}
+{% block extraLoads %}
+{% load static %}
+{#    <link rel="stylesheet" href="{% static 'css/edit-character.css' %}">#}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+            $('div.flaw-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Virtue</i></button>',
+                prefix: '{{ flawForm.prefix }}',
+                formCssClass: 'dynamic-flaw-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-flaw',
+                deleteCssClass: 'delete-row-flaw',
+            });
+        })
+</script>
+{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<a class="navbar-brand" href="{% url 'view-sourceset' ss.id %}">{{ ss.name }}</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-flaws' ss.id %}">Virtues</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'sourceset-flaws' ss.id %}">Flaws</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-abilities' ss.id %}">Abilities</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-equipment' ss.id %}">Equipment</a>
+    </li>
+</ul>
+</nav>
+
+<div class="row bg-info border-bottom">
+    <div class="col-6">
+        Virtues
+    </div>
+    <div class="col">
+        <a href="{% url 'edit-flaws' ss.id %}" class="btn btn-primary">Edit Virtues</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-flaws' ss.id %}" class="btn btn-primary">Import Virtues</a>
+    </div>
+</div>
+<form method="post">
+{% csrf_token %}
+    <div>
+        {% for form in flawForm %}
+            {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+            {% endif %}
+            <div class="row border-bottom flaw-formset">
+            {{ form.id }}
+            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                <div class="col">
+                    {{ form.name }}
+                </div>
+                <div class="col">
+                    {{ form.description }}
+                </div>
+                <div class="col">
+                    {{ form.value }}
+                </div>
+                <div class="col delete-button-flaw">
+                    {{ form.type }}
+                </div>
+            </div>
+        {% endfor %}
+    {{ flawForm.management_form }}
+    </div>
+    <button type="submit" value="Submit" class="btn btn-primary"> Submit </button>
+</form>
+
+{% endblock %}

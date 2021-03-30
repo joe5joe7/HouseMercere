@@ -30,4 +30,8 @@ urlpatterns = [
     path('sourceset_equipment/<int:pk>',views.sourceset_equipment, name='sourceset-equipment'),
     path('sourceset_editvirtues/<int:pk>',views.edit_virtues, name='edit-virtues'),
     path('sourceset_exportvirtues/<int:pk>', views.export_virtues, name='export-virtues'),
+    path('sourceset_delete/<int:pk>', views.delete_sourceset, name='delete-sourceset'),
+    path('sourceset_editflaws/<int:pk>',views.edit_flaws, name='edit-flaws'),
+    path('sourceset_exportflaws/<int:pk>', views.export_flaws, name='export-flaws'),
+    path('import_flaws/<int:pk>', views.import_flaws, name='import-flaws'),
 ]

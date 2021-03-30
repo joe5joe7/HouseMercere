@@ -116,7 +116,7 @@ class DefaultSpeciality(models.Model):
     """Model representing a speciality"""
 
     name = models.CharField(max_length=200)
-    abi = models.ForeignKey(Ability, null=True, blank=True, on_delete=models.SET_NULL)
+    abi = models.ForeignKey(Ability, null=True, blank=True, on_delete=models.CASCADE)
 
 
 class Character(models.Model):
