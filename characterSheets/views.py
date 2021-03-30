@@ -654,6 +654,7 @@ def edit_virtues(request, pk):
 
     context = {
         'virtueForm': virtueForm,
+        'ss': ss,
     }
 
     return render(request, 'characterSheets/edit_virtues.html', context)
