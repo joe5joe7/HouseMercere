@@ -1,9 +1,16 @@
 {% extends 'base_generic.html' %}
 {% block extraLoads %}
 <script>
-$(function(){
-    // Enables popover
-    $("[data-toggle=popover]").popover();
+$("[data-toggle=popover]").each(function(i, obj) {
+
+$(this).popover({
+  html: true,
+  content: function() {
+    var id = $(this).attr('id')
+    return $('#popover-content-' + id).html();
+  }
+});
+
 });
 </script>
 {% endblock %}
@@ -50,12 +57,16 @@ $(function(){
             {{ virtue }}
         </div>
         <div class="col">
-            <a class="btn btn-primary"
-               role="button"
-               data-toggle="popover"
-               data-trigger="focus"
-               title="<b>{{ virtue.name }}</b>"
-               data-content="<div><b>Description</b> - {{ virtue.description }} <br></div>">Details</a>
+            <a data-toggle="popover" data-container="body" data-placement="right" type="button" data-html="true" href="#" id="{{ virtue.id }}">Details</a>
+
+            <div id="popover-content-{{ virtue.id }}" class="hide">
+              <ul class="list-group">
+                  <li class="list-group-item"><b>Description: </b>{{ virtue.description }}</li>
+                  <li class="list-group-item"><b>Value: </b>{{ virtue.value }}</li>
+                  <li class="list-group-item"><b>Type: </b>{{ virtue.type }}</li>
+              </ul>
+            </div>
+
         </div>
         </div>
     {% endfor %}
