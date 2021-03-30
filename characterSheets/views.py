@@ -700,7 +700,7 @@ def edit_flaws(request, pk):
 
         if flawForm.is_valid():
             flawForm.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
+            return redirect('sourceset-flaws', pk=ss.id)
 
     context = {
         'flawForm': flawForm,
