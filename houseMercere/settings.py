@@ -26,7 +26,7 @@ SECRET_KEY = '*hhcyu-4wd7023tx%(t#36$ak9g*n)b1uy_7s1zo1fs1=0_&h4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -141,5 +141,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 django_heroku.settings(locals())
