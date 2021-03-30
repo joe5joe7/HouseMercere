@@ -50,7 +50,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             {{ virtue }}
         </div>
         <div class="col">
-            <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title"
+            <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-html="True"
                     data-bs-content="<ul class='list-group'>
                                       <li class='list-group-item'><b>Description: </b>{{ virtue.description }}</li>
                                       <li class='list-group-item'><b>Value: </b>{{ virtue.value }}</li>
