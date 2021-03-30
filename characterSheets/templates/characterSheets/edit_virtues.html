@@ -53,6 +53,7 @@
     </div>
 </div>
 <form method="post">
+{% csrf_token %}
     <div>
         {% for form in virtueForm %}
             {% if form.errors %}
