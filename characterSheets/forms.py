@@ -3,6 +3,7 @@ from django import forms
 # class editCharacter(forms.Form):
 #     name = forms.CharField(help_text="Enter the character's name")
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, modelformset_factory, BaseModelFormSet
 from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
@@ -350,4 +351,20 @@ class equipLibForm(ModelForm):
 
 
 class importVirtuesForm(forms.Form):
-    data = forms.JSONField(label='Import Data', max_length=100000)
+    iData = forms.JSONField(label='Import Data', max_length=100000)
+
+    def clean_iData(self):
+        data = self.cleaned_data['iData']
+        output = []
+        try:
+            for key in data.keys():
+                newVirtue = VF()
+                newVirtue.name = data[key]['name']
+                newVirtue.description = data[key]['description']
+                newVirtue.value = data[key]['value'].lower()
+                newVirtue.type = data[key]['type'].lower()
+                newVirtue.virtueOrFlaw = 'virtue'
+                output.append(newVirtue)
+            return output
+        except:
+            raise ValidationError('JSON data is improperly formatted.')

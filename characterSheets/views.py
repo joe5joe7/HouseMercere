@@ -17,7 +17,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
-    vfLibForm, equipLibForm
+    vfLibForm, equipLibForm, importVirtuesForm
 
 import logging
 
@@ -561,3 +561,19 @@ def edit_sourceset(request, pk):
     }
 
     return render(request, 'characterSheets/edit_sourceset.html', context)
+
+
+def import_virtues(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    importForm = importVirtuesForm(None)
+    if request.method == 'POST':
+        importForm = importVirtuesForm(request.POST)
+        if importForm.is_valid():
+            for virtue in importForm:
+                virtue.save()
+            return HttpResponseRedirect(ss.get_absolute_url())
+
+    context = {
+        'importForm': importForm,
+    }
+    return render(request, 'characterSheets/import_virtues.html', context)
