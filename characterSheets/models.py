@@ -47,7 +47,7 @@ class Saga(models.Model):
 class VF(models.Model):
     """Model representing a virtue or flaw"""
     name = models.CharField(max_length=200, help_text='Virtue or flaw name')
-    description = models.TextField(max_length=2000, help_text='Virtue or flaw Description')
+    description = models.TextField(max_length=10000, help_text='Virtue or flaw Description')
     source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
 
     vfChoices = (
@@ -91,7 +91,7 @@ class Ability(models.Model):
     """model represents an ability"""
 
     name = models.CharField(max_length=200)
-    description = models.TextField(max_length=2000)
+    description = models.TextField(max_length=10000)
     source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
 
     typeChoices = (
@@ -317,7 +317,7 @@ class FlawInstance(models.Model):
 class Equipment(models.Model):
     """Model representing a piece of equipment"""
     name = models.CharField(max_length=200)
-    description = models.TextField(max_length=1000, null=True, blank=True)
+    description = models.TextField(max_length=10000, null=True, blank=True)
     source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
     types = (
         ('w', 'weapon'),
