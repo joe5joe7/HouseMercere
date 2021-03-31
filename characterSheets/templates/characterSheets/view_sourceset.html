@@ -21,7 +21,9 @@
     </li>
 </ul>
 </nav>
-
+{% load guardian_tags %}
+{% get_obj_perms request.user for ss as "ss_perms" %}
+{% if ss.public or "source_can_view" in ss_perms %}
 <div class="row">
 <div class="col">
     Subscribers:
@@ -35,17 +37,28 @@
         <br>
     {% endfor %}
 </div>
+{% if "source_owner" in ss_perms %}
 <div class="col">
     <a class= 'btn btn-primary' href="{% url 'edit-sourceset' ss.id %}"> Edit Source</a>
 </div>
+
 <div class="col">
     <a class="btn btn-primary" href="{% url 'delete-sourceset' ss.id %}"> Delete Source</a>
+</div>
+{% endif %}
+<div class="col">
+    {% if request.user in ss.subscribers %}
+        <a class="btn btn-primary" href="{% url 'unsubscribe-sourceset' ss.id %}"> Unsubscribe </a>
+    {% else %}
+        <a class="btn btn-primary" href="{% url 'subscribe-sourceset' ss.id %}"> Subscribe </a>
+    {% endif %}
 </div>
 </div>
 <div class="row bg-info border-bottom">
     <div class="col-6">
         Abilities
     </div>
+    {% if "source_can_edit" in ss_perms %}
     <div class="col">
         <a href="{% url 'edit-abilities' ss.id %}" class="btn btn-primary">Edit Abilities</a>
     </div>
@@ -55,6 +68,7 @@
     <div class="col">
         <a href="{% url 'export-abilities' ss.id %}" class="btn btn-primary">Export Abilities (JSON)</a>
     </div>
+    {% endif %}
 </div>
     {% for ability in ss.ability_set.all %}
         <div class="row"><div class="col">
@@ -75,6 +89,7 @@
     <div class="col-6">
         Virtues
     </div>
+    {% if "source_can_edit" in ss_perms %}
     <div class="col">
         <a href="{% url 'edit-virtues' ss.id %}" class="btn btn-primary">Edit Virtues</a>
     </div>
@@ -84,6 +99,7 @@
     <div class="col">
         <a href="{% url 'export-virtues' ss.id %}" class="btn btn-primary">Export Virtues (JSON)</a>
     </div>
+    {% endif %}
 </div>
     {% for virtue in ssVirtues %}
         <div class="row border-bottom"><div class="col">
@@ -103,6 +119,7 @@
     <div class="col-6">
         Flaws
     </div>
+    {% if "source_can_edit" in ss_perms %}
     <div class="col">
         <a href="{% url 'edit-flaws' ss.id %}" class="btn btn-primary">Edit Flaws</a>
     </div>
@@ -112,6 +129,7 @@
     <div class="col">
         <a href="{% url 'export-flaws' ss.id %}" class="btn btn-primary">Export Flaws (JSON)</a>
     </div>
+    {% endif %}
 </div>
     {% for flaw in ssFlaws %}
         <div class="row"><div class="col">
@@ -137,6 +155,8 @@
             {{ equip }}
         </div></div>
     {% endfor %}
+{% else %}
+This Source Set is not set to public.
 
-
+{% endif %}
 {% endblock %}

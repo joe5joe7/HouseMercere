@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 
 
 class SourceSet(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     subscribers = models.ManyToManyField(User, blank=True, related_name='subscribers')
+    public = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -19,6 +20,8 @@ class SourceSet(models.Model):
     class Meta:
         permissions = {
             ('source_can_edit', 'Can Edit'),
+            ('source_owner', 'Owner'),
+            ('source_can_view', 'Can View'),
         }
 
 

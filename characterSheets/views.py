@@ -844,3 +844,17 @@ def sourceset_equipment(request, pk):
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)
+
+
+def subscribe_sourceset(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ss.subscribers.add(request.user)
+
+    return redirect('view-sourceset', pk=ss.id)
+
+
+def unsubscribe_sourceset(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ss.subscribers.remove(request.user)
+
+    return redirect('view-sourceset', pk=ss.id)

@@ -37,4 +37,6 @@ urlpatterns = [
     path('sourceset_editabilities/<int:pk>',views.edit_abilities, name='edit-abilities'),
     path('sourceset_exportabilities/<int:pk>', views.export_abilities, name='export-abilities'),
     path('import_abilities/<int:pk>', views.import_abilities, name='import-abilities'),
+    path('sourceset_subscribe/<int:pk>', views.subscribe_sourceset, name='subscribe-sourceset'),
+    path('sourceset_unsubscribe/<int:pk>', views.unsubscribe_sourceset, name='unsubscribe-sourceset'),
 ]
