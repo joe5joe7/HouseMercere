@@ -783,11 +783,12 @@ def edit_abilities(request, pk):
         if abiForm.is_valid():
             abiForm.save()
             for form in abiForm:
-                for spec in form.cleaned_data['specialties'][0]:
-                    newSpec = DefaultSpeciality()
-                    newSpec.name = spec
-                    newSpec.abi = form.cleaned_data['specialties'][1]
-                    newSpec.save()
+                if Ability.objects.filter(pk=form.cleaned_data['specialties'][1].id).exists():
+                    for spec in form.cleaned_data['specialties'][0]:
+                        newSpec = DefaultSpeciality()
+                        newSpec.name = spec
+                        newSpec.abi = form.cleaned_data['specialties'][1]
+                        newSpec.save()
 
             return redirect('sourceset-abilities', pk=ss.id)
 
