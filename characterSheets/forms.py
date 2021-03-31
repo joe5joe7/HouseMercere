@@ -166,9 +166,11 @@ class abilitiesForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         self.character = kwargs.pop('character', None)
         super(abilitiesForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
+        self.fields['referenceAbility'].queryset = Ability.objects.filter(source__in=self.user.sourceset_set)
 
 
 AbilityFormset = formset_factory(abilitiesForm, extra=1, can_delete=True)

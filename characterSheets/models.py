@@ -25,7 +25,6 @@ class SourceSet(models.Model):
         }
 
 
-
 class Saga(models.Model):
     """Model representing a saga"""
 

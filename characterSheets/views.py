@@ -269,7 +269,7 @@ def editCharacter(request, pk):
     abilityForm = formset(
         None,
         queryset=AbilityInstance.objects.filter(owner=character),
-        form_kwargs={'character': character},
+        form_kwargs={'character': character, 'user': request.user},
         prefix='abi-form',
     )
     vFormset = modelformset_factory(VirtueInstance, form=createCharacter_virtueForm, extra=virtExtra, can_delete=True)
@@ -308,7 +308,7 @@ def editCharacter(request, pk):
         abilityForm = formset(
             request.POST,
             queryset=AbilityInstance.objects.filter(owner=character),
-            form_kwargs={'character': character},
+            form_kwargs={'character': character, 'user': request.user},
             prefix='abi-form',
         )
         virtueForm = vFormset(
