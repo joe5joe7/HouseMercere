@@ -784,6 +784,8 @@ def edit_abilities(request, pk):
             abiForm.save()
             for form in abiForm:
                 if Ability.objects.filter(pk=form.cleaned_data['specialties'][1].id).exists():
+                    for spec in form.cleaned_data['specialties'][1].defaultspeciality_set.all():
+                        spec.delete()
                     for spec in form.cleaned_data['specialties'][0]:
                         newSpec = DefaultSpeciality()
                         newSpec.name = spec
