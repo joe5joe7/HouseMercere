@@ -23,8 +23,17 @@
 </nav>
 
 <div class="row bg-info border-bottom">
-    <div class="col">
+    <div class="col-6">
         Abilities
+    </div>
+    <div class="col">
+        <a href="{% url 'edit-abilities' ss.id %}" class="btn btn-primary">Edit Abilities</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-abilities' ss.id %}" class="btn btn-primary">Import Abilities (JSON)</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'export-abilities' ss.id %}" class="btn btn-primary">Export Abilities (JSON)</a>
     </div>
 </div>
     {% for ability in ss.ability_set.all %}

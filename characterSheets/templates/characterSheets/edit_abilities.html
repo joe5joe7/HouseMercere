@@ -1,0 +1,90 @@
+{% extends "base_generic.html" %}
+{% block extraLoads %}
+    {% load static %}
+{#    <link rel="stylesheet" href="{% static 'css/edit-character.css' %}">#}
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+            $('div.abi-formset').formset({
+                deleteText: '<i class="bi bi-node-minus-fill" style="font-size: 18pt;color: #F34435;"></i>',
+                addText: '<button class="btn btn-primary"><i class="bi bi-plus-square-fill" style="font-size: 1rem;"> Add Ability</i></button>',
+                prefix: '{{ abilityForm.prefix }}',
+                formCssClass: 'dynamic-abi-formset',
+                keepFieldValues: '.save',
+                deleteContainerClass: 'delete-button-abi',
+                deleteCssClass: 'delete-row-abi',
+            });
+        })
+</script>
+{% endblock %}
+
+{% block content %}
+<form id="sourceSetForm" method="post">
+{% csrf_token %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row border-bottom border-dark">
+                <div class="col">
+                    Ability Name
+                </div>
+                <div class="col">
+                    Description
+                </div>
+                <div class="col">
+                    Type
+                </div>
+                <div class="col-sm-2">
+                    Needs Training
+                </div>
+            </div>
+            <div>
+            {% for form in abilityForm %}
+                {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+                {% endif %}
+                <div class="abi-formset">
+                <div class="row">
+                {{ form.id }}
+                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+
+                <div class="col input-group">
+                    {{ form.name }}
+                </div>
+                <div class="col input-group">
+                    {{ form.description }}
+                </div>
+                <div class="col input-group save">
+                    {{ form.type }}
+                </div>
+                <div class="col-sm-2  input-group delete-button-abi save">
+                    {{ form.needTraining }}
+                </div>
+                </div>
+                <div class="row border-bottom">
+                <div class="col input-group">
+                    {{ form.specialties }}
+                </div>
+                </div>
+
+            {% endfor %}
+            </div>
+            {{ abilityForm.management_form }}
+        <br>
+        <button class="btn btn-primary" type="submit">Submit Changes</button>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

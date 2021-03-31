@@ -34,4 +34,7 @@ urlpatterns = [
     path('sourceset_editflaws/<int:pk>',views.edit_flaws, name='edit-flaws'),
     path('sourceset_exportflaws/<int:pk>', views.export_flaws, name='export-flaws'),
     path('import_flaws/<int:pk>', views.import_flaws, name='import-flaws'),
+    path('sourceset_editabilities/<int:pk>',views.edit_abilities, name='edit-abilities'),
+    path('sourceset_exportabilities/<int:pk>', views.export_abilities, name='export-abilities'),
+    path('import_abilities/<int:pk>', views.import_abilities, name='import-abilities'),
 ]

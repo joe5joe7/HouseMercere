@@ -791,7 +791,7 @@ def edit_abilities(request, pk):
             return redirect('sourceset-abilities', pk=ss.id)
 
     context = {
-        'abiForm': abiForm,
+        'abilityForm': abiForm,
         'ss': ss,
     }
 
