@@ -43,14 +43,32 @@
 </div>
 </div>
 <div class="row bg-info border-bottom">
-<div class="col">
-    Abilities
-</div>
+    <div class="col-6">
+        Abilities
+    </div>
+    <div class="col">
+        <a href="{% url 'edit-abilities' ss.id %}" class="btn btn-primary">Edit Abilities</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-abilities' ss.id %}" class="btn btn-primary">Import Abilities (JSON)</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'export-abilities' ss.id %}" class="btn btn-primary">Export Abilities (JSON)</a>
+    </div>
 </div>
     {% for ability in ss.ability_set.all %}
         <div class="row"><div class="col">
             {{ ability }}
-        </div></div>
+        </div>
+        <div class="col">
+            <ul class='list-group'>
+                <li class='list-group-item'><b>Description: </b>{{ ability.description }}</li>
+                <li class='list-group-item'><b>Type: </b>{{ ability.type }}</li>
+                <li class='list-group-item'><b>Training Required: </b>{{ ability.needTraining }}</li>
+                <li class="list-group-item"><b>Default Specialities: </b>{% for spec in ability.defaultspeciality_set.all %} {{ spec }} , {% endfor %}</li>
+            </ul>
+        </div>
+        </div>
     {% endfor %}
 
 <div class="row bg-info border-bottom">

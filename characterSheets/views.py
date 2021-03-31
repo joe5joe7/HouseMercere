@@ -450,7 +450,7 @@ def delete_sourceset(request, pk):
     ss = get_object_or_404(SourceSet, pk=pk)
     ss.delete()
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return redirect('index')
 
 
 def add_sourceset(request):
