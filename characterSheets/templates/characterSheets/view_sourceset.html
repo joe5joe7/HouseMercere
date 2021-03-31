@@ -22,7 +22,7 @@
 </ul>
 </nav>
 {% load guardian_tags %}
-{% get_obj_perms request.user for ss as "ss_perms" %}
+{% get_obj_perms user for ss as "ss_perms" %}
 {% if ss.public or "source_can_view" in ss_perms %}
 <div class="row">
 <div class="col">
@@ -47,7 +47,7 @@
 </div>
 {% endif %}
 <div class="col">
-    {% if request.user in ss.subscribers %}
+    {% if user in ss.subscribers %}
         <a class="btn btn-primary" href="{% url 'unsubscribe-sourceset' ss.id %}"> Unsubscribe </a>
     {% else %}
         <a class="btn btn-primary" href="{% url 'subscribe-sourceset' ss.id %}"> Subscribe </a>
