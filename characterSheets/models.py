@@ -118,6 +118,10 @@ class DefaultSpeciality(models.Model):
     name = models.CharField(max_length=200)
     abi = models.ForeignKey(Ability, null=True, blank=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        """String representing default speciality"""
+        return self.name
+
 
 class Character(models.Model):
     """model represents a specific character"""

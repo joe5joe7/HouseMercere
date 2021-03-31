@@ -330,7 +330,7 @@ class abiLibForm(ModelForm):
         specs = self.cleaned_data['specialties']
         data = specs.split(',')
         abi = self.instance
-        return data, abi
+        return data, abi6
 
 
 class equipLibForm(ModelForm):
@@ -418,7 +418,6 @@ class importAbilitiesForm(forms.Form):
                 newAbility = Ability()
                 newAbility.name = data[key]['name']
                 newAbility.description = data[key]['description']
-                newAbility.value = data[key]['value'].lower()
                 if data[key]['type'][0] == '(':
                     newAbility.type = data[key]['type'][1:-1].lower()
                 else:
