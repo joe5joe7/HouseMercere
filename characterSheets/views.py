@@ -787,6 +787,7 @@ def edit_abilities(request, pk):
                     newSpec = DefaultSpeciality()
                     newSpec.name = spec
                     newSpec.abi = form.cleaned_data['specialties'][1]
+                    newSpec.save()
 
             return redirect('sourceset-abilities', pk=ss.id)
 
