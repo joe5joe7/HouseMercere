@@ -314,10 +314,22 @@ class abiLibForm(ModelForm):
             'type': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    specialties = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     def __init__(self, *args, **kwargs):
         self.source = kwargs.pop('source', None)
         super(abiLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
+        initSpecs = ''
+        for spec in self.instance.defaultspeciality_set:
+            initSpecs += spec.name + ','
+        initSpecs = initSpecs[:-1]
+        self.specialties.initial = initSpecs
+
+    def clean_specialties(self):
+        specs = self.cleaned_data['specialties']
+        data = specs.split(',')
+        return data
 
 
 class equipLibForm(ModelForm):
@@ -406,10 +418,13 @@ class importAbilitiesForm(forms.Form):
                 newAbility.name = data[key]['name']
                 newAbility.description = data[key]['description']
                 newAbility.value = data[key]['value'].lower()
-                newAbility.type = data[key]['type'].lower()
+                if data[key]['type'][0] == '(':
+                    newAbility.type = data[key]['type'][1:-1].lower()
+                else:
+                    newAbility.type = data[key]['type'].lower()
                 newAbility.needTraining = data[key]['needTraining']
                 specialties = data[key]['specialties']
-                output.append([newAbility,specialties])
+                output.append([newAbility, specialties])
 
             return output
         except:

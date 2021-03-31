@@ -30,10 +30,10 @@
         <a href="{% url 'edit-virtues' ss.id %}" class="btn btn-primary">Edit Virtues</a>
     </div>
     <div class="col">
-        <a href="{% url 'import-virtues' ss.id %}" class="btn btn-primary">Import Virtues</a>
+        <a href="{% url 'import-virtues' ss.id %}" class="btn btn-primary">Import Virtues (JSON)</a>
     </div>
     <div class="col">
-        <a href="{% url 'export-virtues' ss.id %}" class="btn btn-primary">Export Virtues</a>
+        <a href="{% url 'export-virtues' ss.id %}" class="btn btn-primary">Export Virtues (JSON)</a>
     </div>
 </div>
     {% for virtue in ssVirtues %}

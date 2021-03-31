@@ -82,8 +82,17 @@
     {% endfor %}
 
 <div class="row bg-info border-bottom">
-    <div class="col">
+    <div class="col-6">
         Flaws
+    </div>
+    <div class="col">
+        <a href="{% url 'edit-flaws' ss.id %}" class="btn btn-primary">Edit Flaws</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'import-flaws' ss.id %}" class="btn btn-primary">Import Flaws (JSON)</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'export-flaws' ss.id %}" class="btn btn-primary">Export Flaws (JSON)</a>
     </div>
 </div>
     {% for flaw in ssFlaws %}

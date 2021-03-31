@@ -12,12 +12,12 @@ from django.views.generic import DeleteView
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, Ability, VF, Equipment
+    Reputation, SourceSet, Ability, VF, Equipment, DefaultSpeciality
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
-    vfLibForm, equipLibForm, importVirtuesForm, importFlawsForm
+    vfLibForm, equipLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm
 
 import logging
 
@@ -580,7 +580,7 @@ def import_virtues(request, pk):
             for virtue in data:
                 virtue.source = ss
                 virtue.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
+            return redirect('sourceset-virtues', pk=ss.id)
 
     context = {
         'importForm': importForm,
@@ -630,7 +630,7 @@ def edit_virtues(request, pk):
 
         if virtueForm.is_valid():
             virtueForm.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
+            return redirect('sourceset-virtues', pk=ss.id)
 
     context = {
         'virtueForm': virtueForm,
@@ -650,7 +650,7 @@ def import_flaws(request, pk):
             for flaw in data:
                 flaw.source = ss
                 flaw.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
+            return redirect('sourceset-flaws', pk=ss.id)
 
     context = {
         'importForm': importForm,
@@ -682,8 +682,8 @@ def edit_flaws(request, pk):
     if len(ss.vf_set.filter(virtueOrFlaw='flaw')) == 0:
         flawExtra = 1
 
-    vFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
-    flawForm = vFormset(
+    fFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
+    flawForm = fFormset(
         None,
         queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
         form_kwargs={'source': ss, 'vf': 'flaw'},
@@ -691,7 +691,7 @@ def edit_flaws(request, pk):
     )
 
     if request.method == 'POST':
-        flawForm = vFormset(
+        flawForm = fFormset(
             request.POST,
             queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
             form_kwargs={'source': ss, 'vf': 'flaw'},
@@ -708,6 +708,94 @@ def edit_flaws(request, pk):
     }
 
     return render(request, 'characterSheets/edit_flaws.html', context)
+
+
+def import_abilities(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    importForm = importAbilitiesForm(None)
+    if request.method == 'POST':
+        importForm = importAbilitiesForm(request.POST)
+        if importForm.is_valid():
+            data = importForm.cleaned_data['iData']
+            for pair in data:
+                newAbi = pair[0]
+                specs = pair[1]
+                newAbi.source = ss
+                newAbi.save()
+                for spec in specs:
+                    newSpec = DefaultSpeciality()
+                    newSpec.name = spec
+                    newSpec.abi = newAbi
+                    newSpec.save()
+            return redirect('sourceset-abilities', pk=ss.id)
+
+    context = {
+        'importForm': importForm,
+    }
+    return render(request, 'characterSheets/import_virtues.html', context)
+
+
+def export_abilities(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    output = '{'
+    ssAbilities = ss.ability_set.all()
+    for abi in ssAbilities:
+        output += '"' + abi.name + '":{"name":"' + abi.name + '","description":"' + abi.description + '","needTraining":"' + str(
+            abi.needTraining) + '","type":"' + abi.type + '","specialties":['
+        for spec in abi.defaultSpeciality_set.all():
+            output += '"' + spec.name + '",'
+        output = output[:-1]
+        output += '],'
+
+    output = output[:-1]
+    output += '}'
+
+    context = {
+        'ss': ss,
+        'output': output
+    }
+    return render(request, 'characterSheets/export_virtues.html', context)
+
+
+def edit_abilities(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+
+    abiExtra = 0
+    if len(ss.ability_set.all()) == 0:
+        abiExtra = 1
+
+    aFormset = modelformset_factory(Ability, form=abiLibForm, extra=abiExtra, can_delete=True)
+    abiForm = aFormset(
+        None,
+        queryset=ss.ability_set.all(),
+        form_kwargs={'source': ss},
+        prefix='abi-form',
+    )
+
+    if request.method == 'POST':
+        abiForm = aFormset(
+            request.POST,
+            queryset=ss.ability_set.all(),
+            form_kwargs={'source': ss},
+            prefix='abi-form',
+        )
+
+        if abiForm.is_valid():
+            abiForm.save()
+            for form in abiForm:
+                for spec in form.cleaned_data['specialties']:
+                    newSpec = DefaultSpeciality()
+                    newSpec.name = spec
+                    newSpec.abi = form
+
+            return redirect('sourceset-abilities', pk=ss.id)
+
+    context = {
+        'abiForm': abiForm,
+        'ss': ss,
+    }
+
+    return render(request, 'characterSheets/edit_abilities.html', context)
 
 
 def sourceset_virtues(request, pk):
