@@ -21,6 +21,7 @@ def index(request):
 @login_required
 def profile(request):
     ownedSets = get_objects_for_user(request.user,'characterSheets.source_can_edit')
+    subscribed = request.user.subscribers.all()
     # for x in SourceSet.objects.all():
     #     if request.user.has_perm('can_edit',x):
     #         ownedSets.append(x)
@@ -28,6 +29,7 @@ def profile(request):
 
     context = {
         'ownedSets': ownedSets,
+        'subscribed': subscribed,
     }
 
     return render(request, 'profile.html', context)

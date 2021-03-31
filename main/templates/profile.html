@@ -8,6 +8,11 @@
             <br>
         {% endfor %}
     {% endif %}
-    <a class="btn btn-primary" href="{% url 'add-sourceset' %}">Add Source Set</a>
+    <h1>Subscribed Sources</h1>
+    {% for set in subscribed %}
+    <a href="{{ set.get_absolute_url }}">{{ set }}</a>
+    <br>
+    {% endfor %}
+    <a class="btn btn-primary" href="{% url 'add-sourceset' %}">Create Source Set</a>
 
 {% endblock %}
