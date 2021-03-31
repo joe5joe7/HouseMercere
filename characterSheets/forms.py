@@ -329,7 +329,8 @@ class abiLibForm(ModelForm):
     def clean_specialties(self):
         specs = self.cleaned_data['specialties']
         data = specs.split(',')
-        return data
+        abi = self.instance
+        return data, abi
 
 
 class equipLibForm(ModelForm):
