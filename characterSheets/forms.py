@@ -170,7 +170,7 @@ class abilitiesForm(ModelForm):
         self.character = kwargs.pop('character', None)
         super(abilitiesForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
-        self.fields['referenceAbility'].queryset = Ability.objects.filter(source__in=self.user.sourceset_set)
+        self.fields['referenceAbility'].queryset = Ability.objects.filter(source__in=self.user.subscribers.all())
 
 
 AbilityFormset = formset_factory(abilitiesForm, extra=1, can_delete=True)
