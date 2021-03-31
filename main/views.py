@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from guardian.shortcuts import get_objects_for_user
 
 from characterSheets.models import Saga, Character, SourceSet
@@ -39,6 +39,8 @@ def register(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            ss = get_object_or_404(SourceSet, pk=2)
+            ss.subscribers.add(user)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Registration successful.")
             return redirect('index')

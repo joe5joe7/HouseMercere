@@ -90,7 +90,7 @@ def createCharacter(request):
         if character.warping > 0 or character.decrepitude > 0:
             return HttpResponseRedirect('details/' + str(character.pk))
         else:
-            return redirect('create-character-abilities', character.pk)
+            return redirect('edit-character', character.pk)
 
 
     else:
