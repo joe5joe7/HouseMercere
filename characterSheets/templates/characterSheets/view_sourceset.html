@@ -47,7 +47,7 @@
 </div>
 {% endif %}
 <div class="col">
-    {% if user in ss.subscribers %}
+    {% if user in ss.subscribers.all %}
         <a class="btn btn-primary" href="{% url 'unsubscribe-sourceset' ss.id %}"> Unsubscribe </a>
     {% else %}
         <a class="btn btn-primary" href="{% url 'subscribe-sourceset' ss.id %}"> Subscribe </a>
