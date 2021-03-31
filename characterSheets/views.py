@@ -290,14 +290,14 @@ def editCharacter(request, pk):
     pForm = pFormset(
         None,
         queryset=Personality.objects.filter(owner=character),
-        form_kwargs={'character': character, 'user': request.user},
+        form_kwargs={'character': character},
         prefix='personality-form'
     )
     rFormset = modelformset_factory(Reputation, form=reputationForm, extra=reputationExtra, can_delete=True)
     rForm = rFormset(
         None,
         queryset=Reputation.objects.filter(owner=character),
-        form_kwargs={'character': character, 'user': request.user},
+        form_kwargs={'character': character},
         prefix='reputation-form'
     )
     # confirm = confirmationForm(None)
@@ -326,13 +326,13 @@ def editCharacter(request, pk):
         pForm = pFormset(
             request.POST,
             queryset=Personality.objects.filter(owner=character),
-            form_kwargs={'character': character, 'user': request.user},
+            form_kwargs={'character': character},
             prefix='personality-form'
         )
         rForm = rFormset(
             request.POST,
             queryset=Reputation.objects.filter(owner=character),
-            form_kwargs={'character': character, 'user': request.user},
+            form_kwargs={'character': character},
             prefix='reputation-form'
         )
 
