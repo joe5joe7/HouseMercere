@@ -324,7 +324,7 @@ class abiLibForm(ModelForm):
         for spec in self.instance.defaultspeciality_set.all():
             initSpecs += spec.name + ','
         initSpecs = initSpecs[:-1]
-        self.specialties.initial = initSpecs
+        self.fields['specialties'].initial = initSpecs
 
     def clean_specialties(self):
         specs = self.cleaned_data['specialties']
