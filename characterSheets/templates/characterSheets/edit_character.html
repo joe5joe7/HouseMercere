@@ -138,6 +138,20 @@
                 </div>
                 <div>
                 {% for form in personalityForm %}
+                    {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
                     <div class="row personality-formset">
                     {{ form.id }}
                     {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
@@ -167,6 +181,20 @@
                 </div>
                 <div>
                 {% for form in reputationForm %}
+                    {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
                     <div class="row reputation-formset">
                     {{ form.id }}
                     {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
@@ -200,6 +228,20 @@
                         </div>
                         <div>
                             {% for form in virtueForm %}
+                                {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                                {% endif %}
                                 <div class="row border-bottom virtue-formset">
                                 {{ form.id }}
                                 {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
@@ -224,6 +266,20 @@
                         </div>
                         <div>
                             {% for form in flawForm %}
+                                {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                                {% endif %}
                                 <div class="row border-bottom flaw-formset">
                                 {{ form.id }}
                                 {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
@@ -258,6 +314,20 @@
                         </div>
                 <div>
                     {% for form in abilityForm %}
+                        {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                        {% endif %}
                         <div class="row border-bottom abi-formset">
                         {{ form.id }}
                         {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
