@@ -276,28 +276,28 @@ def editCharacter(request, pk):
     virtueForm = vFormset(
         None,
         queryset=VirtueInstance.objects.filter(owner=character),
-        form_kwargs={'character': character},
+        form_kwargs={'character': character, 'user': request.user},
         prefix='virtue-form',
     )
     fFormset = modelformset_factory(FlawInstance, form=createCharacter_flawForm, extra=flawExtra, can_delete=True)
     flawForm = fFormset(
         None,
         queryset=FlawInstance.objects.filter(owner=character),
-        form_kwargs={'character': character},
+        form_kwargs={'character': character, 'user': request.user},
         prefix='flaw-form',
     )
     pFormset = modelformset_factory(Personality, form=personalityForm, extra=personalityExtra, can_delete=True)
     pForm = pFormset(
         None,
         queryset=Personality.objects.filter(owner=character),
-        form_kwargs={'character': character},
+        form_kwargs={'character': character, 'user': request.user},
         prefix='personality-form'
     )
     rFormset = modelformset_factory(Reputation, form=reputationForm, extra=reputationExtra, can_delete=True)
     rForm = rFormset(
         None,
         queryset=Reputation.objects.filter(owner=character),
-        form_kwargs={'character': character},
+        form_kwargs={'character': character, 'user': request.user},
         prefix='reputation-form'
     )
     # confirm = confirmationForm(None)
@@ -314,25 +314,25 @@ def editCharacter(request, pk):
         virtueForm = vFormset(
             request.POST,
             queryset=VirtueInstance.objects.filter(owner=character),
-            form_kwargs={'character': character},
+            form_kwargs={'character': character, 'user': request.user},
             prefix='virtue-form',
         )
         flawForm = fFormset(
             request.POST,
             queryset=FlawInstance.objects.filter(owner=character),
-            form_kwargs={'character': character},
+            form_kwargs={'character': character, 'user': request.user},
             prefix='flaw-form',
         )
         pForm = pFormset(
             request.POST,
             queryset=Personality.objects.filter(owner=character),
-            form_kwargs={'character': character},
+            form_kwargs={'character': character, 'user': request.user},
             prefix='personality-form'
         )
         rForm = rFormset(
             request.POST,
             queryset=Reputation.objects.filter(owner=character),
-            form_kwargs={'character': character},
+            form_kwargs={'character': character, 'user': request.user},
             prefix='reputation-form'
         )
 
