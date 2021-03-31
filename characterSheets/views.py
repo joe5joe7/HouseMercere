@@ -742,7 +742,7 @@ def export_abilities(request, pk):
     for abi in ssAbilities:
         output += '"' + abi.name + '":{"name":"' + abi.name + '","description":"' + abi.description + '","needTraining":"' + str(
             abi.needTraining) + '","type":"' + abi.type + '","specialties":['
-        for spec in abi.defaultSpeciality_set.all():
+        for spec in abi.defaultspeciality_set.all():
             output += '"' + spec.name + '",'
         output = output[:-1]
         output += '],'
