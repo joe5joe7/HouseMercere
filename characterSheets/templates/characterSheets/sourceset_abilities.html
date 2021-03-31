@@ -45,7 +45,7 @@
                 <li class='list-group-item'><b>Description: </b>{{ ability.description }}</li>
                 <li class='list-group-item'><b>Type: </b>{{ ability.type }}</li>
                 <li class='list-group-item'><b>Training Required: </b>{{ ability.needTraining }}</li>
-                <li class="list-group-item"><b>Default Specialities: </b>{{ ability.defaultspeciality_set.all }}</li>
+                <li class="list-group-item"><b>Default Specialities: </b>{% for spec in ability.defaultspeciality_set.all %} {{ spec }} {% endfor %}</li>
             </ul>
         </div>
         </div>
