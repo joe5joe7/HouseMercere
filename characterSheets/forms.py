@@ -255,7 +255,7 @@ class createCharacter_virtueForm(ModelForm):
         self.character = kwargs.pop('character', None)
         super(createCharacter_virtueForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
-        self.fields['referenceVirtue'].queryset = VF.objects.filter(source__in=self.user.subscribers.all())
+        self.fields['referenceVirtue'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),virtueOrFlaw='virtue')
 
 
 VirtueFormset = formset_factory(createCharacter_virtueForm, extra=1, can_delete=True)
@@ -276,7 +276,7 @@ class createCharacter_flawForm(ModelForm):
         self.character = kwargs.pop('character', None)
         super(createCharacter_flawForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
-        self.fields['referenceFlaw'].queryset = VF.objects.filter(source__in=self.user.subscribers.all())
+        self.fields['referenceFlaw'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),virtueOrFlaw='flaw')
 
 
 FlawFormset = formset_factory(createCharacter_flawForm, extra=1, can_delete=True)
