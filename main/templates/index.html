@@ -4,10 +4,14 @@
 <link rel="stylesheet" href="{% static 'css/generic.css' %}">
 
 {% block content %}
-    <div class="card mainCard border-dark mb-3">
+    <div class="row h-25">
+    <div class="col-12">
+        <div class="card mainCard border-dark mb-3 text-center h-100">
         <h1 class="card-title">House Mercere</h1>
         <p class="card-text">A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
         <br />
+    </div>
+    </div>
     </div>
     <div class="container">
         <a href="{% url 'register' %}">Sign up</a>
