@@ -43,9 +43,14 @@
                 </ul>
             </div>
         </nav>
-        <button class="btn rounded-bottom float-end" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseSidebar" onfocus="this.blur()" onclick="dropdownState('collapseSidebar');" id="sidebar-button">
-            <i class="bi bi-person-lines-fill"></i>
-        </button>
+        <div class="row">
+            <div class="col">
+                <button class="btn rounded-bottom float-end" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseSidebar" onfocus="this.blur()" onclick="dropdownState('collapseSidebar');" id="sidebar-button">
+                    <i class="bi bi-person-lines-fill"></i>
+                </button>
+            </div>
+        </div>
+
         <div class="container-fluid">
             <div class="col-sm-12 ">{% block content %}{% endblock %}</div>
         </div>
