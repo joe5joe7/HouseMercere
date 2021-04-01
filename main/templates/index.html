@@ -7,13 +7,31 @@
     <div class="row h-25">
     <div class="col-12">
         <div class="card mainCard border-dark mb-3 text-center h-100">
-        <h1 class="card-title">House Mercere</h1>
-        <p class="card-text">A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
-        <br />
+            <br />
+            <h1 class="card-title">House Mercere</h1>
+            <p class="card-text">A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
+            <br />
+        </div>
     </div>
     </div>
+    <div class="row">
+    <div class="col">
+        <div class="card-group">
+            <div class="card">
+                <img src="{% static 'register.jpg' %}" class="card-img-top" alt="Register">
+                <div class="card-body">
+                    Register to create characters, join and create sagas, and more.
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'sign-in.jpg' %}" class="card-img-top" alt="Sign In">
+                <div class="card-body">
+                    Sign in to an existing account.
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">Login</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <a href="{% url 'register' %}">Sign up</a>
     </div>
 {% endblock %}
