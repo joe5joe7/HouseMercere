@@ -8,8 +8,12 @@
     <div class="col-12">
         <div class="card mainCard border-dark mb-3 text-center h-100">
             <br />
+            <br />
+            <br />
             <h1 class="card-title">House Mercere</h1>
             <p class="card-text">A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
+            <br />
+            <br />
             <br />
         </div>
     </div>
@@ -20,15 +24,22 @@
             <div class="card">
                 <img src="{% static 'register.jpg' %}" class="card-img-top" alt="Register">
                 <div class="card-body">
-                    Register to create characters, join and create sagas, and more.
+                    <p class="card-text">Register to create characters, join and create sagas, and more.</p>
                     <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
                 </div>
             </div>
             <div class="card">
                 <img src="{% static 'sign-in.jpg' %}" class="card-img-top" alt="Sign In">
                 <div class="card-body">
-                    Sign in to an existing account.
+                    <p class="card-text">Sign in to an existing account.</p>
                     <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">Login</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'logo.png' %}" class="card-img-top" alt="Logo">
+                <div class="card-body">
+                    <p class="card-text">Find out more about the website #CURRENTLY NON OPERATIONAL#</p>
+                    <a href="#" class="btn btn-primary">About</a>
                 </div>
             </div>
         </div>
