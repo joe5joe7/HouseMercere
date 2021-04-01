@@ -87,10 +87,8 @@ def createCharacter(request):
         character.player = request.user
         character.save()
 
-        if character.warping > 0 or character.decrepitude > 0:
-            return HttpResponseRedirect('details/' + str(character.pk))
-        else:
-            return redirect('edit-character', character.pk)
+
+        return redirect('edit-character', character.pk)
 
 
     else:
