@@ -21,8 +21,9 @@
 <div class="row h-100">
     <div class="col px-0">
         <nav class="navbar navbar-expand-md">
-            <a class="navbar-brand" href="{% url 'index' %}">HM</a>
-
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'logo.png' %}" width="30" height="30" alt="Logo">
+            </a>
             <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,7 +52,6 @@
             </div>
         </div>
         <div class="container-fluid">
-            <img src="{% static 'logo.png' %}" alt="Logo">
             <div class="col-sm-12 ">{% block content %}{% endblock %}</div>
         </div>
     </div>
