@@ -51,12 +51,9 @@ html,body {
     justify-content: flex-end;
 }
 
-.jumbotron {
+.mainCard {
     background-color: #F34435;
     color: #CEEE58;
-    margin-left: 150px !important;
-    margin-right: 150px !important;
-
 }
 
 .title {

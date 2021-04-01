@@ -4,15 +4,10 @@
 <link rel="stylesheet" href="{% static 'css/generic.css' %}">
 
 {% block content %}
-    <div class="jumbotron">
-    <div class="container-fluid">
-        <h1 class="display-1 title">House Mercere</h1>
-        <p>A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
+    <div class="card mainCard border-dark mb-3">
+        <h1 class="card-title">House Mercere</h1>
+        <p class="card-text">A character and saga management system for your Ars Magica games. Sign up below to create a saga, import characters, and more!</p>
         <br />
-        <p>
-    {#                <a class="btn btn-primary btn-lg" href="{% url 'signup' %}"></a>#}
-        </p>
-    </div>
     </div>
     <div class="container">
         <a href="{% url 'register' %}">Sign up</a>
