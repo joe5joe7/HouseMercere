@@ -12,12 +12,12 @@ from django.views.generic import DeleteView
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, Ability, VF, Equipment, DefaultSpeciality
+    Reputation, SourceSet, Ability, VF, EquipmentLib, DefaultSpeciality
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
-    vfLibForm, equipLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm
+    vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm
 
 import logging
 
@@ -481,91 +481,91 @@ def view_sourceset(request, pk):
     return render(request, 'characterSheets/view_sourceset.html', context)
 
 
-def edit_sourceset(request, pk):
-    ss = get_object_or_404(SourceSet, pk=pk)
-    abiExtra = 0
-    virtExtra = 0
-    flawExtra = 0
-    equipExtra = 0
-    if len(ss.ability_set.all()) == 0:
-        abiExtra = 1
-    if len(ss.vf_set.filter(virtueOrFlaw='virtue')) == 0:
-        virtExtra = 1
-    if len(ss.vf_set.filter(virtueOrFlaw='flaw')) == 0:
-        flawExtra = 1
-    if len(ss.equipment_set.all()) == 0:
-        equipExtra = 1
-
-    aformset = modelformset_factory(Ability, form=abiLibForm, extra=abiExtra, can_delete=True)
-    abilityForm = aformset(
-        None,
-        queryset=ss.ability_set.all(),
-        form_kwargs={'source': ss},
-        prefix='abi-form',
-    )
-    vFormset = modelformset_factory(VF, form=vfLibForm, extra=virtExtra, can_delete=True)
-    virtueForm = vFormset(
-        None,
-        queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-        form_kwargs={'source': ss, 'vf': 'virtue'},
-        prefix='virtue-form',
-    )
-    fFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
-    flawForm = fFormset(
-        None,
-        queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
-        form_kwargs={'source': ss, 'vf': 'flaw'},
-        prefix='flaw-form',
-    )
-    eFormset = modelformset_factory(Equipment, form=equipLibForm, extra=equipExtra, can_delete=True)
-    equipForm = eFormset(
-        None,
-        queryset=ss.equipment_set.all(),
-        form_kwargs={'source': ss},
-        prefix='equip-form'
-    )
-
-    if request.method == 'POST':
-        abilityForm = aformset(
-            request.POST,
-            queryset=ss.ability_set.all(),
-            form_kwargs={'source': ss},
-            prefix='abi-form',
-        )
-        virtueForm = vFormset(
-            request.POST,
-            queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-            form_kwargs={'source': ss, 'vf': 'virtue'},
-            prefix='virtue-form',
-        )
-        flawForm = fFormset(
-            request.POST,
-            queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
-            form_kwargs={'source': ss, 'vf': 'flaw'},
-            prefix='flaw-form',
-        )
-        equipForm = eFormset(
-            request.POST,
-            queryset=ss.equipment_set.all(),
-            form_kwargs={'source': ss},
-            prefix='equip-form'
-        )
-
-        if abilityForm.is_valid() and virtueForm.is_valid() and flawForm.is_valid() and equipForm.is_valid():
-            abilityForm.save()
-            virtueForm.save()
-            flawForm.save()
-            equipForm.save()
-            return HttpResponseRedirect(ss.get_absolute_url())
-
-    context = {
-        'abilityForm': abilityForm,
-        'virtueForm': virtueForm,
-        'flawForm': flawForm,
-        'equipForm': equipForm,
-    }
-
-    return render(request, 'characterSheets/edit_sourceset.html', context)
+# def edit_sourceset(request, pk):
+#     ss = get_object_or_404(SourceSet, pk=pk)
+#     abiExtra = 0
+#     virtExtra = 0
+#     flawExtra = 0
+#     equipExtra = 0
+#     if len(ss.ability_set.all()) == 0:
+#         abiExtra = 1
+#     if len(ss.vf_set.filter(virtueOrFlaw='virtue')) == 0:
+#         virtExtra = 1
+#     if len(ss.vf_set.filter(virtueOrFlaw='flaw')) == 0:
+#         flawExtra = 1
+#     if len(ss.armor_set.all()) == 0:
+#         armorExtra = 1
+#
+#     aformset = modelformset_factory(Ability, form=abiLibForm, extra=abiExtra, can_delete=True)
+#     abilityForm = aformset(
+#         None,
+#         queryset=ss.ability_set.all(),
+#         form_kwargs={'source': ss},
+#         prefix='abi-form',
+#     )
+#     vFormset = modelformset_factory(VF, form=vfLibForm, extra=virtExtra, can_delete=True)
+#     virtueForm = vFormset(
+#         None,
+#         queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
+#         form_kwargs={'source': ss, 'vf': 'virtue'},
+#         prefix='virtue-form',
+#     )
+#     fFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
+#     flawForm = fFormset(
+#         None,
+#         queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
+#         form_kwargs={'source': ss, 'vf': 'flaw'},
+#         prefix='flaw-form',
+#     )
+#     eFormset = modelformset_factory(EquipmentLib, form=weaponLibForm, extra=equipExtra, can_delete=True)
+#     equipForm = eFormset(
+#         None,
+#         queryset=ss.equipment_set.all(),
+#         form_kwargs={'source': ss},
+#         prefix='equip-form'
+#     )
+#
+#     if request.method == 'POST':
+#         abilityForm = aformset(
+#             request.POST,
+#             queryset=ss.ability_set.all(),
+#             form_kwargs={'source': ss},
+#             prefix='abi-form',
+#         )
+#         virtueForm = vFormset(
+#             request.POST,
+#             queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
+#             form_kwargs={'source': ss, 'vf': 'virtue'},
+#             prefix='virtue-form',
+#         )
+#         flawForm = fFormset(
+#             request.POST,
+#             queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
+#             form_kwargs={'source': ss, 'vf': 'flaw'},
+#             prefix='flaw-form',
+#         )
+#         equipForm = eFormset(
+#             request.POST,
+#             queryset=ss.equipment_set.all(),
+#             form_kwargs={'source': ss},
+#             prefix='equip-form'
+#         )
+#
+#         if abilityForm.is_valid() and virtueForm.is_valid() and flawForm.is_valid() and equipForm.is_valid():
+#             abilityForm.save()
+#             virtueForm.save()
+#             flawForm.save()
+#             equipForm.save()
+#             return HttpResponseRedirect(ss.get_absolute_url())
+#
+#     context = {
+#         'abilityForm': abilityForm,
+#         'virtueForm': virtueForm,
+#         'flawForm': flawForm,
+#         'equipForm': equipForm,
+#     }
+#
+#     return render(request, 'characterSheets/edit_sourceset.html', context)
 
 
 def import_virtues(request, pk):
@@ -836,9 +836,26 @@ def sourceset_abilities(request, pk):
 
 def sourceset_equipment(request, pk):
     ss = get_object_or_404(SourceSet, pk=pk)
+    weaponForm = weaponLibForm(request.POST or None, source=ss)
+    armorForm = armorLibForm(request.POST or None, source=ss)
+    miscEquipForm = miscEquipLibForm(request.POST or None, source=ss)
+
+    if request.method == 'POST':
+        if weaponForm.is_valid():
+            weaponForm.save()
+            return redirect('view-sourceset', pk=pk)
+        elif armorForm.is_valid():
+            armorForm.save()
+            return redirect('view-sourceset', pk=pk)
+        elif miscEquipForm.is_valid():
+            miscEquipForm.save()
+            return redirect('view-sourceset', pk=pk)
 
     context = {
         'ss': ss,
+        'weaponForm': weaponForm,
+        'armorForm': armorForm,
+        'miscEquipForm': miscEquipForm,
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)

@@ -9,7 +9,7 @@ from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, VF, Ability, Equipment
+    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip
 
 
 class changeSaga(ModelForm):
@@ -255,7 +255,8 @@ class createCharacter_virtueForm(ModelForm):
         self.character = kwargs.pop('character', None)
         super(createCharacter_virtueForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
-        self.fields['referenceVirtue'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),virtueOrFlaw='virtue')
+        self.fields['referenceVirtue'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),
+                                                                    virtueOrFlaw='virtue')
 
 
 VirtueFormset = formset_factory(createCharacter_virtueForm, extra=1, can_delete=True)
@@ -276,7 +277,8 @@ class createCharacter_flawForm(ModelForm):
         self.character = kwargs.pop('character', None)
         super(createCharacter_flawForm, self).__init__(*args, **kwargs)
         self.instance.owner = self.character
-        self.fields['referenceFlaw'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),virtueOrFlaw='flaw')
+        self.fields['referenceFlaw'].queryset = VF.objects.filter(source__in=self.user.subscribers.all(),
+                                                                  virtueOrFlaw='flaw')
 
 
 FlawFormset = formset_factory(createCharacter_flawForm, extra=1, can_delete=True)
@@ -339,33 +341,67 @@ class abiLibForm(ModelForm):
         return data, abi
 
 
-class equipLibForm(ModelForm):
+class weaponLibForm(ModelForm):
     class Meta:
-        model = Equipment
-        fields = ('name', 'description', 'type', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'prot',
-                  'partialProt', 'partialLoad', 'cost', 'load')
+        model = Weapon
+        fields = ('name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load')
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'ability': forms.Select(attrs={'class': 'form-control'}),
-            'type': forms.Select(attrs={'class': 'form-control'}),
             'init': forms.NumberInput(attrs={'class': 'form-control'}),
             'atk': forms.NumberInput(attrs={'class': 'form-control'}),
             'dfn': forms.NumberInput(attrs={'class': 'form-control'}),
             'dam': forms.NumberInput(attrs={'class': 'form-control'}),
             'strength': forms.NumberInput(attrs={'class': 'form-control'}),
             'range': forms.NumberInput(attrs={'class': 'form-control'}),
-            'prot': forms.NumberInput(attrs={'class': 'form-control'}),
-            'partialProt': forms.NumberInput(attrs={'class': 'form-control'}),
-            'partialLoad': forms.NumberInput(attrs={'class': 'form-control'}),
             'cost': forms.Select(attrs={'class': 'form-control'}),
             'load': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
         self.source = kwargs.pop('source', None)
-        super(equipLibForm, self).__init__(*args, **kwargs)
+        super(weaponLibForm, self).__init__(*args, **kwargs)
+        self.instance.source = self.source
+
+
+class armorLibForm(ModelForm):
+    class Meta:
+        model = Armor
+        fields = ('name', 'description', 'cost', 'load', 'prot', 'partialProt', 'partialLoad')
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'cost': forms.Select(attrs={'class': 'form-control'}),
+            'load': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prot': forms.NumberInput(attrs={'class': 'form-control'}),
+            'partialProt': forms.NumberInput(attrs={'class': 'form-control'}),
+            'partialLoad': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.pop('source', None)
+        super(armorLibForm, self).__init__(*args, **kwargs)
+        self.instance.source = self.source
+
+
+class miscEquipLibForm(ModelForm):
+    class Meta:
+        model = MiscEquip
+        fields = ('name', 'description', 'cost', 'load')
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'cost': forms.Select(attrs={'class': 'form-control'}),
+            'load': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.pop('source', None)
+        super(miscEquipLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
 
 

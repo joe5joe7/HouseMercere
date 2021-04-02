@@ -268,6 +268,10 @@ class Character(models.Model):
     #     self.saga = None
     #     return self.get_absolute_url()
 
+class Covenant(models.Model):
+    """model representing a covenant"""
+    name = models.CharField(max_length=200)
+
 
 class Personality(models.Model):
     """model representing a specific characters personality trait"""
@@ -320,21 +324,21 @@ class FlawInstance(models.Model):
         return self.referenceFlaw.name
 
 
-class Equipment(models.Model):
-    """Model representing a piece of equipment"""
+class Weapon(models.Model):
+    """Model representing weapon equipment"""
+
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=10000, null=True, blank=True)
     source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
-    types = (
-        ('w', 'weapon'),
-        ('a', 'armor'),
-        ('s', 'summa'),
-        ('t', 'tractus'),
-        ('o', 'other'),
+    costTypes = (
+        ('n', 'n/a'),
+        ('i', 'inexpensive'),
+        ('s', 'standard'),
+        ('e', 'expensive'),
     )
-    type = models.CharField(choices=types, max_length=1)
+    cost = models.CharField(choices=costTypes, default='n', null=True, blank=True, max_length=1)
+    load = models.IntegerField(default=0, null=True, blank=True)
 
-    # Weapon stats
     ability = models.ForeignKey(Ability, on_delete=models.CASCADE, null=True, blank=True)
     init = models.IntegerField('Initiative', null=True, blank=True)
     atk = models.IntegerField('Attack', null=True, blank=True)
@@ -343,22 +347,112 @@ class Equipment(models.Model):
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
 
-    # Armor stats
-    prot = models.IntegerField('Protection', null=True, blank=True)
-    partialProt = models.IntegerField('Partial Protection', null=True, blank=True)
-    partialLoad = models.IntegerField('Partial Load', null=True, blank=True)
+    def __str__(self):
+        return self.name
 
+
+class WeaponInstance(models.Model):
+    """Model representing a specific weapon"""
+
+    referenceWeapon = models.ForeignKey(Weapon, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    statusChoices = (
+        ('e', 'equipped'),
+        ('c', 'carried'),
+        ('s', 'stored'),
+    )
+    status = models.CharField(choices=statusChoices, max_length=1, default='c')
+
+
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        else:
+            return self.referenceWeapon.name
+
+
+class Armor(models.Model):
+    """Model representing armor equipment"""
+
+    name = models.CharField(max_length=200)
+    description = models.TextField(max_length=10000, null=True, blank=True)
+    source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
     costTypes = (
         ('n', 'n/a'),
         ('i', 'inexpensive'),
         ('s', 'standard'),
         ('e', 'expensive'),
     )
-
     cost = models.CharField(choices=costTypes, default='n', null=True, blank=True, max_length=1)
-    # Move worn to equip instance
-    # worn = models.BooleanField(default=False)
+    load = models.IntegerField(default=0, null=True, blank=True)
+
+    prot = models.IntegerField('Protection', null=True, blank=True)
+    partialProt = models.IntegerField('Partial Protection', null=True, blank=True)
+    partialLoad = models.IntegerField('Partial Load', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ArmorInstance(models.Model):
+    """Model representing a specific set of armor"""
+
+    referenceArmor = models.ForeignKey(Armor, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    statusChoices = (
+        ('e', 'equipped'),
+        ('c', 'carried'),
+        ('s', 'stored'),
+    )
+    status = models.CharField(choices=statusChoices, max_length=1, default='c')
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        else:
+            return self.referenceArmor.name
+
+
+class MiscEquip(models.Model):
+    """Model representing equipment that doesn't fit into other types"""
+
+    name = models.CharField(max_length=200)
+    description = models.TextField(max_length=10000, null=True, blank=True)
+    source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
+    costTypes = (
+        ('n', 'n/a'),
+        ('i', 'inexpensive'),
+        ('s', 'standard'),
+        ('e', 'expensive'),
+    )
+    cost = models.CharField(choices=costTypes, default='n', null=True, blank=True, max_length=1)
     load = models.IntegerField(default=0, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class MiscEquipInstance(models.Model):
+    """Model representing instance of misc equip"""
+
+    referenceEquip = models.ForeignKey(MiscEquip, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    statusChoices = (
+        ('e', 'equipped'),
+        ('c', 'carried'),
+        ('s', 'stored'),
+    )
+    status = models.CharField(choices=statusChoices, max_length=1, default='c')
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        else:
+            return self.referenceEquip.name
