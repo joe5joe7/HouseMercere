@@ -3,8 +3,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    $("#create-book").modalForm({
-        formURL: "{% url 'create_book' %}"
+    $("#create-weapon").modalForm({
+        formURL: "{% url 'create-weapon-lib' %}"
     });
 
 });
@@ -48,7 +48,7 @@ $(document).ready(function() {
     <div class="row border-bottom bg-info">
         <div class="col-6"> &emsp; Weapons </div>
         <div class="col">
-            <button id="create-book" class="btn btn-primary" type="button" name="button">Add Weapon</button>
+            <button id="create-weapon" class="btn btn-primary" type="button" name="button">Add Weapon</button>
         </div>
     </div>
     {% for equip in ss.weapon_set.all %}
