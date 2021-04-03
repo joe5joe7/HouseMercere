@@ -1,29 +1,20 @@
 {% extends 'base_generic.html' %}
 {% block extraLoads %}
-<div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Add Weapon</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <table>
-                        {{ weaponForm.as_table }}
-                    </table>
-                </div>
-                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
-                <button class="btn btn-primary" value="submit"> Add Weapon </button>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
+<script type="text/javascript">
+$(document).ready(function() {
 
+    $("#create-book").modalForm({
+        formURL: "{% url 'create_book' %}"
+    });
+
+});
+</script>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 
 
 {% endblock %}
@@ -57,7 +48,7 @@
     <div class="row border-bottom bg-info">
         <div class="col-6"> &emsp; Weapons </div>
         <div class="col">
-            <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#weaponModal">Add Weapon</button>
+            <button id="create-book" class="btn btn-primary" type="button" name="button">Add Weapon</button>
         </div>
     </div>
     {% for equip in ss.weapon_set.all %}

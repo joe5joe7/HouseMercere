@@ -1,3 +1,4 @@
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django import forms
 
 # class editCharacter(forms.Form):
@@ -341,7 +342,7 @@ class abiLibForm(ModelForm):
         return data, abi
 
 
-class weaponLibForm(ModelForm):
+class weaponLibForm(BSModalModelForm):
     class Meta:
         model = Weapon
         fields = ('name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load')
