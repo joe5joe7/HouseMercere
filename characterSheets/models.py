@@ -356,8 +356,8 @@ class WeaponInstance(models.Model):
 
     referenceWeapon = models.ForeignKey(Weapon, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
-    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, null=True, blank=True)
     statusChoices = (
         ('e', 'equipped'),
         ('c', 'carried'),
@@ -402,8 +402,8 @@ class ArmorInstance(models.Model):
 
     referenceArmor = models.ForeignKey(Armor, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
-    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, null=True, blank=True)
     statusChoices = (
         ('e', 'equipped'),
         ('c', 'carried'),
@@ -442,8 +442,8 @@ class MiscEquipInstance(models.Model):
 
     referenceEquip = models.ForeignKey(MiscEquip, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, blank=True)
-    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, blank=True)
+    ownerChar = models.ForeignKey(Character, on_delete=models.SET_NULL, null=True, blank=True)
+    ownerCovenant = models.ForeignKey(Covenant, on_delete=models.SET_NULL, null=True, blank=True)
     statusChoices = (
         ('e', 'equipped'),
         ('c', 'carried'),
