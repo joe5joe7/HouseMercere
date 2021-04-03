@@ -41,8 +41,9 @@ def register(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            ss = get_object_or_404(SourceSet, pk=2)
-            ss.subscribers.add(user)
+            ss = SourceSet.objects.filter(name='Core')
+            if ss.first():
+                ss.subscribers.add(user)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Registration successful.")
             return redirect('index')
