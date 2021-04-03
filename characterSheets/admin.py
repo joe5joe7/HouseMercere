@@ -1,7 +1,7 @@
 from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 
-from .models import Character, Ability, Saga, VF, SourceSet, DefaultSpeciality
+from .models import Character, Ability, Saga, VF, SourceSet, DefaultSpeciality, Weapon
 
 admin.site.register(Character)
 
@@ -19,5 +19,6 @@ class sourcesetAdmin(GuardedModelAdmin):
 
 
 admin.site.register(SourceSet, sourcesetAdmin)
+admin.site.register(Weapon)
 
 admin.site.register(DefaultSpeciality)
