@@ -479,8 +479,8 @@ def view_sourceset(request, pk):
     }
 
     return render(request, 'characterSheets/view_sourceset.html', context)
-
-
+#
+#
 # def edit_sourceset(request, pk):
 #     ss = get_object_or_404(SourceSet, pk=pk)
 #     abiExtra = 0

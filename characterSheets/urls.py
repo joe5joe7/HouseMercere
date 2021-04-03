@@ -22,7 +22,6 @@ urlpatterns = [
     path('character/<int:pk>/charactercombat', views.CharacterCombatView, name='character-combat'),
     path('add_sourceset',views.add_sourceset, name='add-sourceset'),
     path('view_sourceset/<int:pk>', views.view_sourceset, name='view-sourceset'),
-    path('edit_sourceset/<int:pk>', views.edit_sourceset, name='edit-sourceset'),
     path('import_virtues/<int:pk>', views.import_virtues, name='import-virtues'),
     path('sourceset_virtues/<int:pk>',views.sourceset_virtues, name='sourceset-virtues'),
     path('sourceset_flaws/<int:pk>',views.sourceset_flaws, name='sourceset-flaws'),

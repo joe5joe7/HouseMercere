@@ -38,9 +38,9 @@
     {% endfor %}
 </div>
 {% if "source_owner" in ss_perms %}
-<div class="col">
-    <a class= 'btn btn-primary' href="{% url 'edit-sourceset' ss.id %}"> Edit Source</a>
-</div>
+{#<div class="col">#}
+{#    <a class= 'btn btn-primary' href="{% url 'edit-sourceset' ss.id %}"> Edit Source</a>#}
+{#</div>#}
 
 <div class="col">
     <a class="btn btn-primary" href="{% url 'delete-sourceset' ss.id %}"> Delete Source</a>
