@@ -1,5 +1,10 @@
 {% extends 'base_generic.html' %}
 {% block extraLoads %}
+    {% load static %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+
 <script type="text/javascript">
 $(document).ready(function() {
 
