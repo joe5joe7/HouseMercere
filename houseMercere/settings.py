@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'characterSheets.apps.CharactersheetsConfig',
     'main.apps.MainConfig',
     'guardian',
-    'bootstrap_modal_forms',
 ]
 
 AUTHENTICATION_BACKENDS = (

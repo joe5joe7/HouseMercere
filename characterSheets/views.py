@@ -1,6 +1,5 @@
 import logging
 
-from bootstrap_modal_forms.generic import BSModalCreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
@@ -87,6 +86,7 @@ def createCharacter(request):
         character = form.save()
         character.player = request.user
         character.save()
+
 
         return redirect('edit-character', character.pk)
 
@@ -479,8 +479,6 @@ def view_sourceset(request, pk):
     }
 
     return render(request, 'characterSheets/view_sourceset.html', context)
-
-
 #
 #
 # def edit_sourceset(request, pk):
@@ -861,13 +859,6 @@ def sourceset_equipment(request, pk):
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)
-
-
-class CreateWeaponLib(BSModalCreateView):
-    template_name = 'characterSheets/create_weapon_lib.html'
-    form_class = weaponLibForm
-    success_message = 'Weapon was successfully added.'
-    success_url = reverse_lazy('profile')
 
 
 def subscribe_sourceset(request, pk):
