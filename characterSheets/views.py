@@ -12,7 +12,7 @@ from django.views.generic import DeleteView
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon
+    Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
@@ -866,6 +866,20 @@ def delete_weapon(request, pk):
     weapon = get_object_or_404(Weapon, pk=pk)
     source = weapon.source
     weapon.delete()
+    return redirect(source.get_equipment_url())
+
+
+def delete_armor(request, pk):
+    armor = get_object_or_404(Armor, pk=pk)
+    source = armor.source
+    armor.delete()
+    return redirect(source.get_equipment_url())
+
+
+def delete_misc(request, pk):
+    misc = get_object_or_404(MiscEquip, pk=pk)
+    source = misc.source
+    misc.delete()
     return redirect(source.get_equipment_url())
 
 

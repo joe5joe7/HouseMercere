@@ -382,6 +382,8 @@ class WeaponInstance(models.Model):
             return self.referenceWeapon.name
 
 
+
+
 class Armor(models.Model):
     """Model representing armor equipment"""
 
@@ -403,6 +405,9 @@ class Armor(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_delete_url(self):
+        return reverse('delete-armor', args=[self.id])
 
 
 class ArmorInstance(models.Model):
@@ -443,6 +448,9 @@ class MiscEquip(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_delete_url(self):
+        return reverse('delete-misc', args=[self.id])
 
 
 class MiscEquipInstance(models.Model):

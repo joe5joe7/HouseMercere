@@ -13,20 +13,20 @@
             <form method="post">
             {% csrf_token %}
                 <div class="form-group">
-                    {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                    {% for error in form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
-                    {% endfor %}
-                    {% endif %}
+{#                    {% if form.errors %}#}
+{#                    {% for field in form %}#}
+{#                        {% for error in field.errors %}#}
+{#                            <div class="alert alert-danger">#}
+{#                                <strong>{{ error|escape }}</strong>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    {% endfor %}#}
+{#                    {% for error in form.non_field_errors %}#}
+{#                        <div class="alert alert-danger">#}
+{#                            <strong>{{ error|escape }}</strong>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    {% endif %}#}
                     <table>
                         {{ weaponForm.as_table }}
                     </table>
@@ -38,7 +38,54 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="armorModal" role="dialog" aria-label="Add Armor Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Armor</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ armorForm.as_table }}
+                    </table>
+                </div>
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Armor </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="miscModal" role="dialog" aria-label="Add Misc Equipment Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Misc Equipment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ miscEquipForm.as_table }}
+                    </table>
+                </div>
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Misc Equipment </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}
@@ -83,7 +130,6 @@
         <div class="col">
             <ul class='list-group'>
                 <li class='list-group-item'><b>Description: </b>{{ equip.description }}</li>
-                <li class='list-group-item'><b>Type: </b>{{ equip.type }}</li>
                 <li class='list-group-item'><b>Cost: </b>{{ equip.cost }}</li>
                 <li class='list-group-item'><b>Load: </b>{{ equip.load }}</li>
                 <li class='list-group-item'><b>Ability: </b>{{ equip.ability }}</li>
@@ -99,7 +145,9 @@
         </div>
         </div>
     {% endfor %}
-    <div class="row border-bottom bg-info"><div class="col-6"> &emsp; Armor </div></div>
+    <div class="row border-bottom bg-info"><div class="col-6"> &emsp; Armor </div><div class="col">
+            <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#weaponArmor">Add Armor</button>
+        </div></div>
     {% for equip in ss.armor_set.all %}
         <div class="row">
         <div class="col-6">
@@ -116,9 +164,14 @@
                 <li class='list-group-item'><b>Partial Load: </b>{{ equip.partialLoad }}</li>
             </ul>
         </div>
+        <div class="col-1">
+            <a href="{{ equip.get_delete_url }}"><i class="bi bi-trash" style="color: red"></i></a>
+        </div>
         </div>
     {% endfor %}
-    <div class="row border-bottom bg-info"><div class="col-6"> &emsp; Misc Equipment </div></div>
+    <div class="row border-bottom bg-info"><div class="col-6"> &emsp; Misc Equipment </div><div class="col">
+            <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#weaponMisc">Add Misc Equipment</button>
+        </div></div>
     {% for equip in ss.miscequip_set.all %}
         <div class="row">
         <div class="col-6">
@@ -131,6 +184,9 @@
                 <li class='list-group-item'><b>Cost: </b>{{ equip.cost }}</li>
                 <li class='list-group-item'><b>Load: </b>{{ equip.load }}</li>
             </ul>
+        </div>
+        <div class="col-1">
+            <a href="{{ equip.get_delete_url }}"><i class="bi bi-trash" style="color: red"></i></a>
         </div>
         </div>
     {% endfor %}
