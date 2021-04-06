@@ -10,7 +10,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form>
+            <form method="post">
                 <div class="form-group">
                     {% if form.errors %}
                     {% for field in form %}
@@ -31,7 +31,7 @@
                     </table>
                 </div>
                 <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
-                <button class="btn btn-primary" value="submit"> Add Weapon </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Weapon </button>
             </form>
         </div>
         </div>
