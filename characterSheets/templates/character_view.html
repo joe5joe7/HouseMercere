@@ -79,7 +79,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
     <div class="row">
         <div class="col">
             <a class="btn btn-primary" href="{% url 'character-detail' character.id %}">General</a>
@@ -120,6 +119,8 @@
                     <p>house</p>
                 </div>
                 </div>
+        </div>
+    </div>
     {% block character_content %}
     {% endblock %}
 {% endblock %}
