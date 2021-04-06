@@ -840,12 +840,8 @@ def sourceset_equipment(request, pk):
     weaponForm = weaponLibForm(request.POST or None, source=ss)
     armorForm = armorLibForm(request.POST or None, source=ss)
     miscEquipForm = miscEquipLibForm(request.POST or None, source=ss)
-    formType = 'none'
-
     if request.method == 'POST':
-        form_type = request.POST.get('form_type')
-        logger.error(form_type)
-        formType = form_type
+        form_type = request.POST.get('form-type')
         if form_type == 'weapon' and weaponForm.is_valid():
             weaponForm.save()
             return redirect('sourceset-equipment', pk=pk)
@@ -861,7 +857,6 @@ def sourceset_equipment(request, pk):
         'weaponForm': weaponForm,
         'armorForm': armorForm,
         'miscEquipForm': miscEquipForm,
-        'formType': formType,
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)
