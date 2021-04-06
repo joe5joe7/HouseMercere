@@ -1,6 +1,5 @@
 {% extends 'base_generic.html' %}
 {% block extraLoads %}
-{{ formType }}
 <div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -132,17 +131,23 @@
             {{ equip }}
         </div>
         <div class="col">
-            <ul class='list-group'>
-                <li class='list-group-item'><b>Description: </b>{{ equip.description }}</li>
-                <li class='list-group-item'><b>Cost: </b>{{ equip.cost }}</li>
-                <li class='list-group-item'><b>Load: </b>{{ equip.load }}</li>
-                <li class='list-group-item'><b>Ability: </b>{{ equip.ability }}</li>
-                <li class='list-group-item'><b>Initiative: </b>{{ equip.init }}</li>
-                <li class='list-group-item'><b>Defense: </b>{{ equip.dfn }}</li>
-                <li class='list-group-item'><b>Damage: </b>{{ equip.dam }}</li>
-                <li class='list-group-item'><b>Strength: </b>{{ equip.strength }}</li>
-                <li class='list-group-item'><b>Range: </b>{{ equip.range }}</li>
-            </ul>
+            <div class="row border-bottom bg-light">
+                <div class="col"><b>Description: </b>{{ equip.description }}</div>
+            </div>
+            <div class="row border-bottom bg-light">
+                <div class="col"><b>Cost: </b>{{ equip.get_cost_display }}</div>
+                <div class="col"><b>Load: </b>{{ equip.load }}</div>
+            </div>
+            <div class="row border-bottom bg-light">
+                <div class="col"><b>Ability: </b>{{ equip.ability }}</div>
+                <div class="col"><b>Initiative: </b>{{ equip.init }}</div>
+            </div>
+            <div class="row border-bottom bg-light">
+                <div class="col"><b>Defense: </b>{{ equip.dfn }}</div>
+                <div class="col"><b>Damage: </b>{{ equip.dam }}</div>
+                <div class="col"><b>Strength: </b>{{ equip.strength }}</div>
+                <div class="col"><b>Range: </b>{{ equip.range }}</div>
+            </div>
         </div>
         <div class="col-1">
             <a href="{{ equip.get_delete_url }}"><i class="bi bi-trash" style="color: red"></i></a>
@@ -161,7 +166,7 @@
             <ul class='list-group'>
                 <li class='list-group-item'><b>Description: </b>{{ equip.description }}</li>
                 <li class='list-group-item'><b>Type: </b>{{ equip.type }}</li>
-                <li class='list-group-item'><b>Cost: </b>{{ equip.cost }}</li>
+                <li class='list-group-item'><b>Cost: </b>{{ equip.get_cost_display }}</li>
                 <li class='list-group-item'><b>Load: </b>{{ equip.load }}</li>
                 <li class='list-group-item'><b>Protection: </b>{{ equip.prot }}</li>
                 <li class='list-group-item'><b>Partial Protection: </b>{{ equip.partialProt }}</li>
@@ -185,7 +190,7 @@
             <ul class='list-group'>
                 <li class='list-group-item'><b>Description: </b>{{ equip.description }}</li>
                 <li class='list-group-item'><b>Type: </b>{{ equip.type }}</li>
-                <li class='list-group-item'><b>Cost: </b>{{ equip.cost }}</li>
+                <li class='list-group-item'><b>Cost: </b>{{ equip.get_cost_display }}</li>
                 <li class='list-group-item'><b>Load: </b>{{ equip.load }}</li>
             </ul>
         </div>
