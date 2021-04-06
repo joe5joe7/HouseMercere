@@ -844,6 +844,7 @@ def sourceset_equipment(request, pk):
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
+        logger.error(form_type)
         formType = form_type
         if form_type == 'weapon' and weaponForm.is_valid():
             weaponForm.save()
