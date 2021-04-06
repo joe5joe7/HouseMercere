@@ -38,4 +38,5 @@ urlpatterns = [
     path('import_abilities/<int:pk>', views.import_abilities, name='import-abilities'),
     path('sourceset_subscribe/<int:pk>', views.subscribe_sourceset, name='subscribe-sourceset'),
     path('sourceset_unsubscribe/<int:pk>', views.unsubscribe_sourceset, name='unsubscribe-sourceset'),
+    path('sourceset/equipment/delete/<int:pk>', views.delete_weapon, name='delete-weapon'),
 ]

@@ -355,7 +355,7 @@ class Weapon(models.Model):
         return self.name
 
     def get_delete_url(self):
-        return reverse()
+        return reverse('delete-weapon', args=[self.id])
 
 
 
