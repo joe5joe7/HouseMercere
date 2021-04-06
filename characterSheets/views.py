@@ -842,13 +842,14 @@ def sourceset_equipment(request, pk):
     miscEquipForm = miscEquipLibForm(request.POST or None, source=ss)
 
     if request.method == 'POST':
-        if weaponForm.is_valid():
+        form_type = request.POST.get('form_type')
+        if form_type == 'weapon' and weaponForm.is_valid():
             weaponForm.save()
             return redirect('sourceset-equipment', pk=pk)
-        elif armorForm.is_valid():
+        elif form_type == 'armor' and armorForm.is_valid():
             armorForm.save()
             return redirect('sourceset-equipment', pk=pk)
-        elif miscEquipForm.is_valid():
+        elif form_type == 'misc' and miscEquipForm.is_valid():
             miscEquipForm.save()
             return redirect('sourceset-equipment', pk=pk)
 
