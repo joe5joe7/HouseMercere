@@ -17,6 +17,9 @@ class SourceSet(models.Model):
     def get_absolute_url(self):
         return reverse('view-sourceset', args=[self.id])
 
+    def get_equipment_url(self):
+        return reverse('sourceset-equipment', args=[self.id])
+
     class Meta:
         permissions = {
             ('source_can_edit', 'Can Edit'),
@@ -347,8 +350,13 @@ class Weapon(models.Model):
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
 
+
     def __str__(self):
         return self.name
+
+    def get_delete_url(self):
+        return reverse()
+
 
 
 class WeaponInstance(models.Model):

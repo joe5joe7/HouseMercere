@@ -12,7 +12,7 @@ from django.views.generic import DeleteView
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, Ability, VF, DefaultSpeciality
+    Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
@@ -86,7 +86,6 @@ def createCharacter(request):
         character = form.save()
         character.player = request.user
         character.save()
-
 
         return redirect('edit-character', character.pk)
 
@@ -479,6 +478,8 @@ def view_sourceset(request, pk):
     }
 
     return render(request, 'characterSheets/view_sourceset.html', context)
+
+
 #
 #
 # def edit_sourceset(request, pk):
@@ -843,13 +844,13 @@ def sourceset_equipment(request, pk):
     if request.method == 'POST':
         if weaponForm.is_valid():
             weaponForm.save()
-            return redirect('view-sourceset', pk=pk)
+            return redirect('sourceset-equipment', pk=pk)
         elif armorForm.is_valid():
             armorForm.save()
-            return redirect('view-sourceset', pk=pk)
+            return redirect('sourceset-equipment', pk=pk)
         elif miscEquipForm.is_valid():
             miscEquipForm.save()
-            return redirect('view-sourceset', pk=pk)
+            return redirect('sourceset-equipment', pk=pk)
 
     context = {
         'ss': ss,
@@ -859,6 +860,13 @@ def sourceset_equipment(request, pk):
     }
 
     return render(request, 'characterSheets/sourceset_equipment.html', context)
+
+
+def delete_weapon(request, pk):
+    weapon = get_object_or_404(Weapon, pk=pk)
+    source = weapon.source
+    weapon.delete()
+    return redirect(source.get_equipment_url())
 
 
 def subscribe_sourceset(request, pk):
