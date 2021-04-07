@@ -163,6 +163,17 @@ def createCharacter_VF(request, pk):
 def CharacterCombatView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     addSaga = addToSaga(request, character)
+
+    context = {
+        'character': character,
+        'addCharacterToSaga': addSaga,
+    }
+
+    return render(request, 'characterSheets/character_combat.html', context)
+
+def CharacterEquipmentView(request, pk):
+    character = get_object_or_404(Character, pk=pk)
+    addSaga = addToSaga(request, character)
     weaponForm = weaponInstForm(user=request.user, owner=character)
     armorForm = armorInstForm(user=request.user, owner=character)
     miscEquipForm = miscInstForm(user=request.user, owner=character)
@@ -183,8 +194,6 @@ def CharacterCombatView(request, pk):
                 miscEquipForm.save()
                 return redirect('character-combat', pk=pk)
 
-
-
     context = {
         'character': character,
         'addCharacterToSaga': addSaga,
@@ -193,7 +202,7 @@ def CharacterCombatView(request, pk):
         'miscEquipForm': miscEquipForm,
     }
 
-    return render(request, 'characterSheets/character_combat.html', context)
+    return render(request, 'characterSheets/character_equipment.html', context)
 
 
 def addToSaga(request, character):

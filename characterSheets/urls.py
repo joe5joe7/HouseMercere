@@ -20,6 +20,7 @@ urlpatterns = [
     path('character/<int:pk>/addwound/<str:wound_type>', views.add_wound, name='add-wound'),
     path('character/<int:pk>/removewound/<str:wound_type>', views.remove_wound, name='remove-wound'),
     path('character/<int:pk>/charactercombat', views.CharacterCombatView, name='character-combat'),
+    path('character/<int:pk>/characterequipment', views.CharacterEquipmentView, name='character-equipment'),
     path('add_sourceset',views.add_sourceset, name='add-sourceset'),
     path('view_sourceset/<int:pk>', views.view_sourceset, name='view-sourceset'),
     path('import_virtues/<int:pk>', views.import_virtues, name='import-virtues'),

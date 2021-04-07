@@ -86,6 +86,9 @@
         <div class="col">
             <a class="btn btn-primary" href="{% url 'character-combat' character.id %}">Combat</a>
         </div>
+        <div class="col">
+            <a class="btn btn-primary" href="{% url 'character-equipment' character.id %}">Equipment</a>
+        </div>
         {% if character.saga == None %}
             <div class="col">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSaga">Add to saga</button>
