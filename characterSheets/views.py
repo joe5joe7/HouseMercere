@@ -12,7 +12,8 @@ from django.views.generic import DeleteView
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip
+    Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip, WeaponInstance, ArmorInstance, \
+    MiscEquipInstance
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
@@ -208,11 +209,11 @@ def CharacterEquipmentView(request, pk):
 
 def changeStatusEquip(request, pk, equipType, status):
     if equipType == 'weapon':
-        equip = get_object_or_404(Weapon, pk=pk)
+        equip = get_object_or_404(WeaponInstance, pk=pk)
     elif equipType == 'armor':
-        equip = get_object_or_404(Armor, pk=pk)
+        equip = get_object_or_404(ArmorInstance, pk=pk)
     elif equipType == 'misc':
-        equip = get_object_or_404(MiscEquip, pk=pk)
+        equip = get_object_or_404(MiscEquipInstance, pk=pk)
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     equip.status = status
