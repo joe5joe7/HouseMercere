@@ -1,6 +1,11 @@
 {% extends "character_view.html" %}
 {% load generic_extras %}
 {% block extraLoads %}
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
 <div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
