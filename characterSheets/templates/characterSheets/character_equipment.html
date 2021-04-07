@@ -1,5 +1,12 @@
 {% extends "character_view.html" %}
 {% load generic_extras %}
+
+{% block edit_page %}
+<li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true" href="#">Edit Page</a>
+</li>
+{% endblock %}
+
 {% block extraLoads %}
 <div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
     <div class="modal-dialog" role="document">

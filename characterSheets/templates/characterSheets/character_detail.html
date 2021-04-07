@@ -2,9 +2,9 @@
 
 
 {% block edit_page %}
-<div class="col">
-    <a class="btn btn-primary" href="{% url 'edit-character' character.id %}">Edit Page</a>
-</div>
+<li class="nav-item">
+        <a class="nav-link" aria-disabled="false" href="{% url 'edit-character' character.id %}">Edit Page</a>
+</li>
 {% endblock %}
 
 
