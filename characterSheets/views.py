@@ -214,7 +214,7 @@ def changeStatusEquip(request, pk, equipType, status):
         if status == 'e':
             numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e').count()
             if numEquipped >= 2:
-                messages.error(request,'Character already has two weapons equipped.')
+                messages.error(request, 'Character already has two weapons equipped.')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     elif equipType == 'armor':
         equip = get_object_or_404(ArmorInstance, pk=pk)
@@ -229,6 +229,16 @@ def changeStatusEquip(request, pk, equipType, status):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     equip.status = status
     equip.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def changePartialArmor(request, pk):
+    armor = get_object_or_404(ArmorInstance, pk=pk)
+    if armor.partial:
+        armor.partial = False
+    else:
+        armor.partial = True
+    armor.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

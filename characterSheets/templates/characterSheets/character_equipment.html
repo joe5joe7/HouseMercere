@@ -161,6 +161,7 @@ Encumbrance = {{ character.encumbrance }}
                 <li>Type: {{ equip.referenceArmor }}</li>
                 <li>Description: {{ equip.description }}</li>
                 <li>Status: {{ equip.get_status_display }}</li>
+                <li>Currently stripped to partial armor: {{ equip.partial }}</li>
             </ul>
         </div>
     </div>
@@ -176,6 +177,13 @@ Encumbrance = {{ character.encumbrance }}
         <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='s' pk=equip.pk %}">Store</a>
         {% else %}
         <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='c' pk=equip.pk %}">Carry</a>
+        {% endif %}
+    </div>
+    <div class="col border-bottom">
+        {% if equip.partial %}
+        <a class="btn btn-primary" href="{% url 'change-partial-armor' equip.pk %}">Change to full</a>
+        {% else %}
+        <a class="btn btn-primary" href="{% url 'change-partial-armor' equip.pk %}">Strip to partial</a>
         {% endif %}
     </div>
 </div>

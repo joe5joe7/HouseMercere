@@ -149,13 +149,30 @@ Current Kit
     <div class="col-2">
         {{ character.equippedArmor }}
     </div>
+    {% if character.equippedArmor.partial %}
     <div class="col">
-        Soak: {{ character.equippedArmor.referenceArmor.soak }} Load: {{ character.equippedArmor.referenceArmor.load }}
+        Protection: {{ character.equippedArmor.referenceArmor.prot }}
     </div>
+    <div class="col">
+        Load: {{ character.equippedArmor.referenceArmor.load }}
+    </div>
+    {% else %}
+    <div class="col">
+        Partial Protection: {{ character.equippedArmor.referenceArmor.partialProt }}
+    </div>
+    <div class="col">
+        Partial Load: {{ character.equippedArmor.referenceArmor.partialLoad }}
+    </div>
+    {% endif %}
     </div>
 {% else %}
     {{ character.name }} has no armor equipped <br>
 {% endif %}
+    {% if character.equippedArmor.partial %}
+    Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.partialProt }}
+    {% else %}
+    Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.prot }}
+    {% endif %}
 <br><br>
 
 <div class="row">

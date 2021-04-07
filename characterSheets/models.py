@@ -275,7 +275,10 @@ class Character(models.Model):
                 burden += wep.referenceWeapon.load
         for armor in self.armorinstance_set.all():
             if armor.referenceArmor.load and armor.status != 's':
-                burden += armor.referenceArmor.load
+                if armor.partial:
+                    burden += armor.referenceArmor.partialLoad
+                else:
+                    burden += armor.referenceArmor.load
         for misc in self.miscequipinstance_set.all():
             if misc.referenceEquip.load and misc.status != 's':
                 burden += misc.referenceEquip.load
@@ -461,6 +464,7 @@ class ArmorInstance(models.Model):
     )
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
     description = models.CharField(max_length=200, null=True, blank=True)
+    partial = models.BooleanField(default=False)
 
     def __str__(self):
         if self.name:
