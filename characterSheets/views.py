@@ -220,8 +220,9 @@ def changeStatusEquip(request, pk, equipType, status):
         equip = get_object_or_404(ArmorInstance, pk=pk)
         if status == 'e':
             equippedArmor = ArmorInstance.objects.filter(ownerChar=equip.ownerChar, status='e').first()
-            equippedArmor.status = 'c'
-            equippedArmor.save()
+            if equippedArmor:
+                equippedArmor.status = 'c'
+                equippedArmor.save()
     elif equipType == 'misc':
         equip = get_object_or_404(MiscEquipInstance, pk=pk)
     else:
