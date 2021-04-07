@@ -163,9 +163,9 @@ def createCharacter_VF(request, pk):
 def CharacterCombatView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     addSaga = addToSaga(request, character)
-    weaponForm = weaponInstForm(user=request.user, owner = character)
+    weaponForm = weaponInstForm(user=request.user, owner=character)
     if request.method == 'POST':
-        weaponForm = weaponInstForm(request.POST)
+        weaponForm = weaponInstForm(request.POST, user=request.user, owner=character)
         if weaponForm.is_valid():
             weaponForm.save()
             return redirect('character-combat', pk=pk)
