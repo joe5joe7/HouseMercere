@@ -109,7 +109,7 @@
                  <button class="btn btn-primary" value="submit" type="submit"> Add Weapon </button>
             </div>
         </div>
-        {% for equip in character.weaponinstance_set %}
+        {% for equip in character.weaponinstance_set.all %}
         <div class="row">
             <div class="col">
                 {{ equip }}
@@ -121,7 +121,7 @@
                 &emsp; Armor
             </div>
         </div>
-        {% for equip in character.armorinstance_set %}
+        {% for equip in character.armorinstance_set.all %}
         <div class="row">
             <div class="col">
                 {{ equip }}
@@ -133,7 +133,7 @@
                 &emsp; Misc
             </div>
         </div>
-        {% for equip in character.miscequipinstance_set %}
+        {% for equip in character.miscequipinstance_set.all %}
         <div class="row">
             <div class="col">
                 {{ equip }}
