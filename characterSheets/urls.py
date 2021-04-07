@@ -21,6 +21,7 @@ urlpatterns = [
     path('character/<int:pk>/removewound/<str:wound_type>', views.remove_wound, name='remove-wound'),
     path('character/<int:pk>/charactercombat', views.CharacterCombatView, name='character-combat'),
     path('character/<int:pk>/characterequipment', views.CharacterEquipmentView, name='character-equipment'),
+    path('equipment/<str:equipType>/<int:pk>/<str:status>', views.changeStatusEquip, name='change-status'),
     path('add_sourceset',views.add_sourceset, name='add-sourceset'),
     path('view_sourceset/<int:pk>', views.view_sourceset, name='view-sourceset'),
     path('import_virtues/<int:pk>', views.import_virtues, name='import-virtues'),

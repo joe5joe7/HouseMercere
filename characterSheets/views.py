@@ -206,6 +206,19 @@ def CharacterEquipmentView(request, pk):
     return render(request, 'characterSheets/character_equipment.html', context)
 
 
+def changeStatusEquip(request, pk, equipType, status):
+    if equipType == 'weapon':
+        equip = get_object_or_404(Weapon, pk=pk)
+    elif equipType == 'armor':
+        equip = get_object_or_404(Armor, pk=pk)
+    elif equipType == 'misc':
+        equip = get_object_or_404(MiscEquip, pk=pk)
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    equip.status = status
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def addToSaga(request, character):
     addSaga = addCharacterToSaga(None, instance=character)
     if request.method == 'POST':

@@ -271,13 +271,13 @@ class Character(models.Model):
         """returns the character's encumbrance"""
         burden = 0
         for wep in self.weaponinstance_set.all():
-            if wep.referenceWeapon.load:
+            if wep.referenceWeapon.load and wep.status != 's':
                 burden += wep.referenceWeapon.load
         for armor in self.armorinstance_set.all():
-            if armor.referenceArmor.load:
+            if armor.referenceArmor.load and armor.status != 's':
                 burden += armor.referenceArmor.load
         for misc in self.miscequipinstance_set.all():
-            if misc.referenceEquip.load:
+            if misc.referenceEquip.load and misc.status != 's':
                 burden += misc.referenceEquip.load
 
         if self.str > 0:

@@ -114,8 +114,23 @@ Encumbrance = {{ character.encumbrance }}
             <ul style="list-style-type: none" class="bg-light">
                 <li>Type: {{ equip.referenceWeapon }}</li>
                 <li>Description: {{ equip.description }}</li>
+                <li>Status: {{ equip.get_status_display }}</li>
             </ul>
         </div>
+    </div>
+    <div class="col border-bottom">
+        {% if equip.status != 'e' %}
+        <a href="{% url 'change-status' equipType='weapon' status='e' pk=equip.pk %}">Equip</a>
+        {% else %}
+        <a href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Unequip</a>
+        {% endif %}
+    </div>
+    <div class="col border-bottom">
+        {% if equip.status != 's' %}
+        <a href="{% url 'change-status' equipType='weapon' status='s' pk=equip.pk %}">Store</a>
+        {% else %}
+        <a href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Carry</a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}
