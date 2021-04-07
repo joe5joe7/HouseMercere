@@ -208,7 +208,6 @@ def CharacterEquipmentView(request, pk):
 
 
 def changeStatusEquip(request, pk, equipType, status):
-    logger.error('Equip Type =' + equipType)
     if equipType == 'weapon':
         equip = get_object_or_404(WeaponInstance, pk=pk)
     elif equipType == 'armor':
@@ -216,10 +215,9 @@ def changeStatusEquip(request, pk, equipType, status):
     elif equipType == 'misc':
         equip = get_object_or_404(MiscEquipInstance, pk=pk)
     else:
-        logger.error('Equip Type not recognized')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    logger.error('setting status to: ' + status)
     equip.status = status
+    equip.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
