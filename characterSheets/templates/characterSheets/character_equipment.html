@@ -181,9 +181,9 @@ Encumbrance = {{ character.encumbrance }}
     </div>
     <div class="col border-bottom">
         {% if equip.partial %}
-        <a class="btn btn-primary" href="{% url 'change-partial-armor' equip.pk %}">Change to full</a>
+        <a class="btn btn-primary" href="{% url 'change-partial-armor' pk=equip.pk %}">Change to full</a>
         {% else %}
-        <a class="btn btn-primary" href="{% url 'change-partial-armor' equip.pk %}">Strip to partial</a>
+        <a class="btn btn-primary" href="{% url 'change-partial-armor' pk=equip.pk %}">Strip to partial</a>
         {% endif %}
     </div>
 </div>
