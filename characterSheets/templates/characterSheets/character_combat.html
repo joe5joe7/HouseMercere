@@ -98,7 +98,7 @@ $('.popover-dismiss').popover({
 <div class="row border-bottom bg-info">
 Current Kit
 </div>
-{% if character.equippedWeapons %}
+{% if character.equippedWeapons != None %}
     {% load mathfilters %}
     {% for weapon in character.equippedWeapons %}
         <div class="row">
@@ -144,7 +144,7 @@ Current Kit
 {% else %}
     {{ character.name }} has no weapons equipped <br>
 {% endif %}
-{% if character.equippedArmor %}
+{% if character.equippedArmor != None %}
     <div class="row">
     <div class="col-2">
         {{ character.equippedArmor }}
