@@ -403,7 +403,10 @@ class WeaponInstance(models.Model):
 
     def get_ability_score(self):
         if self.ownerChar:
-            return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().score
+            try:
+                return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().score
+            except AttributeError:
+                return 0
         else:
             return 0
 
@@ -411,7 +414,7 @@ class WeaponInstance(models.Model):
         if self.ownerChar:
             try:
                 return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().name
-            except:
+            except AttributeError:
                 return 'None'
         else:
             return 'None'
