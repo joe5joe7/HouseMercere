@@ -1,6 +1,33 @@
 {% extends "character_view.html" %}
 {% load generic_extras %}
+{% block extraLoads %}
+<div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Weapon</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ weaponForm.as_table }}
+                    </table>
+                </div>
+                <input type="hidden" id="form_type" name="form-type" value="weapon">
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Weapon </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
+{% endblock %}
 
 {% block edit_page %}
 <div class="col">
@@ -31,38 +58,88 @@
 </div>
 </div>
 <br>
-{% for wound in character.woundsRange.keys %}
-<div class="row justify-content-end">
-    <div class="col-sm-3">
-        <a class="btn btn-sm btn-primary" href="{% url 'add-wound' character.id wound %}">Add Wound</a>
-    </div>
-    <div class="col-sm-3">
-        <a class="btn btn-primary btn-sm" href="{% url 'remove-wound' character.id wound %}">Remove Wound</a>
-    </div>
-</div>
 <div class="row">
-<div class="col-2 text-center">
-    {% if wound != 'incapacitated' and wound != 'dead' %}
-        {{ wound }} Wounds
-    {% else %}
-        {{ wound }}
-    {% endif %}
-</div>
-<div class="col-2 text-center">
-    {% if wound != 'dead' %}
-        {{ character.woundsRange|get_item:wound|get_item:0 }} - {{ character.woundsRange|get_item:wound|get_item:1 }}
-    {% else %}
-        {{ character.woundsRange|get_item:wound|get_item:0 }}
-    {% endif %}
-</div>
-<div class="col-sm">
-    <div class="progress w-100 border border-dark" style="height: 10px">
-        <div class="progress-bar bg-danger" style="width: {{ character.wounds|get_item:wound }}%" role="progressbar" aria-valuenow="{{ character.wounds|get_item:wound  }}" aria-valuemin="0" aria-valuemax="100">
+    <div class="col-6">
+        {% for wound in character.woundsRange.keys %}
+        <div class="row justify-content-end">
+            <div class="col-sm-3">
+                <a class="btn btn-sm btn-primary" href="{% url 'add-wound' character.id wound %}">Add Wound</a>
+            </div>
+            <div class="col-sm-3">
+                <a class="btn btn-primary btn-sm" href="{% url 'remove-wound' character.id wound %}">Remove Wound</a>
+            </div>
         </div>
+        <div class="row">
+        <div class="col-2 text-center">
+            {% if wound != 'incapacitated' and wound != 'dead' %}
+                {{ wound }} Wounds
+            {% else %}
+                {{ wound }}
+            {% endif %}
+        </div>
+        <div class="col-2 text-center">
+            {% if wound != 'dead' %}
+                {{ character.woundsRange|get_item:wound|get_item:0 }} - {{ character.woundsRange|get_item:wound|get_item:1 }}
+            {% else %}
+                {{ character.woundsRange|get_item:wound|get_item:0 }}
+            {% endif %}
+        </div>
+        <div class="col-sm">
+            <div class="progress w-100 border border-dark" style="height: 10px">
+                <div class="progress-bar bg-danger" style="width: {{ character.wounds|get_item:wound }}%" role="progressbar" aria-valuenow="{{ character.wounds|get_item:wound  }}" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <br>
+        {% endfor %}
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col bg-info border-bottom border-left">
+                Equipment
+            </div>
+        </div>
+        <div class="row">
+            <div class="col bg-info border-bottom border-left">
+                &emsp; Weapons
+            </div>
+            <div class="col bt-info border-bottom">
+                 <button class="btn btn-primary" value="submit" type="submit"> Add Weapon </button>
+            </div>
+        </div>
+        {% for equip in character.weaponinstance_set %}
+        <div class="row">
+            <div class="col">
+                {{ equip }}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col bg-info border-bottom border-left">
+                &emsp; Armor
+            </div>
+        </div>
+        {% for equip in character.armorinstance_set %}
+        <div class="row">
+            <div class="col">
+                {{ equip }}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col bg-info border-bottom border-left">
+                &emsp; Misc
+            </div>
+        </div>
+        {% for equip in character.miscequipinstance_set %}
+        <div class="row">
+            <div class="col">
+                {{ equip }}
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-</div>
-
-<br>
-{% endfor %}
 {% endblock %}

@@ -9,7 +9,7 @@ from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip
+    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance
 
 
 class changeSaga(ModelForm):
@@ -364,6 +364,24 @@ class weaponLibForm(ModelForm):
         self.source = kwargs.pop('source', None)
         super(weaponLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
+
+
+class weaponInstForm(ModelForm):
+    class Meta:
+        model = WeaponInstance
+        fields = ('referenceWeapon', 'name')
+
+        widgets = {
+            'referenceWeapon': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.owner = kwargs.pop('owner', None)
+        super(weaponInstForm, self).__init__(*args, **kwargs)
+        self.fields['referenceWeapon'].queryset = Weapon.objects.filter(source__in=self.user.subscribers.all())
+        self.instance.ownerChar = self.owner
 
 
 class armorLibForm(ModelForm):

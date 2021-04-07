@@ -17,7 +17,8 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
-    vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm
+    vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
+    weaponInstForm
 
 import logging
 
@@ -162,10 +163,17 @@ def createCharacter_VF(request, pk):
 def CharacterCombatView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     addSaga = addToSaga(request, character)
+    weaponForm = weaponInstForm(user=request.user, owner = character)
+    if request.method == 'POST':
+        weaponForm = weaponInstForm(request.POST)
+        if weaponForm.is_valid():
+            weaponForm.save()
+            return redirect('character-combat', pk=pk)
 
     context = {
         'character': character,
         'addCharacterToSaga': addSaga,
+        'weaponForm': weaponForm,
     }
 
     return render(request, 'characterSheets/character_combat.html', context)
@@ -342,22 +350,6 @@ def editCharacter(request, pk):
             pForm.save()
             rForm.save()
             return HttpResponseRedirect(character.get_absolute_url())
-        # elif not abilityForm.is_valid():
-        #     print('invalid ability form')
-        #     print('is_bound: ' + str(abilityForm.is_bound))
-        #     print('Errors: ' + str(abilityForm.errors))
-        # elif not basicDetailsForm.is_valid():
-        #     print('invalid basic form')
-        #     print('is_bound: ' + str(basicDetailsForm.is_bound))
-        #     print('Errors: ' + str(basicDetailsForm.errors))
-        # elif not moreDetailsForm.is_valid():
-        #     print('invalid more form')
-        #     print('is_bound: ' + str(moreDetailsForm.is_bound))
-        #     print('Errors: ' + str(moreDetailsForm.errors))
-        # elif not virtueForm.is_valid():
-        #     print('invalid virtue form')
-        #     print('is_bound: ' + str(virtueForm.is_bound))
-        #     print('Errors: ' + str(virtueForm.errors))
 
     context = {
         'basicDetailsForm': basicDetailsForm,
@@ -478,95 +470,6 @@ def view_sourceset(request, pk):
     }
 
     return render(request, 'characterSheets/view_sourceset.html', context)
-
-
-#
-#
-# def edit_sourceset(request, pk):
-#     ss = get_object_or_404(SourceSet, pk=pk)
-#     abiExtra = 0
-#     virtExtra = 0
-#     flawExtra = 0
-#     equipExtra = 0
-#     if len(ss.ability_set.all()) == 0:
-#         abiExtra = 1
-#     if len(ss.vf_set.filter(virtueOrFlaw='virtue')) == 0:
-#         virtExtra = 1
-#     if len(ss.vf_set.filter(virtueOrFlaw='flaw')) == 0:
-#         flawExtra = 1
-#     if len(ss.armor_set.all()) == 0:
-#         armorExtra = 1
-#
-#     aformset = modelformset_factory(Ability, form=abiLibForm, extra=abiExtra, can_delete=True)
-#     abilityForm = aformset(
-#         None,
-#         queryset=ss.ability_set.all(),
-#         form_kwargs={'source': ss},
-#         prefix='abi-form',
-#     )
-#     vFormset = modelformset_factory(VF, form=vfLibForm, extra=virtExtra, can_delete=True)
-#     virtueForm = vFormset(
-#         None,
-#         queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-#         form_kwargs={'source': ss, 'vf': 'virtue'},
-#         prefix='virtue-form',
-#     )
-#     fFormset = modelformset_factory(VF, form=vfLibForm, extra=flawExtra, can_delete=True)
-#     flawForm = fFormset(
-#         None,
-#         queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
-#         form_kwargs={'source': ss, 'vf': 'flaw'},
-#         prefix='flaw-form',
-#     )
-#     eFormset = modelformset_factory(EquipmentLib, form=weaponLibForm, extra=equipExtra, can_delete=True)
-#     equipForm = eFormset(
-#         None,
-#         queryset=ss.equipment_set.all(),
-#         form_kwargs={'source': ss},
-#         prefix='equip-form'
-#     )
-#
-#     if request.method == 'POST':
-#         abilityForm = aformset(
-#             request.POST,
-#             queryset=ss.ability_set.all(),
-#             form_kwargs={'source': ss},
-#             prefix='abi-form',
-#         )
-#         virtueForm = vFormset(
-#             request.POST,
-#             queryset=ss.vf_set.filter(virtueOrFlaw='virtue'),
-#             form_kwargs={'source': ss, 'vf': 'virtue'},
-#             prefix='virtue-form',
-#         )
-#         flawForm = fFormset(
-#             request.POST,
-#             queryset=ss.vf_set.filter(virtueOrFlaw='flaw'),
-#             form_kwargs={'source': ss, 'vf': 'flaw'},
-#             prefix='flaw-form',
-#         )
-#         equipForm = eFormset(
-#             request.POST,
-#             queryset=ss.equipment_set.all(),
-#             form_kwargs={'source': ss},
-#             prefix='equip-form'
-#         )
-#
-#         if abilityForm.is_valid() and virtueForm.is_valid() and flawForm.is_valid() and equipForm.is_valid():
-#             abilityForm.save()
-#             virtueForm.save()
-#             flawForm.save()
-#             equipForm.save()
-#             return HttpResponseRedirect(ss.get_absolute_url())
-#
-#     context = {
-#         'abilityForm': abilityForm,
-#         'virtueForm': virtueForm,
-#         'flawForm': flawForm,
-#         'equipForm': equipForm,
-#     }
-#
-#     return render(request, 'characterSheets/edit_sourceset.html', context)
 
 
 def import_virtues(request, pk):
