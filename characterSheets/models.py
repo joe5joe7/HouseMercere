@@ -373,6 +373,7 @@ class WeaponInstance(models.Model):
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
     description = models.CharField(max_length=200, null=True, blank=True)
 
+
     def __str__(self):
         if self.name:
             return self.name
