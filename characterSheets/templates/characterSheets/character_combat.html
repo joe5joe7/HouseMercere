@@ -172,21 +172,21 @@ $('.popover-dismiss').popover({
         </div>
         <div class="col">
             <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Attack Calculation" data-placement="bottom"
-                    data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.atk }}">
+                    data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.atk }}">
               <i class="bi bi-info-circle"></i>
             </a>
             Attack: {{ character.dex|add:weapon.get_ability_score|add:weapon.referenceWeapon.atk }}
         </div>
         <div class="col">
             <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation" data-placement="bottom"
-                    data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.dfn }}">
+                    data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.dfn }}">
               <i class="bi bi-info-circle"></i>
             </a>
             Defence: {{ character.qik|add:weapon.get_ability_score|add:weapon.referenceWeapon.dfn }}
         </div>
         <div class="col">
             <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation" data-placement="bottom"
-                    data-content="Str: {{ character.qik }} |Weap: {{ weapon.dam }}">
+                    data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
               <i class="bi bi-info-circle"></i>
             </a>
             Damage: {{ character.str|add:weapon.referenceWeapon.dam }}
