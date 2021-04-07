@@ -5,6 +5,9 @@
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
 </script>
 <div class="modal fade" id="weaponModal" role="dialog" aria-label="Add Weapon Form" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -161,18 +164,38 @@ $(function () {
             {{ weapon }}
         </div>
         <div class="col">
-            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom"
+            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Initiative Calculation" data-placement="bottom"
                     data-content="Qik: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.init }} |Enc: {{ character.encumbrance }}">
               <i class="bi bi-info-circle"></i>
-            </button>
+            </a>
             Init: {{ character.qik|add:weapon.referenceWeapon.init|sub:character.encumbrance }}
         </div>
         <div class="col">
-            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom"
+            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Attack Calculation" data-placement="bottom"
                     data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.atk }}">
               <i class="bi bi-info-circle"></i>
-            </button>
+            </a>
             Attack: {{ character.dex|add:weapon.get_ability_score|add:weapon.referenceWeapon.atk }}
+        </div>
+        <div class="col">
+            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation" data-placement="bottom"
+                    data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.dfn }}">
+              <i class="bi bi-info-circle"></i>
+            </a>
+            Defence: {{ character.qik|add:weapon.get_ability_score|add:weapon.referenceWeapon.dfn }}
+        </div>
+        <div class="col">
+            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation" data-placement="bottom"
+                    data-content="Str: {{ character.qik }} |Weap: {{ weapon.dam }}">
+              <i class="bi bi-info-circle"></i>
+            </a>
+            Damage: {{ character.str|add:weapon.referenceWeapon.dam }}
+        </div>
+        <div class="col">
+            Load: {{ weapon.referenceWeapon.load }}
+        </div>
+        <div class="col">
+            Range: {{ weapon.referenceWeapon.range }}
         </div>
     </div>
     {% endfor %}

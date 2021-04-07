@@ -413,7 +413,7 @@ class WeaponInstance(models.Model):
     def get_ability(self):
         if self.ownerChar:
             try:
-                return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().name
+                return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().referanceAbliity.name
             except AttributeError:
                 return 'None'
         else:
