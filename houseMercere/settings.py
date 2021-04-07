@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'characterSheets.apps.CharactersheetsConfig',
     'main.apps.MainConfig',
     'guardian',
+    'mathfilters',
 ]
 
 AUTHENTICATION_BACKENDS = (

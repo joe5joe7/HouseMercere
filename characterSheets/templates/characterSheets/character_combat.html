@@ -88,27 +88,27 @@
 
 {% block character_content %}
 <div class="row">
-    <div class="col-6">
-<div class="row align-items-center justify-content-end">
-<div class="col-sm-2 text-center">Fatigue:</div>
-<div class="col-sm-10">
-<div class="progress w-100 border border-dark" style="height: 40px">
+    <div class="col-9">
+        <div class="row align-items-center justify-content-end">
+        <div class="col-sm-2 text-center">Fatigue:</div>
+        <div class="col-sm-10">
+        <div class="progress w-100 border border-dark" style="height: 40px">
 
-<div class="progress-bar bg-danger" style="width: {{ character.fatigueScorePercentage }}%" role="progressbar" aria-valuenow="{{ character.fatigueScorePercentage }}" aria-valuemin="0" aria-valuemax="100">
-    {{ character.fatigueStr }}
-</div>
-</div>
-</div>
-</div>
-<div class="row justify-content-end">
-<div class="col-sm-5">
-    <a class="btn btn-primary btn-block" href="{% url 'add-fatigue' character.id %}">Add Fatigue</a>
-</div>
-<div class="col-sm-5">
-    <a class="btn btn-primary btn-block" href="{% url 'subtract-fatigue' character.id %}">Remove Fatigue</a>
-</div>
-</div>
-<br>
+        <div class="progress-bar bg-danger" style="width: {{ character.fatigueScorePercentage }}%" role="progressbar" aria-valuenow="{{ character.fatigueScorePercentage }}" aria-valuemin="0" aria-valuemax="100">
+            {{ character.fatigueStr }}
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="row justify-content-end">
+        <div class="col-sm-5">
+            <a class="btn btn-primary btn-block" href="{% url 'add-fatigue' character.id %}">Add Fatigue</a>
+        </div>
+        <div class="col-sm-5">
+            <a class="btn btn-primary btn-block" href="{% url 'subtract-fatigue' character.id %}">Remove Fatigue</a>
+        </div>
+        </div>
+        <br>
 
         {% for wound in character.woundsRange.keys %}
         <div class="row justify-content-end">
@@ -144,8 +144,24 @@
 
         <br>
         {% endfor %}
+    <div class="row bg-info">
+        <div class="col">
+            Weapons
+        </div>
     </div>
-    <div class="col-6">
+    {% load mathfilters %}
+    {% for weapon in character.weaponinstance_set.all %}
+    <div class="row">
+        <div class="col-2">
+            {{ weapon }}
+        </div>
+        <div class="col">
+            Init: {{ character.qik|add:weapon.referenceWeapon.init }}
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    <div class="col-3">
         <div class="row">
             <div class="col bg-info border-bottom border-left">
                 Equipment
@@ -161,13 +177,13 @@
         </div>
         {% for equip in character.weaponinstance_set.all %}
         <div class="row">
-            <div class="col">
+            <div class="col border-bottom">
                 {{ equip }}
                 <a data-toggle="collapse" href="#weapon{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse weapon{{ equip.id }}" style="color:#000000;">
                     <i onclick="dropdownState('weapon{{ equip.id }}');" id="toggleweapon{{ equip.id }}" class="bi bi-menu-up" ></i>
                 </a>
                 <div class="collapse" id="weapon{{ equip.id }}">
-                    <ul style="list-style-type: none">
+                    <ul style="list-style-type: none" class="bg-light">
                         <li>Type: {{ equip.referenceWeapon }}</li>
                         <li>Description: {{ equip.description }}</li>
                     </ul>
@@ -185,13 +201,13 @@
         </div>
         {% for equip in character.armorinstance_set.all %}
         <div class="row">
-            <div class="col">
+            <div class="col border-bottom">
                 {{ equip }}
-                <a data-toggle="collapse" href="#{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
-                    <i onclick="dropdownState('{{ equip.id }}');" id="toggle{{ equip.id }}" class="bi bi-menu-up" ></i>
+                <a data-toggle="collapse" href="#armor{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse armor{{ equip.id }}" style="color:#000000;">
+                    <i onclick="dropdownState('armor{{ equip.id }}');" id="togglearmor{{ equip.id }}" class="bi bi-menu-up" ></i>
                 </a>
-                <div class="collapse" id="{{ equip.id }}">
-                    <ul style="list-style-type: none">
+                <div class="collapse" id="armor{{ equip.id }}">
+                    <ul style="list-style-type: none" class="bg-light">
                         <li>Type: {{ equip.referenceArmor }}</li>
                         <li>Description: {{ equip.description }}</li>
                     </ul>
@@ -209,13 +225,13 @@
         </div>
         {% for equip in character.miscequipinstance_set.all %}
         <div class="row">
-            <div class="col">
+            <div class="col border-bottom">
                 {{ equip }}
-                <a data-toggle="collapse" href="#{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
-                    <i onclick="dropdownState('{{ equip.id }}');" id="toggle{{ equip.id }}" class="bi bi-menu-up" ></i>
+                <a data-toggle="collapse" href="#misc{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
+                    <i onclick="dropdownState('misc{{ equip.id }}');" id="togglemisc{{ equip.id }}" class="bi bi-menu-up" ></i>
                 </a>
-                <div class="collapse" id="{{ equip.id }}">
-                    <ul style="list-style-type: none">
+                <div class="collapse" id="misc{{ equip.id }}">
+                    <ul style="list-style-type: none" class="bg-light">
                         <li>Type: {{ equip.referenceEquip }}</li>
                         <li>Description: {{ equip.description }}</li>
                     </ul>
