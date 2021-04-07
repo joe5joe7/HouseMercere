@@ -405,13 +405,16 @@ class WeaponInstance(models.Model):
         if self.ownerChar:
             return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().score
         else:
-            return None
+            return 0
 
     def get_ability(self):
         if self.ownerChar:
-            return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().name
+            try:
+                return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().name
+            except:
+                return 'None'
         else:
-            return None
+            return 'None'
 
 class Armor(models.Model):
     """Model representing armor equipment"""
