@@ -171,6 +171,7 @@ def CharacterCombatView(request, pk):
 
     return render(request, 'characterSheets/character_combat.html', context)
 
+
 def CharacterEquipmentView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     addSaga = addToSaga(request, character)

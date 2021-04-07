@@ -156,7 +156,18 @@
             {{ weapon }}
         </div>
         <div class="col">
-            Init: {{ character.qik|add:weapon.referenceWeapon.init }}
+            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom"
+                    data-content="Qik: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.init }} |Enc: {{ character.encumbrance }}">
+              <i class="bi bi-info-circle"></i>
+            </button>
+            Init: {{ character.qik|add:weapon.referenceWeapon.init|sub:character.encumbrance }}
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom"
+                    data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.atk }}">
+              <i class="bi bi-info-circle"></i>
+            </button>
+            Attack: {{ character.dex|add:weapon.get_ability_score|add:weapon.referenceWeapon.atk }}
         </div>
     </div>
     {% endfor %}

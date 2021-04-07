@@ -1,4 +1,5 @@
 import sys
+from itertools import chain
 
 from django.db import models
 from django.http import HttpResponseRedirect
@@ -266,6 +267,26 @@ class Character(models.Model):
         """returns fatigue as a number between 0 and 100 representing how fatigued the character is"""
         return int((self.fatigueScore / 5) * 100) if self.fatigueScore else 0
 
+    def encumbrance(self):
+        """returns the character's encumbrance"""
+        burden = 0
+        for wep in self.weaponinstance_set.all():
+            if wep.referenceWeapon.load:
+                burden += wep.referenceWeapon.load
+        for armor in self.armorinstance_set.all():
+            if armor.referenceArmor.load:
+                burden += armor.referenceArmor.load
+        for misc in self.miscequipinstance_set.all():
+            if misc.referenceEquip.load:
+                burden += misc.referenceEquip.load
+
+        if self.str > 0:
+            burden -= self.str
+            if burden < 0:
+                burden = 0
+
+        return burden
+
     # def removeSaga(self, request):
     #     """Removes character form current saga"""
     #     self.saga = None
@@ -380,6 +401,17 @@ class WeaponInstance(models.Model):
         else:
             return self.referenceWeapon.name
 
+    def get_ability_score(self):
+        if self.ownerChar:
+            return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().score
+        else:
+            return None
+
+    def get_ability(self):
+        if self.ownerChar:
+            return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().name
+        else:
+            return None
 
 class Armor(models.Model):
     """Model representing armor equipment"""
