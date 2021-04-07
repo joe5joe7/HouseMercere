@@ -271,6 +271,7 @@ class Character(models.Model):
     #     self.saga = None
     #     return self.get_absolute_url()
 
+
 class Covenant(models.Model):
     """model representing a covenant"""
     name = models.CharField(max_length=200)
@@ -350,13 +351,11 @@ class Weapon(models.Model):
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
 
-
     def __str__(self):
         return self.name
 
     def get_delete_url(self):
         return reverse('delete-weapon', args=[self.id])
-
 
 
 class WeaponInstance(models.Model):
@@ -372,16 +371,13 @@ class WeaponInstance(models.Model):
         ('s', 'stored'),
     )
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
-
-
+    description = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         if self.name:
             return self.name
         else:
             return self.referenceWeapon.name
-
-
 
 
 class Armor(models.Model):
@@ -423,6 +419,7 @@ class ArmorInstance(models.Model):
         ('s', 'stored'),
     )
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
+    description = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         if self.name:
@@ -466,6 +463,7 @@ class MiscEquipInstance(models.Model):
         ('s', 'stored'),
     )
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
+    description = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         if self.name:

@@ -26,6 +26,56 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="armorModal" role="dialog" aria-label="Add Armor Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Armor</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ armorForm.as_table }}
+                    </table>
+                </div>
+                <input type="hidden" id="form_type" name="form-type" value="armor">
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Armor </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="miscModal" role="dialog" aria-label="Add Misc Equipment Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Misc Equipment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ miscEquipForm.as_table }}
+                    </table>
+                </div>
+                <input type="hidden" id="form_type" name="form-type" value="misc">
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Misc Equipment </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -113,6 +163,15 @@
         <div class="row">
             <div class="col">
                 {{ equip }}
+                <a data-toggle="collapse" href="#{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
+                    <i onclick="dropdownState('{{ equip.id }}');" id="toggle{{ equip.id }}" class="bi bi-menu-up" ></i>
+                </a>
+                <div class="collapse" id="{{ equip.id }}">
+                    <ul style="list-style-type: none">
+                        <li>Type: {{ equip.referenceWeapon }}</li>
+                        <li>Description: {{ equip.description }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -120,11 +179,23 @@
             <div class="col bg-info border-bottom border-left">
                 &emsp; Armor
             </div>
+            <div class="col bt-info border-bottom">
+                 <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#armorModal">Add Armor</button>
+            </div>
         </div>
         {% for equip in character.armorinstance_set.all %}
         <div class="row">
             <div class="col">
                 {{ equip }}
+                <a data-toggle="collapse" href="#{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
+                    <i onclick="dropdownState('{{ equip.id }}');" id="toggle{{ equip.id }}" class="bi bi-menu-up" ></i>
+                </a>
+                <div class="collapse" id="{{ equip.id }}">
+                    <ul style="list-style-type: none">
+                        <li>Type: {{ equip.referenceArmor }}</li>
+                        <li>Description: {{ equip.description }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -132,11 +203,23 @@
             <div class="col bg-info border-bottom border-left">
                 &emsp; Misc
             </div>
+            <div class="col bt-info border-bottom">
+                 <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#miscModal">Add Misc</button>
+            </div>
         </div>
         {% for equip in character.miscequipinstance_set.all %}
         <div class="row">
             <div class="col">
                 {{ equip }}
+                <a data-toggle="collapse" href="#{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
+                    <i onclick="dropdownState('{{ equip.id }}');" id="toggle{{ equip.id }}" class="bi bi-menu-up" ></i>
+                </a>
+                <div class="collapse" id="{{ equip.id }}">
+                    <ul style="list-style-type: none">
+                        <li>Type: {{ equip.referenceEquip }}</li>
+                        <li>Description: {{ equip.description }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
         {% endfor %}

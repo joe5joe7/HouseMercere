@@ -18,7 +18,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
-    weaponInstForm
+    weaponInstForm, armorInstForm, miscInstForm
 
 import logging
 
@@ -164,16 +164,33 @@ def CharacterCombatView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     addSaga = addToSaga(request, character)
     weaponForm = weaponInstForm(user=request.user, owner=character)
+    armorForm = armorInstForm(user=request.user, owner=character)
+    miscEquipForm = miscInstForm(user=request.user, owner=character)
     if request.method == 'POST':
-        weaponForm = weaponInstForm(request.POST, user=request.user, owner=character)
-        if weaponForm.is_valid():
-            weaponForm.save()
-            return redirect('character-combat', pk=pk)
+        if request.POST.get('form-type') == 'weapon':
+            weaponForm = weaponInstForm(request.POST, user=request.user, owner=character)
+            if weaponForm.is_valid():
+                weaponForm.save()
+                return redirect('character-combat', pk=pk)
+        elif request.POST.get('form-type') == 'armor':
+            armorForm = armorInstForm(request.POST, user=request.user, owner=character)
+            if armorForm.is_valid():
+                armorForm.save()
+                return redirect('character-combat', pk=pk)
+        elif request.POST.get('form-type') == 'misc':
+            miscEquipForm = miscInstForm(user=request.user, owner=character)
+            if miscEquipForm.is_valid():
+                miscEquipForm.save()
+                return redirect('character-combat', pk=pk)
+
+
 
     context = {
         'character': character,
         'addCharacterToSaga': addSaga,
         'weaponForm': weaponForm,
+        'armorForm': armorForm,
+        'miscEquipForm': miscEquipForm,
     }
 
     return render(request, 'characterSheets/character_combat.html', context)

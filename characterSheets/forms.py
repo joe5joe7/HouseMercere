@@ -9,7 +9,7 @@ from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance
+    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance
 
 
 class changeSaga(ModelForm):
@@ -369,11 +369,12 @@ class weaponLibForm(ModelForm):
 class weaponInstForm(ModelForm):
     class Meta:
         model = WeaponInstance
-        fields = ('referenceWeapon', 'name')
+        fields = ('referenceWeapon', 'name', 'description')
 
         widgets = {
             'referenceWeapon': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -405,6 +406,25 @@ class armorLibForm(ModelForm):
         self.instance.source = self.source
 
 
+class armorInstForm(ModelForm):
+    class Meta:
+        model = ArmorInstance
+        fields = ('referenceArmor', 'name', 'description')
+
+        widgets = {
+            'referenceArmor': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.owner = kwargs.pop('owner', None)
+        super(armorInstForm, self).__init__(*args, **kwargs)
+        self.fields['referenceArmor'].queryset = Armor.objects.filter(source__in=self.user.subscribers.all())
+        self.instance.ownerChar = self.owner
+
+
 class miscEquipLibForm(ModelForm):
     class Meta:
         model = MiscEquip
@@ -421,6 +441,25 @@ class miscEquipLibForm(ModelForm):
         self.source = kwargs.pop('source', None)
         super(miscEquipLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
+
+
+class miscInstForm(ModelForm):
+    class Meta:
+        model = MiscEquipInstance
+        fields = ('referenceEquip', 'name', 'description')
+
+        widgets = {
+            'referenceEquip': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.owner = kwargs.pop('owner', None)
+        super(miscInstForm, self).__init__(*args, **kwargs)
+        self.fields['referenceEquip'].queryset = MiscEquip.objects.filter(source__in=self.user.subscribers.all())
+        self.instance.ownerChar = self.owner
 
 
 class importVirtuesForm(forms.Form):
