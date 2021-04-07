@@ -168,10 +168,14 @@ Current Kit
 {% else %}
     {{ character.name }} has no armor equipped <br>
 {% endif %}
-    {% if character.equippedArmor.partial %}
-    Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.partialProt }}
+    {% if character.equippedArmor != None %}
+        {% if character.equippedArmor.partial %}
+        Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.partialProt }}
+        {% else %}
+        Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.prot }}
+        {% endif %}
     {% else %}
-    Soak: {{ character.sta|add:character.equippedArmor.referenceArmor.prot }}
+    Soak: {{ character.sta }}
     {% endif %}
 <br><br>
 
