@@ -287,6 +287,14 @@ class Character(models.Model):
 
         return burden
 
+    def equippedWeapons(self):
+        """returns the character's equipped weapons"""
+        return WeaponInstance.objects.filter(ownerChar=self, status='e')
+
+    def equippedArmor(self):
+        """returns the character's equipped armor"""
+        return ArmorInstance.objects.filter(ownerChar=self, status='e').first()
+
     # def removeSaga(self, request):
     #     """Removes character form current saga"""
     #     self.saga = None

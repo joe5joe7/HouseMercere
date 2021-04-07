@@ -87,7 +87,14 @@
 {% endblock %}
 
 {% block character_content %}
+{% for message in messages %}
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
 
+        {{ message }}
+
+    </div>
+{% endfor %}
 Encumbrance = {{ character.encumbrance }}
 
 <div class="row">
@@ -105,7 +112,7 @@ Encumbrance = {{ character.encumbrance }}
 </div>
 {% for equip in character.weaponinstance_set.all %}
 <div class="row">
-    <div class="col border-bottom">
+    <div class="col-6 border-bottom">
         {{ equip }}
         <a data-toggle="collapse" href="#weapon{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse weapon{{ equip.id }}" style="color:#000000;">
             <i onclick="dropdownState('weapon{{ equip.id }}');" id="toggleweapon{{ equip.id }}" class="bi bi-menu-up" ></i>
@@ -120,16 +127,16 @@ Encumbrance = {{ character.encumbrance }}
     </div>
     <div class="col border-bottom">
         {% if equip.status != 'e' %}
-        <a href="{% url 'change-status' equipType='weapon' status='e' pk=equip.pk %}">Equip</a>
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='weapon' status='e' pk=equip.pk %}">Equip</a>
         {% else %}
-        <a href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Unequip</a>
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Unequip</a>
         {% endif %}
     </div>
     <div class="col border-bottom">
         {% if equip.status != 's' %}
-        <a href="{% url 'change-status' equipType='weapon' status='s' pk=equip.pk %}">Store</a>
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='weapon' status='s' pk=equip.pk %}">Store</a>
         {% else %}
-        <a href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Carry</a>
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='weapon' status='c' pk=equip.pk %}">Carry</a>
         {% endif %}
     </div>
 </div>
@@ -144,7 +151,7 @@ Encumbrance = {{ character.encumbrance }}
 </div>
 {% for equip in character.armorinstance_set.all %}
 <div class="row">
-    <div class="col border-bottom">
+    <div class="col-6 border-bottom">
         {{ equip }}
         <a data-toggle="collapse" href="#armor{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse armor{{ equip.id }}" style="color:#000000;">
             <i onclick="dropdownState('armor{{ equip.id }}');" id="togglearmor{{ equip.id }}" class="bi bi-menu-up" ></i>
@@ -155,6 +162,20 @@ Encumbrance = {{ character.encumbrance }}
                 <li>Description: {{ equip.description }}</li>
             </ul>
         </div>
+    </div>
+    <div class="col border-bottom">
+        {% if equip.status != 'e' %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='e' pk=equip.pk %}">Equip</a>
+        {% else %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='c' pk=equip.pk %}">Unequip</a>
+        {% endif %}
+    </div>
+    <div class="col border-bottom">
+        {% if equip.status != 's' %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='s' pk=equip.pk %}">Store</a>
+        {% else %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='armor' status='c' pk=equip.pk %}">Carry</a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}
@@ -168,7 +189,7 @@ Encumbrance = {{ character.encumbrance }}
 </div>
 {% for equip in character.miscequipinstance_set.all %}
 <div class="row">
-    <div class="col border-bottom">
+    <div class="col-6 border-bottom">
         {{ equip }}
         <a data-toggle="collapse" href="#misc{{ equip.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ equip.id }}" style="color:#000000;">
             <i onclick="dropdownState('misc{{ equip.id }}');" id="togglemisc{{ equip.id }}" class="bi bi-menu-up" ></i>
@@ -179,6 +200,13 @@ Encumbrance = {{ character.encumbrance }}
                 <li>Description: {{ equip.description }}</li>
             </ul>
         </div>
+    </div>
+    <div class="col border-bottom">
+        {% if equip.status != 's' %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='misc' status='s' pk=equip.pk %}">Store</a>
+        {% else %}
+        <a class='btn btn-primary' href="{% url 'change-status' equipType='misc' status='c' pk=equip.pk %}">Carry</a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}

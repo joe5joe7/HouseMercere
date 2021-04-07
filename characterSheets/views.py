@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
@@ -210,8 +211,17 @@ def CharacterEquipmentView(request, pk):
 def changeStatusEquip(request, pk, equipType, status):
     if equipType == 'weapon':
         equip = get_object_or_404(WeaponInstance, pk=pk)
+        if status == 'e':
+            numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e').count()
+            if numEquipped >= 2:
+                messages.error(request,'Character already has two weapons equipped.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     elif equipType == 'armor':
         equip = get_object_or_404(ArmorInstance, pk=pk)
+        if status == 'e':
+            equippedArmor = ArmorInstance.objects.filter(ownerChar=equip.ownerChar, status='e').first()
+            equippedArmor.status = 'c'
+            equippedArmor.save()
     elif equipType == 'misc':
         equip = get_object_or_404(MiscEquipInstance, pk=pk)
     else:
