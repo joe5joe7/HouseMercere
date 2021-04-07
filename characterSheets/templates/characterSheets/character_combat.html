@@ -37,7 +37,8 @@
 
 
 {% block character_content %}
-
+<div class="row">
+    <div class="col-6">
 <div class="row align-items-center justify-content-end">
 <div class="col-sm-2 text-center">Fatigue:</div>
 <div class="col-sm-10">
@@ -58,8 +59,7 @@
 </div>
 </div>
 <br>
-<div class="row">
-    <div class="col-6">
+
         {% for wound in character.woundsRange.keys %}
         <div class="row justify-content-end">
             <div class="col-sm-3">
@@ -106,7 +106,7 @@
                 &emsp; Weapons
             </div>
             <div class="col bt-info border-bottom">
-                 <button class="btn btn-primary" value="submit" type="submit"> Add Weapon </button>
+                 <button type="button" class="btn-primary btn" data-toggle="modal" data-target="#weaponModal">Add Weapon</button>
             </div>
         </div>
         {% for equip in character.weaponinstance_set.all %}
