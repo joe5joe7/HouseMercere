@@ -300,9 +300,9 @@ class Character(models.Model):
                 'load': weap.referenceWeapon.load + shield.referenceWeapon.load,
                 'shield': shield,
                 'init': self.qik + weap.referenceWeapon.init + shield.referenceWeapon.init - self.encumbrance(),
-                'attack': self.dex + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.atk,
-                'defence': self.qik + shield.referenceWeapon.get_ability_score() + weap.referenceWeapon.dfn + shield.referenceWeapon.dfn,
-                'rangedDefence': self.qik + shield.referenceWeapon.get_ability_score() + shield.referenceWeapon.dfn,
+                'attack': self.dex + weap.get_ability_score() + weap.referenceWeapon.atk,
+                'defence': self.qik + shield.get_ability_score() + weap.referenceWeapon.dfn + shield.referenceWeapon.dfn,
+                'rangedDefence': self.qik + shield.get_ability_score() + shield.referenceWeapon.dfn,
                 'damage': self.str + weap.referenceWeapon.dam,
             }
         else:
@@ -310,9 +310,9 @@ class Character(models.Model):
                 'weapon': weap,
                 'load': weap.referenceWeapon.load,
                 'init': self.qik + weap.referenceWeapon.init - self.encumbrance(),
-                'attack': self.dex + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.atk,
-                'defence': self.qik + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.dfn,
-                'rangedDefence': self.qik + weap.referenceWeapon.get_ability_score(),
+                'attack': self.dex + weap.get_ability_score() + weap.referenceWeapon.atk,
+                'defence': self.qik + weap.get_ability_score() + weap.referenceWeapon.dfn,
+                'rangedDefence': self.qik + weap.get_ability_score(),
                 'damage': self.str + weap.referenceWeapon.dam,
             }
         return output
