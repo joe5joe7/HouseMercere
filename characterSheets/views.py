@@ -185,17 +185,17 @@ def CharacterEquipmentView(request, pk):
             weaponForm = weaponInstForm(request.POST, user=request.user, owner=character)
             if weaponForm.is_valid():
                 weaponForm.save()
-                return redirect('character-combat', pk=pk)
+                return redirect('character-equipment', pk=pk)
         elif request.POST.get('form-type') == 'armor':
             armorForm = armorInstForm(request.POST, user=request.user, owner=character)
             if armorForm.is_valid():
                 armorForm.save()
-                return redirect('character-combat', pk=pk)
+                return redirect('character-equipment', pk=pk)
         elif request.POST.get('form-type') == 'misc':
             miscEquipForm = miscInstForm(user=request.user, owner=character)
             if miscEquipForm.is_valid():
                 miscEquipForm.save()
-                return redirect('character-combat', pk=pk)
+                return redirect('character-equipment', pk=pk)
 
     context = {
         'character': character,
