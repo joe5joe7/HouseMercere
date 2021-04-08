@@ -217,7 +217,7 @@ def changeStatusEquip(request, pk, equipType, status):
                 if numEquipped >= 1:
                     messages.error(request, 'Character already has a shield equipped.')
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                if WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=False, referenceWeapon__twoHanded=True).first() is not None and equip.referenceWeapon.freeHand is not False:
+                if WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=False, referenceWeapon__twoHanded=True).first() is not None and equip.referenceWeapon.freeHand is False:
                     messages.error(request, 'Character has a two handed weapon equipped.')
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
