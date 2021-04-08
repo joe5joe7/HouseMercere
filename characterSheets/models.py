@@ -299,7 +299,7 @@ class Character(models.Model):
                 'weapon': weap,
                 'load': weap.referenceWeapon.load + shield.referenceWeapon.load,
                 'shield': shield,
-                'init': self.qik + weap.referenceWeapon.init + shield.referenceWeapon.init - self.encumbrance(),
+                'init': self.qik + weap.referenceWeapon.init - self.encumbrance(),
                 'attack': self.dex + weap.get_ability_score() + weap.referenceWeapon.atk,
                 'defence': self.qik + shield.get_ability_score() + weap.referenceWeapon.dfn + shield.referenceWeapon.dfn,
                 'rangedDefence': self.qik + shield.get_ability_score() + shield.referenceWeapon.dfn,

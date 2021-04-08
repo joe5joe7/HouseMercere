@@ -122,10 +122,17 @@ Current Kit
                     </div>
                     <div class="col">
                         <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
-                                data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.dfn }}">
+                                data-content="Qik: {{ character.qik }} |Ability: {{ shield.get_ability }}({{ shield.get_ability_score }}) |Shield: {{ shield.referenceWeapon.dfn }} |Weap: {{ weapon.referenceWeapon.dfn }}">
                           <i class="bi bi-info-circle"></i>
                         </a>
                         Defence: {{ character.equippedWeapons|get_item:'defence' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
+                                data-content="Qik: {{ character.qik }} |Ability: {{ shield.get_ability }}({{ shield.get_ability_score }}) |Shield: {{ shield.referenceWeapon.dfn }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
                     </div>
                     <div class="col">
                         <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
@@ -144,47 +151,54 @@ Current Kit
             {% endwith %}
         {% else %}
             {% with weapon=character.equippedWeapons|get_item:'weapon' %}
+                <div class="row">
+                    <div class="col-2">
+                        {{ weapon }} <br> {{ shield }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Initiative Calculation"
+                                data-content="Qik: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.init }} |Enc: {{ character.encumbrance }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Init: {{ character.equippedWeapons|get_item:'init' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Attack Calculation"
+                                data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.atk }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Attack: {{ character.equippedWeapons|get_item:'attack' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
+                                data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.dfn }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Defence: {{ character.equippedWeapons|get_item:'defence' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
+                                data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }})">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
+                                data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Damage: {{ character.equippedWeapons|get_item:'damage' }}
+                    </div>
+                    <div class="col">
+                        Load: {{ character.equippedWeapons|get_item:'attack' }}
+                    </div>
+                    <div class="col">
+                        Range: {{ weapon.referenceWeapon.range }}
+                    </div>
+                </div>
             {% endwith %}
         {% endif %}
-{#    <div class="row">#}
-{#        <div class="col-2">#}
-{#            {{ weapon }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Initiative Calculation"#}
-{#                    data-content="Qik: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.init }} |Enc: {{ character.encumbrance }}">#}
-{#              <i class="bi bi-info-circle"></i>#}
-{#            </a>#}
-{#            Init: {{ character.equippedWeapons|get_item:'init' }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Attack Calculation"#}
-{#                    data-content="Dex: {{ character.dex }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.atk }}">#}
-{#              <i class="bi bi-info-circle"></i>#}
-{#            </a>#}
-{#            Attack: {{ character.dex|add:weapon.get_ability_score|add:weapon.referenceWeapon.atk }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"#}
-{#                    data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.dfn }}">#}
-{#              <i class="bi bi-info-circle"></i>#}
-{#            </a>#}
-{#            Defence: {{ character.qik|add:weapon.get_ability_score|add:weapon.referenceWeapon.dfn }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"#}
-{#                    data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">#}
-{#              <i class="bi bi-info-circle"></i>#}
-{#            </a>#}
-{#            Damage: {{ character.str|add:weapon.referenceWeapon.dam }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            Load: {{ weapon.referenceWeapon.load }}#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            Range: {{ weapon.referenceWeapon.range }}#}
-{#        </div>#}
-{#    </div>#}
 {% else %}
     {{ character.name }} has no weapons equipped
     {{ character.equippedWeapons }}
