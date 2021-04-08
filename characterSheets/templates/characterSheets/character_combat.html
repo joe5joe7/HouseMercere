@@ -103,8 +103,8 @@ Current Kit
         {% if character.equippedWeapons|get_item:'shield' != None %}
             {% with weapon=character.equippedWeapons|get_item:'weapon' shield=character.equippedWeapons|get_item:'shield' %}
                 <div class="row">
-                    <div class="col-2">
-                        {{ weapon }} <br> {{ shield }}
+                    <div class="col-2 border-right">
+                        {{ weapon }}
                     </div>
                     <div class="col">
                         <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Initiative Calculation"
@@ -119,6 +119,21 @@ Current Kit
                           <i class="bi bi-info-circle"></i>
                         </a>
                         Attack: {{ character.equippedWeapons|get_item:'attack' }}
+                    </div>
+                    <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
+                                data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Damage: {{ character.equippedWeapons|get_item:'damage' }}
+                    </div>
+                    <div class="col">
+                        Range: {{ weapon.referenceWeapon.range }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2 border-right">
+                        {{ shield }}
                     </div>
                     <div class="col">
                         <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
@@ -135,24 +150,14 @@ Current Kit
                         Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
                     </div>
                     <div class="col">
-                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
-                                data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
-                          <i class="bi bi-info-circle"></i>
-                        </a>
-                        Damage: {{ character.equippedWeapons|get_item:'damage' }}
-                    </div>
-                    <div class="col">
                         Load: {{ character.equippedWeapons|get_item:'attack' }}
-                    </div>
-                    <div class="col">
-                        Range: {{ weapon.referenceWeapon.range }}
                     </div>
                 </div>
             {% endwith %}
         {% else %}
             {% with weapon=character.equippedWeapons|get_item:'weapon' %}
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-2 border-right">
                         {{ weapon }} <br> {{ shield }}
                     </div>
                     <div class="col">
@@ -170,6 +175,19 @@ Current Kit
                         Attack: {{ character.equippedWeapons|get_item:'attack' }}
                     </div>
                     <div class="col">
+                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
+                                data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
+                          <i class="bi bi-info-circle"></i>
+                        </a>
+                        Damage: {{ character.equippedWeapons|get_item:'damage' }}
+                    </div>
+                    <div class="col">
+                        Range: {{ weapon.referenceWeapon.range }}
+                    </div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-2 border-right"></div>
+                    <div class="col">
                         <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Defence Calculation"
                                 data-content="Qik: {{ character.qik }} |Ability: {{ weapon.get_ability }}({{ weapon.get_ability_score }}) |Weap: {{ weapon.referenceWeapon.dfn }}">
                           <i class="bi bi-info-circle"></i>
@@ -183,30 +201,20 @@ Current Kit
                         </a>
                         Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
                     </div>
-                    <div class="col">
-                        <a tabindex="0" role="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" title="Damage Calculation"
-                                data-content="Str: {{ character.qik }} |Weap: {{ weapon.referenceWeapon.dam }}">
-                          <i class="bi bi-info-circle"></i>
-                        </a>
-                        Damage: {{ character.equippedWeapons|get_item:'damage' }}
-                    </div>
+
                     <div class="col">
                         Load: {{ character.equippedWeapons|get_item:'attack' }}
-                    </div>
-                    <div class="col">
-                        Range: {{ weapon.referenceWeapon.range }}
                     </div>
                 </div>
             {% endwith %}
         {% endif %}
 {% else %}
     {{ character.name }} has no weapons equipped
-    {{ character.equippedWeapons }}
     <br>
 {% endif %}
 {% if character.equippedArmor != None %}
-    <div class="row">
-    <div class="col-2">
+    <div class="row border-bottom">
+    <div class="col-2 border-right">
         {{ character.equippedArmor }}
     </div>
     {% if character.equippedArmor.partial %}
