@@ -85,13 +85,15 @@
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav ms-auto">
     <li class="nav-item">
         <a class="nav-link" href="{% url 'character-combat' character.id %}">Combat</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{% url 'character-equipment' character.id %}">Equipment</a>
     </li>
+</ul>
+<ul class="navbar-nav me-auto">
     {% if character.saga == None %}
     <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#addSaga">Add to saga</a>
