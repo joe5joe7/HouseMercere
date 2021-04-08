@@ -87,6 +87,9 @@
 </button>
 <ul class="navbar-nav me-auto">
     <li class="nav-item">
+        <a class="nav-link" href="{% url 'character-detail' character.id %}">Overview</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'character-combat' character.id %}">Combat</a>
     </li>
     <li class="nav-item">
