@@ -393,6 +393,7 @@ class Weapon(models.Model):
     dam = models.IntegerField('Damage', null=True, blank=True)
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
+    shield = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

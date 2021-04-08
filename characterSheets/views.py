@@ -212,10 +212,17 @@ def changeStatusEquip(request, pk, equipType, status):
     if equipType == 'weapon':
         equip = get_object_or_404(WeaponInstance, pk=pk)
         if status == 'e':
-            numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e').count()
-            if numEquipped >= 2:
-                messages.error(request, 'Character already has two weapons equipped.')
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            if equip.referenceWeapon.shield:
+                numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=True).count()
+                if numEquipped >= 1:
+                    messages.error(request, 'Character already has a shield equipped.')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e',
+                                                            referenceWeapon__shield=False).count()
+                if numEquipped >= 1:
+                    messages.error(request, 'Character already has a non-shield weapons equipped.')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     elif equipType == 'armor':
         equip = get_object_or_404(ArmorInstance, pk=pk)
         if status == 'e':
