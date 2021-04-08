@@ -292,7 +292,30 @@ class Character(models.Model):
 
     def equippedWeapons(self):
         """returns the character's equipped weapons"""
-        return WeaponInstance.objects.filter(ownerChar=self, status='e')
+        weap = WeaponInstance.objects.filter(ownerChar=self, status='e',referenceWeapon__shield=False).first()
+        shield = WeaponInstance.objects.filter(ownerChar=self, status='e',referenceWeapon__shield=True).first()
+        if shield is not None:
+            output = {
+                'weapon': weap,
+                'load': weap.referenceWeapon.load + shield.referenceWeapon.load,
+                'shield': shield,
+                'init': self.qik + weap.referenceWeapon.init + shield.referenceWeapon.init - self.encumbrance(),
+                'attack': self.dex + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.atk,
+                'defence': self.qik + shield.referenceWeapon.get_ability_score() + weap.referenceWeapon.dfn + shield.referenceWeapon.dfn,
+                'rangedDefence': self.qik + shield.referenceWeapon.get_ability_score() + shield.referenceWeapon.dfn,
+                'damage': self.str + weap.referenceWeapon.dam,
+            }
+        else:
+            output = {
+                'weapon': weap,
+                'load': weap.referenceWeapon.load,
+                'init': self.qik + weap.referenceWeapon.init - self.encumbrance(),
+                'attack': self.dex + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.atk,
+                'defence': self.qik + weap.referenceWeapon.get_ability_score() + weap.referenceWeapon.dfn,
+                'rangedDefence': self.qik + weap.referenceWeapon.get_ability_score(),
+                'damage': self.str + weap.referenceWeapon.dam,
+            }
+        return output
 
     def equippedArmor(self):
         """returns the character's equipped armor"""
@@ -394,6 +417,8 @@ class Weapon(models.Model):
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
     shield = models.BooleanField(default=False)
+    twoHanded = models.BooleanField('Two-handed',default=False)
+    freeHand = models.BooleanField('Can hold other objects in same hand', default=False)
 
     def __str__(self):
         return self.name
