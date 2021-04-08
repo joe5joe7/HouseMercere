@@ -344,7 +344,7 @@ class abiLibForm(ModelForm):
 class weaponLibForm(ModelForm):
     class Meta:
         model = Weapon
-        fields = ('name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load')
+        fields = ('name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load', 'twoHanded','freeHand')
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -358,6 +358,8 @@ class weaponLibForm(ModelForm):
             'range': forms.NumberInput(attrs={'class': 'form-control'}),
             'cost': forms.Select(attrs={'class': 'form-control'}),
             'load': forms.NumberInput(attrs={'class': 'form-control'}),
+            'twoHanded': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'freeHand': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
