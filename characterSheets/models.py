@@ -303,9 +303,9 @@ class Character(models.Model):
         armor = self.equippedArmor()
         if armor is not None:
             if armor.partial:
-                return self.sta + armor.partialProt
+                return self.sta + armor.referenceArmor.partialProt
             else:
-                return self.sta + armor.prot
+                return self.sta + armor.referenceArmor.prot
         else:
             return self.sta
 
