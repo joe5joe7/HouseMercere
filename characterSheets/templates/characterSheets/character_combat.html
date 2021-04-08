@@ -100,7 +100,6 @@ Current Kit
 </div>
 {% if character.equippedWeapons != None %}
     {% load mathfilters %}
-    {% if character.equippedWeapons != None %}
         {% if character.equippedWeapons|get_item:'shield' != None %}
             {% with weapon=character.equippedWeapons|get_item:'weapon' shield=character.equippedWeapons|get_item:'shield' %}
                 <div class="row">
@@ -186,9 +185,10 @@ Current Kit
 {#            Range: {{ weapon.referenceWeapon.range }}#}
 {#        </div>#}
 {#    </div>#}
-    {% endif %}
 {% else %}
-    {{ character.name }} has no weapons equipped <br>
+    {{ character.name }} has no weapons equipped
+    {{ character.equippedWeapons }}
+    <br>
 {% endif %}
 {% if character.equippedArmor != None %}
     <div class="row">
