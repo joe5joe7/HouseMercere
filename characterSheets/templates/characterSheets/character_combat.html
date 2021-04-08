@@ -149,6 +149,7 @@ Current Kit
                         </a>
                         Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
                     </div>
+                    <div class="col">Soak: {{ character.soak }}</div>
                     <div class="col">
                         Load: {{ character.equippedWeapons|get_item:'attack' }}
                     </div>
@@ -201,7 +202,9 @@ Current Kit
                         </a>
                         Ranged Defence: {{ character.equippedWeapons|get_item:'rangedDefence' }}
                     </div>
-
+                    <div class="col">
+                        Soak: {{ character.soak }}
+                    </div>
                     <div class="col">
                         Load: {{ character.equippedWeapons|get_item:'attack' }}
                     </div>
@@ -236,7 +239,6 @@ Current Kit
 {% else %}
     {{ character.name }} has no armor equipped <br>
 {% endif %}
-    Soak: {{ character.soak }}
 <br><br>
 
 <div class="row">
