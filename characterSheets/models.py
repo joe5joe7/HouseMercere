@@ -298,6 +298,17 @@ class Character(models.Model):
         """returns the character's equipped armor"""
         return ArmorInstance.objects.filter(ownerChar=self, status='e').first()
 
+    def soak(self):
+        """returns the character's soak value"""
+        armor = self.equippedArmor()
+        if armor is not None:
+            if armor.partial:
+                return self.sta + armor.partialProt
+            else:
+                return self.sta + armor.prot
+        else:
+            return self.sta
+
     # def removeSaga(self, request):
     #     """Removes character form current saga"""
     #     self.saga = None
@@ -405,7 +416,6 @@ class WeaponInstance(models.Model):
     status = models.CharField(choices=statusChoices, max_length=1, default='c')
     description = models.CharField(max_length=200, null=True, blank=True)
 
-
     def __str__(self):
         if self.name:
             return self.name
@@ -415,7 +425,8 @@ class WeaponInstance(models.Model):
     def get_ability_score(self):
         if self.ownerChar:
             try:
-                return AbilityInstance.objects.filter(owner = self.ownerChar, referenceAbility=self.referenceWeapon.ability).first().score
+                return AbilityInstance.objects.filter(owner=self.ownerChar,
+                                                      referenceAbility=self.referenceWeapon.ability).first().score
             except AttributeError:
                 return 0
         else:
@@ -423,6 +434,7 @@ class WeaponInstance(models.Model):
 
     def get_ability(self):
         return self.referenceWeapon.ability.name
+
 
 class Armor(models.Model):
     """Model representing armor equipment"""
