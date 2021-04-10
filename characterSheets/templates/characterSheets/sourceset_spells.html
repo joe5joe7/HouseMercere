@@ -29,7 +29,7 @@
 <ul class="navbar-nav mr-auto">
     {% for frm in forms %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id form = frm %}">{{ frm }}</a>
+            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id f = frm %}">{{ frm }}</a>
         </li>
     {% endfor %}
 </ul>
@@ -38,7 +38,7 @@
 <ul class="navbar-nav mr-auto">
     {% for technique in techniques %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'sourceset-spells-technique' pk=ss.id tech = technique %}">{{ technique }}</a>
+            <a class="nav-link" href="{% url 'sourceset-spells-technique' pk=ss.id t = technique %}">{{ technique }}</a>
         </li>
     {% endfor %}
 </ul>
