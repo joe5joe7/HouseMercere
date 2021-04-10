@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm, modelformset_factory, BaseModelFormSet
 from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
+from pip._internal.utils import logging
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
@@ -575,6 +576,9 @@ class spellGuidelineExampleForm(ModelForm):
         self.instance.source = self.source
 
 
+logger = logging.getLogger(__name__)
+
+
 class importSpellGuidelineExamples(forms.Form):
     iData = forms.CharField(max_length=100000)
 
@@ -583,13 +587,14 @@ class importSpellGuidelineExamples(forms.Form):
     }
 
     def clean_iData(self):
+        logger.error(self.cleaned_data['iData'])
         data = self.cleaned_data['iData'].split('\n')
         output = []
         try:
             for line in data:
                 parsedLine = line.split(':')
                 newExample = SpellGuidelineExample()
-                newExample.level = int(re.sub("[^0-9]","",parsedLine[0]))
+                newExample.level = int(re.sub("[^0-9]", "", parsedLine[0]))
                 newExample.description = parsedLine[1].strip()
                 output.append(newExample)
             return output
