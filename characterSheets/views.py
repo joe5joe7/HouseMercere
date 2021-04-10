@@ -1001,7 +1001,7 @@ def sourceset_guideline(request, pk, t, f):
     examples = SpellGuidelineExample.objects.filter(guideline=guideline)
 
     if guideline is None:
-        form = spellGuidelineForm(request.POST or None, form=formsDetailed[f], technique=formsDetailed[t])
+        form = spellGuidelineForm(request.POST or None, form=formsDetailed[f], technique=techniquesDetailed[t])
     else:
         form = spellGuidelineExampleForm(request.POST or None, guideline=guideline, source=ss)
 
