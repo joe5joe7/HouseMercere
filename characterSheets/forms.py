@@ -580,11 +580,12 @@ logger = logging.getLogger(__name__)
 
 
 class importSpellGuidelineExamples(forms.Form):
-    iData = forms.CharField(max_length=100000)
+    class Meta:
+        iData = forms.CharField(max_length=100000)
 
-    widgets = {
-        'iData': forms.Textarea(attrs={'class': 'form-control'}),
-    }
+        widgets = {
+            'iData': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
     def clean_iData(self):
         logger.error(self.cleaned_data['iData'])
