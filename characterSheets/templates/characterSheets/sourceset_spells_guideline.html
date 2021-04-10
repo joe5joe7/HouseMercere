@@ -26,8 +26,8 @@
 </nav>
     <br>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-<div class="container">
-<ul class="navbar-nav align-self-center">
+<div class="container d-flex justify-content-center">
+<ul class="navbar-nav">
     {% for form in forms %}
         {% if form == selectedForm %}
         <li class="nav-item active">
@@ -43,8 +43,8 @@
 </div>
 </nav>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-<div class="container">
-<ul class="navbar-nav align-self-center">
+<div class="container d-flex justify-content-center">
+<ul class="navbar-nav">
     {% for technique in techniques %}
         {% if technique == selectedTechnique %}
         <li class="nav-item active">
@@ -85,14 +85,14 @@
         <div class="row">
         {% csrf_token %}
         <div class="col-2">
-            <div class="input-group">
-                <div class="input-group-text">Level</div>
+            <div class="input-group bg-light">
+                <div class="input-group-prepend">Level</div>
                 {{ form.level }}
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-10 bg-info">
             <div class="input-group">
-                <div class="input-group-text">Description</div>
+                <div class="input-group-prepend">Description</div>
                 {{ form.description }}
             </div>
         </div>
