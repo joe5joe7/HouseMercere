@@ -14,7 +14,7 @@ from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip, WeaponInstance, ArmorInstance, \
-    MiscEquipInstance
+    MiscEquipInstance, SpellGuideline, SpellGuidelineExample
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
@@ -213,18 +213,21 @@ def changeStatusEquip(request, pk, equipType, status):
         equip = get_object_or_404(WeaponInstance, pk=pk)
         if status == 'e':
             if equip.referenceWeapon.shield:
-                numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=True).count()
+                numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e',
+                                                            referenceWeapon__shield=True).count()
                 if numEquipped >= 1:
                     messages.error(request, 'Character already has a shield equipped.')
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                if WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=False, referenceWeapon__twoHanded=True).first() is not None and equip.referenceWeapon.freeHand is False:
+                if WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e', referenceWeapon__shield=False,
+                                                 referenceWeapon__twoHanded=True).first() is not None and equip.referenceWeapon.freeHand is False:
                     messages.error(request, 'Character has a two handed weapon equipped.')
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 if equip.referenceWeapon.twoHanded:
                     numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e').count()
                     if numEquipped >= 1:
-                        messages.error(request, equip.__str__() + ' is a two-handed weapon, character already has another item equipped')
+                        messages.error(request,
+                                       equip.__str__() + ' is a two-handed weapon, character already has another item equipped')
                         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                 numEquipped = WeaponInstance.objects.filter(ownerChar=equip.ownerChar, status='e',
                                                             referenceWeapon__shield=False).count()
@@ -876,3 +879,135 @@ def unsubscribe_sourceset(request, pk):
     ss.subscribers.remove(request.user)
 
     return redirect('view-sourceset', pk=ss.id)
+
+
+def sourceset_spells(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'ss': ss,
+        'forms': forms,
+        'techniques': techniques
+    }
+
+    return render(request, 'characterSheets/sourceset_spells.html', context)
+
+
+def sourceset_form(request, pk, f):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'ss': ss,
+        'selectedForm': f,
+        'forms': forms,
+        'techniques': techniques
+    }
+
+    return render(request, 'characterSheets/sourceset_spells_form.html', context)
+
+
+def sourceset_technique(request, pk, t):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'ss': ss,
+        'selectedTechnique': t,
+        'forms': forms,
+        'techniques': techniques
+    }
+
+    return render(request, 'characterSheets/sourceset_spells_technique.html', context)
+
+
+def sourceset_guideline(request, pk, t, f):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    formsDetailed = {
+        'creo': 'cr',
+        'intellego': 'in',
+        'muto': 'mu',
+        'perdo': 'pe',
+        'rego': 're',
+    }
+    techniquesDetailed = {
+        'animal': 'an',
+        'aquam': 'aq',
+        'auram': 'au',
+        'corpus': 'co',
+        'herbam': 'he',
+        'ignem': 'ig',
+        'imaginem': 'im',
+        'mentem': 'me',
+        'terram': 'te',
+        'vim': 'vi',
+    }
+    guideline = SpellGuideline.objects.filter(form=formsDetailed[f], technique=techniquesDetailed[t]).first()
+    examples = SpellGuidelineExample.objects.filter(guideline=guideline)
+
+    context = {
+        'ss': ss,
+        'selectedTechnique': t,
+        'selectedForm': f,
+        'forms': formsDetailed.keys(),
+        'techniques': techniquesDetailed.keys(),
+        'guideline': guideline,
+        'examples': examples
+    }
+
+    return render(request, 'characterSheets/sourceset_spells_guideline.html', context)

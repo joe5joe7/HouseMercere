@@ -129,6 +129,15 @@ class DefaultSpeciality(models.Model):
         return self.name
 
 
+class House(models.Model):
+    """Model representing a hermetic house"""
+
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=2000)
+    domusMagna = models.CharField(max_length=200)
+    primus = models.CharField(max_length=200)
+
+
 class Character(models.Model):
     """model represents a specific character"""
 
@@ -292,8 +301,8 @@ class Character(models.Model):
 
     def equippedWeapons(self):
         """returns the character's equipped weapons"""
-        weap = WeaponInstance.objects.filter(ownerChar=self, status='e',referenceWeapon__shield=False).first()
-        shield = WeaponInstance.objects.filter(ownerChar=self, status='e',referenceWeapon__shield=True).first()
+        weap = WeaponInstance.objects.filter(ownerChar=self, status='e', referenceWeapon__shield=False).first()
+        shield = WeaponInstance.objects.filter(ownerChar=self, status='e', referenceWeapon__shield=True).first()
         if shield is not None:
             output = {
                 'weapon': weap,
@@ -332,10 +341,144 @@ class Character(models.Model):
         else:
             return self.sta
 
-    # def removeSaga(self, request):
-    #     """Removes character form current saga"""
-    #     self.saga = None
-    #     return self.get_absolute_url()
+    # Magic related stats
+
+    house = models.ForeignKey(House, on_delete=models.SET_NULL, null=True, blank=True)
+    sigil = models.CharField('Wizard\'s Sigil', max_length=500, null=True, blank=True)
+    parens = models.CharField(max_length=500, null=True, blank=True)
+    covApprentice = models.CharField('Covenant of Apprenticeship', max_length=200, null=True, blank=True)
+
+
+class Art(models.Model):
+    """model representing a character's art"""
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+
+    names = (
+        ('cr', 'creo'),
+        ('in', 'intellego'),
+        ('mu', 'muto'),
+        ('pe', 'perdo'),
+        ('re', 'rego'),
+        ('an', 'animal'),
+        ('aq', 'aquam'),
+        ('au', 'auram'),
+        ('co', 'corpus'),
+        ('he', 'herbam'),
+        ('ig', 'ignem'),
+        ('im', 'imaginem'),
+        ('me', 'mentem'),
+        ('te', 'terram'),
+        ('vi', 'vim')
+    )
+
+    name = models.CharField(choices=names, max_length=2)
+    score = models.IntegerField(default=0)
+    xp = models.IntegerField(default=0)
+
+    def technique(self):
+        """Returns true if the art is a technique, and false if it's a form"""
+        techs = ('cr', 'in', 'mu', 'pe', 're')
+        if self.name in techs:
+            return True
+        else:
+            return False
+
+
+class spellCharacteristic(models.Model):
+    """model representing a spell characteristic"""
+    source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
+
+    types = (
+        ('r', 'range'),
+        ('d', 'duration'),
+        ('t', 'target'),
+    )
+    type = models.CharField(choices=types, max_length=1)
+
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=2000)
+    level = models.IntegerField(default=0)
+
+
+class Spell(models.Model):
+    """model representing a spell lib entry"""
+    source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
+    name = models.CharField(max_length=500)
+    description = models.CharField(max_length=2000)
+    forms = (
+        ('cr', 'creo'),
+        ('in', 'intellego'),
+        ('mu', 'muto'),
+        ('pe', 'perdo'),
+        ('re', 'rego'),
+    )
+    form = models.CharField(choices=forms, max_length=2)
+    techniques = (
+        ('an', 'animal'),
+        ('aq', 'aquam'),
+        ('au', 'auram'),
+        ('co', 'corpus'),
+        ('he', 'herbam'),
+        ('ig', 'ignem'),
+        ('im', 'imaginem'),
+        ('me', 'mentem'),
+        ('te', 'terram'),
+        ('vi', 'vim'),
+    )
+    technique = models.CharField(choices=techniques, max_length=2)
+    level = models.IntegerField()
+    spellRange = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'r'}, on_delete=models.CASCADE, related_name='range')
+    spellDuration = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'd'}, on_delete=models.CASCADE, related_name='duration')
+    spellTarget = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 't'}, on_delete=models.CASCADE, related_name='target')
+
+
+class SpellInstance(models.Model):
+    """model representing an instance of a spell"""
+    referenceSpell = models.ForeignKey(Spell, on_delete=models.CASCADE)
+    xp = models.IntegerField(default=0)
+    mastery = models.IntegerField(default=0)
+    notes = models.CharField(max_length=1000, null=True, blank=True)
+
+
+class SpellGuideline(models.Model):
+    """model representing a spell guideline"""
+    description = models.CharField(max_length=1000, null=True, blank=True)
+    forms = (
+        ('cr', 'creo'),
+        ('in', 'intellego'),
+        ('mu', 'muto'),
+        ('pe', 'perdo'),
+        ('re', 'rego'),
+    )
+    form = models.CharField(choices=forms, max_length=2)
+    techniques = (
+        ('an', 'animal'),
+        ('aq', 'aquam'),
+        ('au', 'auram'),
+        ('co', 'corpus'),
+        ('he', 'herbam'),
+        ('ig', 'ignem'),
+        ('im', 'imaginem'),
+        ('me', 'mentem'),
+        ('te', 'terram'),
+        ('vi', 'vim'),
+    )
+    technique = models.CharField(choices=techniques, max_length=2)
+    general = models.CharField(max_length=500, null=True, blank=True)
+
+    def __str__(self):
+        return self.get_form_display().capitalize() + ' ' + self.get_technique_display().capitalize() + ' Guidelines'
+
+    class Meta:
+        unique_together = ('form','technique')
+
+
+class SpellGuidelineExample(models.Model):
+    """model representing examples of a spell guideline"""
+    source = models.ForeignKey(SourceSet, on_delete=models.CASCADE)
+    level = models.IntegerField(default=1)
+    description = models.CharField(max_length=500)
+    guideline = models.ForeignKey(SpellGuideline, on_delete=models.CASCADE)
 
 
 class Covenant(models.Model):
@@ -417,7 +560,7 @@ class Weapon(models.Model):
     strength = models.IntegerField(null=True, blank=True)
     range = models.IntegerField(null=True, blank=True)
     shield = models.BooleanField(default=False)
-    twoHanded = models.BooleanField('Two-handed',default=False)
+    twoHanded = models.BooleanField('Two-handed', default=False)
     freeHand = models.BooleanField('Can hold other objects in same hand', default=False)
 
     def __str__(self):
