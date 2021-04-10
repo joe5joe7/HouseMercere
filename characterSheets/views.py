@@ -1009,9 +1009,6 @@ def sourceset_guideline(request, pk, t, f):
         if form.is_valid():
             form.save()
             return redirect('sourceset-spells-guideline', pk=pk, f=f, t=t)
-        else:
-            logger.error('Errors: ' + str(form.errors))
-            logger.error('Is bound: ' + str(form.is_bound))
 
 
     context = {
