@@ -26,6 +26,7 @@
 </nav>
     <br>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
+<div class="container">
 <ul class="navbar-nav mr-auto">
     {% for form in forms %}
         {% if form == selectedForm %}
@@ -39,8 +40,10 @@
         {% endif %}
     {% endfor %}
 </ul>
+</div>
 </nav>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
+<div class="container">
 <ul class="navbar-nav mr-auto">
     {% for technique in techniques %}
         {% if technique == selectedTechnique %}
@@ -54,6 +57,7 @@
         {% endif %}
     {% endfor %}
 </ul>
+</div>
 </nav>
 {% if guideline != None %}
     <div class="row border-bottom border-light">
