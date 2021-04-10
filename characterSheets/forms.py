@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 
 # class editCharacter(forms.Form):
@@ -571,3 +573,25 @@ class spellGuidelineExampleForm(ModelForm):
         super(spellGuidelineExampleForm, self).__init__(*args, **kwargs)
         self.instance.guideline = self.guideline
         self.instance.source = self.source
+
+
+class importSpellGuidelineExamples(ModelForm):
+    iData = forms.CharField(max_length=100000)
+
+    widgets = {
+        'iData': forms.Textarea(attrs={'class': 'form-control'}),
+    }
+
+    def clean_iData(self):
+        data = self.cleaned_data['iData'].split('\n')
+        output = []
+        try:
+            for line in data:
+                parsedLine = line.split(':')
+                newExample = SpellGuidelineExample()
+                newExample.level = int(re.sub("[^0-9]","",parsedLine[0]))
+                newExample.description = parsedLine[1].strip()
+                output.append(newExample)
+            return output
+        except:
+            raise ValidationError('data is improperly formatted.')

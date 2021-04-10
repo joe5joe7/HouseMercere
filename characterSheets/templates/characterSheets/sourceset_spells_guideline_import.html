@@ -59,58 +59,12 @@
 </ul>
 </div>
 </nav>
-    <br> <br>
-{% if guideline != None %}
-    <div class="row border-bottom border-light">
-    <div class="col-10">
-        <h3>{{ guideline }}</h3>
-    </div>
-    <div class="col">
-        <a class="btn btn-primary" href="{% url 'sourceset-spells-import' pk=ss.id guideline=guideline.id %}">Import Examples</a>
-    </div>
-    </div>
-    <div class="row border-bottom border-dark">
-    <div class="col">
-        {{ guideline.description|linebreaks }}
-    </div>
-    </div>
-    {% for example in examples %}
-        <div class="row">
-        <div class="col-1">
-            {{ example.level }}
-        </div>
-        <div class="col">
-            {{ example.description }}
-        </div>
-        </div>
-    {% endfor %}
-        <form method="post">
-        <div class="row">
-        {% csrf_token %}
-        <div class="col-2">
-            <div class="input-group">
-                <div class="input-group-prepend">Level </div>
-                {{ form.level }}
-            </div>
-        </div>
-        <div class="col-10">
-            <div class="input-group">
-                <div class="input-group-prepend">Description </div>
-                {{ form.description }}
-            </div>
-        </div>
-        <div class="col">
-            <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
-        </div>
-        </div>
-        </form>
-{% else %}
-    <div class="row"><div class="col">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_table }}
-            <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
-        </form>
-    </div></div>
-{% endif %}
+<form method="post">
+{% csrf_token %}
+<table>
+    {{ form.as_table }}
+</table>
+<button class="btn btn-primary" value="Submit" type="submit">Import</button>
+</form>
+
 {% endblock %}

@@ -48,4 +48,5 @@ urlpatterns = [
     path('sourceset/spells/<int:pk>/form/<str:f>', views.sourceset_form, name='sourceset-spells-form'),
     path('sourceset/spells/<int:pk>/technique/<str:t>', views.sourceset_technique, name='sourceset-spells-technique'),
     path('sourceset/spells/<int:pk>/guidelines/<str:f>/<str:t>', views.sourceset_guideline, name='sourceset-spells-guideline'),
+    path('sourceset/spells/<int:pk>/guidelines/<int:guideline>', views.source_guidelines_import, name='sourceset-spells-import')
 ]

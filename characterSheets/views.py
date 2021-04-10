@@ -20,7 +20,8 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
-    weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm
+    weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm, \
+    importSpellGuidelineExamples
 
 import logging
 
@@ -1010,7 +1011,6 @@ def sourceset_guideline(request, pk, t, f):
             form.save()
             return redirect('sourceset-spells-guideline', pk=pk, f=f, t=t)
 
-
     context = {
         'ss': ss,
         'selectedTechnique': t,
@@ -1023,3 +1023,36 @@ def sourceset_guideline(request, pk, t, f):
     }
 
     return render(request, 'characterSheets/sourceset_spells_guideline.html', context)
+
+
+def source_guidelines_import(request, pk, guideline):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    guideline = get_object_or_404(SpellGuideline, pk=guideline)
+    forms = []
+    for form in guideline.forms:
+        forms.append(form[1])
+    techniques = []
+    for technique in guideline.techniques:
+        techniques.append(technique[1])
+
+    form = importSpellGuidelineExamples(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            data = form.cleaned_data['iData']
+            for example in data:
+                example.source = ss
+                example.guideline = guideline
+                example.save()
+
+            return redirect('sourceset-spells-guideline', pk=pk, f=guideline.get_form_display(), t=guideline.get_technique_display())
+
+    context = {
+        'form': form,
+        'ss': ss,
+        'selectedTechnique': guideline.get_technique_display(),
+        'selectedForm': guideline.get_form_display(),
+        'forms': forms,
+        'techniques': techniques,
+    }
+
+    return render(request, 'characterSheets/sourceset_spells_guideline_import.html', context)
