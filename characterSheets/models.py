@@ -442,7 +442,7 @@ class SpellInstance(models.Model):
 
 class SpellGuideline(models.Model):
     """model representing a spell guideline"""
-    description = models.CharField(max_length=1000, null=True, blank=True)
+    description = models.CharField(max_length=10000, null=True, blank=True)
     forms = (
         ('cr', 'creo'),
         ('in', 'intellego'),
