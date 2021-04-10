@@ -560,6 +560,11 @@ class spellGuidelineExampleForm(ModelForm):
         model = SpellGuidelineExample
         fields = ('level', 'description')
 
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'level': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
     def __init__(self, *args, **kwargs):
         self.guideline = kwargs.pop('guideline', None)
         self.source = kwargs.pop('source', None)
