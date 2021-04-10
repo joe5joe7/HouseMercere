@@ -561,7 +561,7 @@ class spellGuidelineExampleForm(ModelForm):
         fields = ('level', 'description')
 
         widgets = {
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
             'level': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 

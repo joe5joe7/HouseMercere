@@ -83,7 +83,7 @@
     {% endfor %}
 
         <form method="post">
-        <div class="row h-25">
+        <div class="row">
         {% csrf_token %}
         <div class="col-2">
             <div class="input-group">
@@ -97,8 +97,10 @@
                 {{ form.description }}
             </div>
         </div>
+        <div class="col">
+            <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
         </div>
-        <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
+        </div>
         </form>
 {% else %}
     <div class="row"><div class="col">
