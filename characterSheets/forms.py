@@ -548,9 +548,11 @@ class spellGuidelineForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        self.instance.form = kwargs.pop('form', None)
-        self.instance.technique = kwargs.pop('technique', None)
+        self.form = kwargs.pop('form', None)
+        self.technique = kwargs.pop('technique', None)
         super(spellGuidelineForm, self).__init__(*args, **kwargs)
+        self.instance.form = self.form
+        self.instance.technique = self.technique
 
 
 class spellGuidelineExampleForm(ModelForm):
@@ -559,6 +561,8 @@ class spellGuidelineExampleForm(ModelForm):
         fields = ('level', 'description')
 
     def __init__(self, *args, **kwargs):
-        self.instance.guideline = kwargs.pop('guideline', None)
-        self.instance.source = kwargs.pop('source', None)
+        self.guideline = kwargs.pop('guideline', None)
+        self.source = kwargs.pop('source', None)
         super(spellGuidelineExampleForm, self).__init__(*args, **kwargs)
+        self.instance.guideline = self.guideline
+        self.instance.source = self.source
