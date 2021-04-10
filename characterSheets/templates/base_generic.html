@@ -17,6 +17,7 @@
     {% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
+
 <div class="container-fluid h-100">
 <div class="row h-100">
     <div class="col px-0">
@@ -50,7 +51,12 @@
                 </button>
                 </div>
         <div class="container-fluid">
-            <div class="col-sm-12 ">{% block content %}{% endblock %}</div>
+            <div class="col-sm-12 ">
+                <main class="flex-shrink-0">
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            </div>
         </div>
     </div>
     <div class="col-2 collapse sidebar h-100" id="collapseSidebar">
@@ -138,7 +144,7 @@
 </div>
 </div>
 
-<footer class="footer mt-auto py-3 bg-dark">
+<footer class="footer mt-auto py-3 bg-dark fixed-bottom">
     <div class="container">
         <span class="text-muted">All Ars Magica content owned by atlas games. Site made by Joseph Kaiser.</span>
     </div>
