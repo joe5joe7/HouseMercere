@@ -30,11 +30,11 @@
     {% for form in forms %}
         {% if form == selectedForm %}
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id f = form %}">{{ form }}</a>
+            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id f=form %}">{{ form }}</a>
         </li>
         {% else %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id f = form %}">{{ form }}</a>
+            <a class="nav-link" href="{% url 'sourceset-spells-form' pk=ss.id f=form %}">{{ form }}</a>
         </li>
         {% endif %}
     {% endfor %}
@@ -44,7 +44,7 @@
 <ul class="navbar-nav mr-auto">
     {% for technique in techniques %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id t = technique f = selectedForm %}">{{ technique }}</a>
+            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id t=technique f=selectedForm %}">{{ technique }}</a>
         </li>
     {% endfor %}
 </ul>
