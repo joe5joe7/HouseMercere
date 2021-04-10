@@ -575,7 +575,7 @@ class spellGuidelineExampleForm(ModelForm):
         self.instance.source = self.source
 
 
-class importSpellGuidelineExamples(ModelForm):
+class importSpellGuidelineExamples(forms.Form):
     iData = forms.CharField(max_length=100000)
 
     widgets = {
