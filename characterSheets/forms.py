@@ -9,7 +9,8 @@ from django.forms import formset_factory
 from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
-    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance
+    Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
+    SpellGuideline, SpellGuidelineExample
 
 
 class changeSaga(ModelForm):
@@ -344,7 +345,10 @@ class abiLibForm(ModelForm):
 class weaponLibForm(ModelForm):
     class Meta:
         model = Weapon
-        fields = ('name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load', 'twoHanded','freeHand', 'shield')
+        fields = (
+            'name', 'description', 'ability', 'init', 'atk', 'dfn', 'dam', 'strength', 'range', 'cost', 'load',
+            'twoHanded',
+            'freeHand', 'shield')
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -531,3 +535,30 @@ class importAbilitiesForm(forms.Form):
             return output
         except:
             raise ValidationError('JSON data is improperly formatted.')
+
+
+class spellGuidelineForm(ModelForm):
+    class Meta:
+        model = SpellGuideline
+        fields = ('description', 'general')
+
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'general': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.instance.form = kwargs.pop('form', None)
+        self.instance.technique = kwargs.pop('technique', None)
+        super(spellGuidelineForm, self).__init__(*args, **kwargs)
+
+
+class spellGuidelineExampleForm(ModelForm):
+    class Meta:
+        model = SpellGuidelineExample
+        fields = ('level', 'description')
+
+    def __init__(self, *args, **kwargs):
+        self.instance.guideline = kwargs.pop('guideline', None)
+        self.instance.source = kwargs.pop('source', None)
+        super(spellGuidelineExampleForm, self).__init__(*args, **kwargs)

@@ -20,7 +20,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
-    weaponInstForm, armorInstForm, miscInstForm
+    weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm
 
 import logging
 
@@ -1000,6 +1000,17 @@ def sourceset_guideline(request, pk, t, f):
     guideline = SpellGuideline.objects.filter(form=formsDetailed[f], technique=techniquesDetailed[t]).first()
     examples = SpellGuidelineExample.objects.filter(guideline=guideline)
 
+    if guideline is None:
+        form = spellGuidelineForm(request.POST or None, form=formsDetailed[f], technique=formsDetailed[t])
+    else:
+        form = spellGuidelineExampleForm(request.POST or None, guideline=guideline, source=ss)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('sourceset-spells-guideline', pk=pk, f=f,t=t)
+
+
     context = {
         'ss': ss,
         'selectedTechnique': t,
@@ -1007,7 +1018,8 @@ def sourceset_guideline(request, pk, t, f):
         'forms': formsDetailed.keys(),
         'techniques': techniquesDetailed.keys(),
         'guideline': guideline,
-        'examples': examples
+        'examples': examples,
+        'form': form,
     }
 
     return render(request, 'characterSheets/sourceset_spells_guideline.html', context)
