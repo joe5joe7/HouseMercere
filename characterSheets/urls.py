@@ -45,7 +45,7 @@ urlpatterns = [
     path('sourceset/equipment/delete/armor/<int:pk>', views.delete_armor, name='delete-armor'),
     path('sourceset/equipment/delete/misc/<int:pk>', views.delete_misc, name='delete-misc'),
     path('sourceset/spells/<int:pk>', views.sourceset_spells, name='sourceset-spells'),
-    path('sourceset/spells/<int:pk>/form/<str:f>', views.sourceset_form, name='sourceset-form'),
-    path('sourceset/spells/<int:pk>/technique/<str:t>', views.sourceset_technique, name='sourceset-technique'),
-    path('sourceset/spells/<int:pk>/guidelines/<str:f>/<str:t>', views.sourceset_guideline, name='sourceset-guideline'),
+    path('sourceset/spells/<int:pk>/form/<str:f>', views.sourceset_form, name='sourceset-spells-form'),
+    path('sourceset/spells/<int:pk>/technique/<str:t>', views.sourceset_technique, name='sourceset-spells-technique'),
+    path('sourceset/spells/<int:pk>/guidelines/<str:f>/<str:t>', views.sourceset_guideline, name='sourceset-spells-guideline'),
 ]
