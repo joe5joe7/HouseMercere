@@ -580,9 +580,9 @@ logger = logging.getLogger(__name__)
 
 
 class importSpellGuidelineExamples(forms.Form):
-    class Meta:
-        iData = forms.CharField(max_length=100000)
+    iData = forms.CharField(max_length=100000)
 
+    class Meta:
         widgets = {
             'iData': forms.Textarea(attrs={'class': 'form-control'}),
         }
