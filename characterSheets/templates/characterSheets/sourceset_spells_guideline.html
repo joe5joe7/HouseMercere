@@ -74,6 +74,13 @@
         {{ guideline.description|linebreaks }}
     </div>
     </div>
+    {% if guideline.general != None %}
+    <div class="row"><div class="col-2">
+        General:
+    </div></div><div class="row"><div class="col">
+        {{ guideline.general }}
+    </div></div>
+    {% endif %}
     {% for example in examples %}
         <div class="row">
         <div class="col-1">
