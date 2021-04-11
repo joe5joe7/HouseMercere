@@ -13,7 +13,7 @@ from pip._internal.utils import logging
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
-    SpellGuideline, SpellGuidelineExample
+    SpellGuideline, SpellGuidelineExample, Spell
 
 
 class changeSaga(ModelForm):
@@ -586,13 +586,30 @@ class importSpellGuidelineExamples(forms.Form):
         logger.error(self.cleaned_data['iData'])
         data = self.cleaned_data['iData'].split('\n')
         output = []
+        newExample = SpellGuidelineExample()
+        newExample.level = 0
+        newExample.description = 'ERROR IN IMPORT'
         try:
             for line in data:
-                parsedLine = line.split(':')
-                newExample = SpellGuidelineExample()
-                newExample.level = int(re.sub("[^0-9]", "", parsedLine[0]))
-                newExample.description = parsedLine[1].strip()
-                output.append(newExample)
+                if line[0].islower():
+                    newExample.description = newExample.description + ' ' + line
+                else:
+                    output.append(newExample)
+                    if ':' in line:
+                        parsedLine = line.split(':')
+                        newExample = SpellGuidelineExample()
+                        newExample.level = int(re.sub("[^0-9]", "", parsedLine[0]))
+                        newExample.description = parsedLine[1].strip()
+                    else:
+                        level = newExample.level
+                        newExample = SpellGuidelineExample()
+                        newExample.level = level
+                        newExample.description = line
             return output
         except:
             raise ValidationError('data is improperly formatted.')
+
+class spellLibForm(forms.ModelForm):
+    class Meta:
+        model = Spell
+        fields = ('name','description','spellRange','spellDuration','spellTarget')

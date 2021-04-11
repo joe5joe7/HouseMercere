@@ -480,6 +480,9 @@ class SpellGuidelineExample(models.Model):
     description = models.CharField(max_length=500)
     guideline = models.ForeignKey(SpellGuideline, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.description
+
 
 class Covenant(models.Model):
     """model representing a covenant"""

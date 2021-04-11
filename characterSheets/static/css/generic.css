@@ -57,7 +57,7 @@ html,body {
 }
 
 .title {
-    font-family: MedievalSharp;
+    font-family: MedievalSharp, fantasy;
 }
 
 .sidebar.collapsing {
