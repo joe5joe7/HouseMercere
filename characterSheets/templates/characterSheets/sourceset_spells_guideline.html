@@ -102,28 +102,29 @@
         </div>
         {% define example.level as last %}
     {% endfor %}
-    <div class="container-fluid">
+
         <form method="post">
-        <div class="row">
-        {% csrf_token %}
-        <div class="col-1">
-            <div class="input-group">
-                <div class="input-group-prepend">Level </div>
-                {{ form.level }}
+            {% csrf_token %}
+            <div class="container-fluid">
+            <div class="row">
+            <div class="col-1">
+                <div class="input-group">
+                    <div class="input-group-prepend">Level </div>
+                    {{ form.level }}
+                </div>
             </div>
-        </div>
-        <div class="col-8">
-            <div class="input-group">
-                <div class="input-group-prepend">Description </div>
-                {{ form.description }}
+            <div class="col-9">
+                <div class="input-group">
+                    <div class="input-group-prepend">Description </div>
+                    {{ form.description }}
+                </div>
             </div>
-        </div>
-        <div class="col">
-                <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
-        </div>
-        </div>
+            <div class="col">
+                    <button class="btn btn-primary" value="Submit" type="submit">Submit Guideline</button>
+            </div>
+            </div>
+            </div>
         </form>
-    </div>
 {% else %}
     <div class="row"><div class="col">
         <form method="post">
