@@ -583,7 +583,6 @@ class importSpellGuidelineExamples(forms.Form):
     iData = forms.CharField(max_length=100000, widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     def clean_iData(self):
-        logger.error(self.cleaned_data['iData'])
         data = self.cleaned_data['iData'].split('\n')
         output = []
         newExample = SpellGuidelineExample()
@@ -613,6 +612,77 @@ class importSpellGuidelineExamples(forms.Form):
             return output
         except:
             raise ValidationError('data is improperly formatted.')
+
+
+class importSpells(forms.Form):
+    iData = forms.CharField(max_length=1000000, widget=forms.Textarea(attrs={'class': 'form-control'}))
+
+    def clean_iData(self):
+        # formsDetailed = {
+        #     'creo': 'cr',
+        #     'intellego': 'in',
+        #     'muto': 'mu',
+        #     'perdo': 'pe',
+        #     'rego': 're',
+        # }
+        # techniquesDetailed = {
+        #     'animal': 'an',
+        #     'aquam': 'aq',
+        #     'auram': 'au',
+        #     'corpus': 'co',
+        #     'herbam': 'he',
+        #     'ignem': 'ig',
+        #     'imaginem': 'im',
+        #     'mentem': 'me',
+        #     'terram': 'te',
+        #     'vim': 'vi',
+        # }
+
+        data = self.cleaned_data['iData'].split('\n')
+        lastLine = ''
+        gettingDesc = False
+        desc = ''
+        newSpell = None
+        output = []
+        for line in data:
+            test = line.split(' ')
+            if 'R:' in line and "D:" in line and "T:" in line:
+                newSpell = Spell()
+                newSpell.name = lastLine.capitalize()
+                newSpell.spellRange = spellCharacteristic.objects.filter(type='r',
+                                                                         name__contains=re.sub(r'[\W_]+', '',
+                                                                                               test[1][:-1])).first()
+                newSpell.spellDuration = spellCharacteristic.objects.filter(type='d',
+                                                                            name__contains=re.sub(r'[\W_]+', '',
+                                                                                                  test[3][:-1])).first()
+                newSpell.spellTarget = spellCharacteristic.objects.filter(type='t',
+                                                                          name__containt=re.sub(r'[\W_]+', '', test[5]))
+                if len(test) > 5:
+                    newSpell.ritual = True
+                newSpell.form = self.form
+                newSpell.technique = self.technique
+                newSpell.source = self.source
+                gettingDesc = True
+                desc = ''
+            if gettingDesc and newSpell is not None:
+                if '(Base' in line:
+                    newSpell.description = desc
+                    if test[1].isdigit():
+                        newSpell.base = int(test[1])
+                    else:
+                        newSpell.base = 0
+                    output.append(newSpell)
+                    gettingDesc = False
+                else:
+                    desc += ' ' + line
+            lastLine = line
+        return output
+
+    def __init__(self, *args, **kwargs):
+        self.form = kwargs.pop('form', None)
+        self.technique = kwargs.pop('technique', None)
+        self.source = kwargs.pop('source', None)
+        super(importSpells, self).__init__(*args, **kwargs)
 
 
 class addCharacteristic(forms.ModelForm):

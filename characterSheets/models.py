@@ -437,6 +437,7 @@ class Spell(models.Model):
                                     related_name='target')
     base = models.IntegerField(default=0)
     other = models.IntegerField(null=True, blank=True)
+    ritual = models.BooleanField(default=False)
 
     def level(self):
         """Returns the spell level"""
@@ -444,6 +445,7 @@ class Spell(models.Model):
             return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
         else:
             return self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
+
     def levelReason(self):
         """Returns a breakdown on the spell level calculation"""
         output = 'base: ' + str(self.base) + ' R: ' + self.spellRange.name + "(" + str(self.spellRange.level) + ")" \
