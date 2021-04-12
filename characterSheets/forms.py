@@ -609,6 +609,7 @@ class importSpellGuidelineExamples(forms.Form):
                         newExample = SpellGuidelineExample()
                         newExample.level = level
                         newExample.description = line
+            output.append(newExample)
             return output
         except:
             raise ValidationError('data is improperly formatted.')
