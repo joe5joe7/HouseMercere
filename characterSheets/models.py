@@ -443,12 +443,12 @@ class Spell(models.Model):
         """Returns the spell level"""
         if self.other:
             if self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level > 5:
-                return ((self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level)-5)*5+5
+                return self.base + self.other + ((self.spellRange.level + self.spellDuration.level + self.spellTarget.level)-5)*5+5
             else:
                 return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
         else:
             if self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level > 5:
-                return ((self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level)-5)*5+5
+                return self.base + ((self.spellRange.level + self.spellDuration.level + self.spellTarget.level)-5)*5+5
             else:
                 return self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
 
