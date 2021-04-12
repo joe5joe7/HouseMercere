@@ -98,7 +98,7 @@
     </a>
 </div>
 </div>
-<div class="container-fluid" id="examples">
+<div class="collapse" id="examples">
     {% load last_iteration %}
     {% define 'INVALID' as last %}
     {% for example in examples %}
@@ -154,10 +154,6 @@
 <div class="container">
 <div class="row">
 {% for spell in spells %}
-    {% if forloop.counter == 3 %}
-    </div>
-    <div class="row">
-    {% endif %}
     <div class="col">
         <div class="card">
             <div class="card-body">
@@ -168,6 +164,10 @@
             </div>
         </div>
     </div>
+    {% if forloop.counter|divisibleby: '3'%}
+    </div>
+    <div class="row">
+    {% endif %}
 {% endfor %}
 </div>
 </div>
