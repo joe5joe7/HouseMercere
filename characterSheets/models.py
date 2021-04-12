@@ -399,6 +399,9 @@ class spellCharacteristic(models.Model):
     description = models.CharField(max_length=2000)
     level = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class Spell(models.Model):
     """model representing a spell lib entry"""

@@ -640,7 +640,7 @@ class spellLibForm(forms.ModelForm):
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'Description': forms.Textarea(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
             'base': forms.NumberInput(attrs={'class': 'form-control'}),
             'spellRange': forms.Select(attrs={'class': 'form-control'}),
             'spellDuration': forms.Select(attrs={'class': 'form-control'}),

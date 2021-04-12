@@ -100,7 +100,7 @@
             {% endif %}
         </div>
         <div class="col">
-            {{ example.description }}
+            {{ example.description|linebreaks }}
         </div>
         </div>
         {% define example.level as last %}
@@ -149,7 +149,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ spell.name }}</h5>
                 <h5 class="card-subtitle mb-2 text-muted">Level: {{ spell.level }}</h5>
-                <p class="card-text"> {{ spell.description }} </p>
+                <p class="card-text"> {{ spell.description|linebreaks }} </p>
                 <p class="card-subtitle text-muted">{{ spell.levelReason }}</p>
             </div>
         </div>
