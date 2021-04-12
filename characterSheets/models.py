@@ -451,6 +451,9 @@ class Spell(models.Model):
             output += ' other: ' + str(self.other)
         return output
 
+    def __str__(self):
+        return self.name
+
 
 class SpellInstance(models.Model):
     """model representing an instance of a spell"""
