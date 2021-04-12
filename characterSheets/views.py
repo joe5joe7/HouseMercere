@@ -1087,7 +1087,7 @@ def source_guideline_addSpell(request, pk, guideline):
     ss = get_object_or_404(SourceSet, pk=pk)
     guideline = get_object_or_404(SpellGuideline, pk=guideline)
     form = spellLibForm(request.POST or None, source=ss, guideline=guideline)
-    if request.method == 'post':
+    if request.method == 'POST':
         if form.is_valid():
             logger.error('form is valid')
             form.save()
