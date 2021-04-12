@@ -636,4 +636,22 @@ class addCharacteristic(forms.ModelForm):
 class spellLibForm(forms.ModelForm):
     class Meta:
         model = Spell
-        fields = ('name', 'description', 'spellRange', 'spellDuration', 'spellTarget')
+        fields = ('name', 'description', 'base', 'spellRange', 'spellDuration', 'spellTarget', 'other')
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'Description': forms.Textarea(attrs={'class': 'form-control'}),
+            'base': forms.NumberInput(attrs={'class': 'form-control'}),
+            'spellRange': forms.Select(attrs={'class': 'form-control'}),
+            'spellDuration': forms.Select(attrs={'class': 'form-control'}),
+            'spellTarget': forms.Select(attrs={'class': 'form-control'}),
+            'other': forms.IntegerField(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.pop('source', None)
+        self.guideline = kwargs.pop('guideline', None)
+        super(spellLibForm).__init__(*args, **kwargs)
+        self.instance.source = self.source
+        self.instance.form = self.guideline.form
+        self.instance.technique = self.guideline.technique

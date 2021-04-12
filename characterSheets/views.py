@@ -21,7 +21,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
     weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm, \
-    importSpellGuidelineExamples, addCharacteristic
+    importSpellGuidelineExamples, addCharacteristic, spellLibForm
 
 import logging
 
@@ -1086,6 +1086,30 @@ def source_spellCharacteristics(request, pk):
 def source_guideline_addSpell(request, pk, guideline):
     ss = get_object_or_404(SourceSet, pk=pk)
     guideline = get_object_or_404(SpellGuideline, pk=guideline)
+    form = spellLibForm(request.POST or None, source=ss, guideline=guideline)
+    if request.method == 'post':
+        if form.is_valid():
+            form.save()
+            return redirect('sourceset-spells-guideline', pk=ss.id, f=guideline.get_form_display(), t=guideline.get_technique_display())
+
+    forms = []
+    for form in guideline.forms:
+        forms.append(form[1])
+    techniques = []
+    for technique in guideline.techniques:
+        techniques.append(technique[1])
+
+    context = {
+        'ss': ss,
+        'guideline': guideline,
+        'selectedForm': guideline.get_form_display(),
+        'selectedTechnique': guideline.get_technique_display(),
+        'forms': forms,
+        'techniques': techniques,
+        'form': form,
+    }
+
+    return render(request, 'characterSheets/sourceset_addSpell.html', context)
 
 
 def delete_spellCharacteristic(request, pk):

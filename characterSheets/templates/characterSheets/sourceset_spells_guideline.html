@@ -66,6 +66,9 @@
         <h3>{{ guideline }}</h3>
     </div>
     <div class="col">
+        <a class="btn btn-primary" href="{% url 'sourceset-add-spell' pk=ss.id guideline=guideline.id %}">Add Spell</a>
+    </div>
+    <div class="col">
         <a class="btn btn-primary" href="{% url 'sourceset-spells-import' pk=ss.id guideline=guideline.id %}">Import Examples</a>
     </div>
     </div>

@@ -1,0 +1,71 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<a class="navbar-brand" href="{% url 'view-sourceset' ss.id %}">{{ ss.name }}</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-virtues' ss.id %}">Virtues</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-flaws' ss.id %}">Flaws</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-abilities' ss.id %}">Abilities</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-equipment' ss.id %}">Equipment</a>
+    </li>
+    <li class="nav-item active">
+    <a class="nav-link" href="{% url 'sourceset-spells' ss.id %}">Spells</a>
+    </li>
+</ul>
+</nav>
+    <br>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+<div class="container d-flex justify-content-center">
+<ul class="navbar-nav">
+    {% for form in forms %}
+        {% if form == selectedForm %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id f=form t=selectedTechnique %}">{{ form }}</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id f=form t=selectedTechnique %}">{{ form }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+</div>
+</nav>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+<div class="container d-flex justify-content-center">
+<ul class="navbar-nav">
+    {% for technique in techniques %}
+        {% if technique == selectedTechnique %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id t=technique f=selectedForm  %}">{{ technique }}</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'sourceset-spells-guideline' pk=ss.id t=technique f=selectedForm %}">{{ technique }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+</div>
+</nav>
+<form>
+{% csrf_token %}
+<table>
+    {{ form.as_table }}
+</table>
+<button class="btn btn-primary" type="submit" value="Submit">Submit Spell</button>
+</form>
+
+
+{% endblock %}
