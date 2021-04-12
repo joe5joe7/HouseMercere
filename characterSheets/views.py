@@ -14,14 +14,14 @@ from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip, WeaponInstance, ArmorInstance, \
-    MiscEquipInstance, SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic
+    MiscEquipInstance, SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic, Art, SpellInstance
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
     weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm, \
-    importSpellGuidelineExamples, addCharacteristic, spellLibForm, importSpells
+    importSpellGuidelineExamples, addCharacteristic, spellLibForm, importSpells, characterArt
 
 import logging
 
@@ -174,6 +174,37 @@ def CharacterCombatView(request, pk):
 
     return render(request, 'characterSheets/character_combat.html', context)
 
+
+def CharacterMagicView(request, pk):
+    character = get_object_or_404(Character, pk=pk)
+    arts = Art.objects.filter(character=character)
+    spells = SpellInstance.objects.filter(character=character)
+    artsFormset = modelformset_factory(Art, form=characterArt, extra=15-len(arts), can_delete=True)
+    artsForm = artsFormset(
+        None,
+        queryset=spells,
+        form_kwargs={'character': character},
+        prefix='arts-form',
+    )
+
+    if request.method == 'POST':
+        artsForm = artsFormset(
+            request.POST,
+            queryset=spells,
+            form_kwargs={'character': character},
+            prefix='arts-form',
+        )
+        if artsForm.is_valid():
+            artsForm.save()
+
+    context = {
+        'character':character,
+        'arts': arts,
+        'spells': spells,
+        'artsForm': artsForm,
+    }
+
+    return render(request, 'characterSheets/character_magic.html', context)
 
 def CharacterEquipmentView(request, pk):
     character = get_object_or_404(Character, pk=pk)
@@ -445,6 +476,7 @@ def editCharacter(request, pk):
     }
 
     return render(request, 'characterSheets/edit_character.html', context)
+
 
 
 def add_fatigue(request, pk):

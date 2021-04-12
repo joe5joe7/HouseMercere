@@ -21,6 +21,7 @@ urlpatterns = [
     path('character/<int:pk>/removewound/<str:wound_type>', views.remove_wound, name='remove-wound'),
     path('character/<int:pk>/charactercombat', views.CharacterCombatView, name='character-combat'),
     path('character/<int:pk>/characterequipment', views.CharacterEquipmentView, name='character-equipment'),
+    path('character/<int:pk>charactermagic', views.CharacterMagicView, name='character-magic'),
     path('equipment/<str:equipType>/<int:pk>/<str:status>', views.changeStatusEquip, name='change-status'),
     path('equipment/partial/armor/<int:pk>', views.changePartialArmor, name='change-partial-armor'),
     path('add_sourceset',views.add_sourceset, name='add-sourceset'),

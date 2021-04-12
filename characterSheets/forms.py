@@ -13,7 +13,7 @@ from pip._internal.utils import logging
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
-    SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic
+    SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic, Art
 
 
 class changeSaga(ModelForm):
@@ -656,7 +656,8 @@ class importSpells(forms.Form):
                                                                             name__contains=re.sub(r'[\W_]+', '',
                                                                                                   test[3])).first()
                 newSpell.spellTarget = spellCharacteristic.objects.filter(type='t',
-                                                                          name__contains=re.sub(r'[\W_]+', '', test[5])).first()
+                                                                          name__contains=re.sub(r'[\W_]+', '',
+                                                                                                test[5])).first()
                 if len(test) > 5:
                     newSpell.ritual = True
                 newSpell.form = self.form
@@ -667,8 +668,8 @@ class importSpells(forms.Form):
             elif gettingDesc and newSpell is not None:
                 if '(Base' in line:
                     newSpell.description = desc
-                    if re.sub(r'[\W_]+', '',test[1]).isdigit():
-                        newSpell.base = int(re.sub(r'[\W_]+', '',test[1]))
+                    if re.sub(r'[\W_]+', '', test[1]).isdigit():
+                        newSpell.base = int(re.sub(r'[\W_]+', '', test[1]))
                     else:
                         newSpell.base = 0
                     output.append(newSpell)
@@ -686,6 +687,23 @@ class importSpells(forms.Form):
         self.technique = kwargs.pop('technique', None)
         self.source = kwargs.pop('source', None)
         super(importSpells, self).__init__(*args, **kwargs)
+
+
+class characterArt(forms.ModelForm):
+    class Meta:
+        model = Art
+        fields = ('name', 'score', 'xp')
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'score': forms.NumberInput(attrs={'class': 'form-control'}),
+            'xp': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.character = kwargs.pop('character', None)
+        super(characterArt, self).__init__(*args, **kwargs)
+        self.instance.character = self.character
 
 
 class addCharacteristic(forms.ModelForm):

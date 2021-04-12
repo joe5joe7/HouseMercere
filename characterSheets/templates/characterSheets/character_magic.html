@@ -1,0 +1,81 @@
+{% extends 'base_generic.html' %}
+{% block extraLoads %}
+<div class="modal fade" id="artsModal" role="dialog" aria-label="Edit Arts FOrm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edit Arts</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ artsForm.as_table }}
+                    </table>
+                </div>
+                <input type="hidden" id="form_type" name="form-type" value="arts">
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Submit Changes </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<a class="navbar-brand" href="{% url 'view-sourceset' ss.id %}">{{ ss.name }}</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-virtues' ss.id %}">Virtues</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-flaws' ss.id %}">Flaws</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-abilities' ss.id %}">Abilities</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'sourceset-equipment' ss.id %}">Equipment</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-spells' ss.id %}">Spells</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'sourceset-char' ss.id %}">Spell Characteristics</a>
+    </li>
+</ul>
+</nav>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-10">
+        Arts:
+    </div>
+    <div class="col-1">
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#weaponModal">Edit Arts</button>
+    </div>
+</div>
+<div class="row">
+    {% for art in arts %}
+        <div class="col">
+            {{ art.get_name_display }}: {{ art.score }}
+        </div>
+        {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+        {% endif %}
+    {% endfor %}
+</div>
+</div>
+
+
+
+{% endblock %}

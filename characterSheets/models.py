@@ -375,6 +375,9 @@ class Art(models.Model):
     score = models.IntegerField(default=0)
     xp = models.IntegerField(default=0)
 
+    class Meta:
+        unique_together = ['name','character']
+
     def technique(self):
         """Returns true if the art is a technique, and false if it's a form"""
         techs = ('cr', 'in', 'mu', 'pe', 're')
@@ -382,6 +385,9 @@ class Art(models.Model):
             return True
         else:
             return False
+
+    def __str__(self):
+        return self.character.name + ' ' + self.get_name_display()
 
 
 class spellCharacteristic(models.Model):
@@ -477,6 +483,7 @@ class Spell(models.Model):
 class SpellInstance(models.Model):
     """model representing an instance of a spell"""
     referenceSpell = models.ForeignKey(Spell, on_delete=models.CASCADE)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
     xp = models.IntegerField(default=0)
     mastery = models.IntegerField(default=0)
     notes = models.CharField(max_length=1000, null=True, blank=True)
