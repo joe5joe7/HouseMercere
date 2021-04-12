@@ -182,7 +182,7 @@ def CharacterMagicView(request, pk):
     artsFormset = modelformset_factory(Art, form=characterArt, extra=15-len(arts), can_delete=True)
     artsForm = artsFormset(
         None,
-        queryset=spells,
+        queryset=character.art_set.all(),
         form_kwargs={'character': character},
         prefix='arts-form',
     )
@@ -190,12 +190,14 @@ def CharacterMagicView(request, pk):
     if request.method == 'POST':
         artsForm = artsFormset(
             request.POST,
-            queryset=spells,
+            queryset=character.art_set.all(),
             form_kwargs={'character': character},
             prefix='arts-form',
         )
         if artsForm.is_valid():
             artsForm.save()
+
+            return redirect('character-magic', pk=pk)
 
     context = {
         'character':character,
