@@ -656,7 +656,7 @@ class importSpells(forms.Form):
                                                                             name__contains=re.sub(r'[\W_]+', '',
                                                                                                   test[3][:-1])).first()
                 newSpell.spellTarget = spellCharacteristic.objects.filter(type='t',
-                                                                          name__containt=re.sub(r'[\W_]+', '', test[5]))
+                                                                          name__contains=re.sub(r'[\W_]+', '', test[5]))
                 if len(test) > 5:
                     newSpell.ritual = True
                 newSpell.form = self.form
