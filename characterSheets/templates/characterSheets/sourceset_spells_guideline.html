@@ -89,6 +89,16 @@
     </div>
     </div>
     {% endif %}
+<div class="row"><div class="col-11">
+    Examples
+</div>
+<div class="col-1">
+    <a data-toggle="collapse" href="#examples"  role="button" aria-expanded="false" aria-controls="collapseexamples" style="color:#000000;">
+        <i onclick="dropdownState('examples');" id="toggleexamples" class="bi bi-menu-up" ></i>
+    </a>
+</div>
+</div>
+<div class="container" id="examples">
     {% load last_iteration %}
     {% define 'INVALID' as last %}
     {% for example in examples %}
@@ -140,6 +150,7 @@
         </form>
     </div></div>
 {% endif %}
+</div>
 <div class="container">
 <div class="row">
 {% for spell in spells %}
