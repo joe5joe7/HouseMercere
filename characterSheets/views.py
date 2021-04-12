@@ -1093,8 +1093,8 @@ def source_guideline_addSpell(request, pk, guideline):
             return redirect('sourceset-spells-guideline', pk=ss.id, f=guideline.get_form_display(), t=guideline.get_technique_display())
 
     forms = []
-    for form in guideline.forms:
-        forms.append(form[1])
+    for x in guideline.forms:
+        forms.append(x[1])
     techniques = []
     for technique in guideline.techniques:
         techniques.append(technique[1])
