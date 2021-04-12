@@ -444,11 +444,11 @@ class Spell(models.Model):
         if self.other:
             if self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level > 5:
                 if self.base >= 5:
-                    return self.base + self.other + (
-                                self.spellRange.level + self.spellDuration.level + self.spellTarget.level) * 5
+                    return self.base + (
+                                self.spellRange.level + self.spellDuration.level + self.spellTarget.level + self.other) * 5
                 else:
-                    return self.base + self.other + (
-                                (self.spellRange.level + self.spellDuration.level + self.spellTarget.level) - (
+                    return self.base + (
+                                (self.spellRange.level + self.spellDuration.level + self.spellTarget.level + self.other) - (
                                     5 - (self.base + self.other))) * 5 + 5
             else:
                 return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
