@@ -674,10 +674,10 @@ class importSpells(forms.Form):
                     output.append(newSpell)
                     gettingDesc = False
                 else:
-                    if line.replace('\n','')[-1] == '-':
-                        desc += ' ' + line.replace('\n','')[-1]
+                    if line.strip() == '-':
+                        desc += line.strip()[-1] + ' '
                     else:
-                        desc += ' ' + line.replace('\n','')
+                        desc += line.strip() + ' '
             lastLine = line
         return output
 
