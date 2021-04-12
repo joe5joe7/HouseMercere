@@ -106,13 +106,13 @@
         <form method="post">
         <div class="row">
         {% csrf_token %}
-        <div class="col">
+        <div class="col-1">
             <div class="input-group">
                 <div class="input-group-prepend">Level </div>
                 {{ form.level }}
             </div>
         </div>
-        <div class="col">
+        <div class="col-8">
             <div class="input-group">
                 <div class="input-group-prepend">Description </div>
                 {{ form.description }}
