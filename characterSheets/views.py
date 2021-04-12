@@ -1089,8 +1089,14 @@ def source_guideline_addSpell(request, pk, guideline):
     form = spellLibForm(request.POST or None, source=ss, guideline=guideline)
     if request.method == 'post':
         if form.is_valid():
+            logger.error('form is valid')
             form.save()
+            logger.error('form saved')
             return redirect('sourceset-spells-guideline', pk=ss.id, f=guideline.get_form_display(), t=guideline.get_technique_display())
+        else:
+            logger.error('form not valid')
+            logger.error(form.errors)
+            logger.error(form.is_bound)
 
     forms = []
     for x in guideline.forms:
