@@ -651,7 +651,7 @@ class spellLibForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.source = kwargs.pop('source', None)
         self.guideline = kwargs.pop('guideline', None)
-        super(spellLibForm).__init__(*args, **kwargs)
+        super(spellLibForm, self).__init__(*args, **kwargs)
         self.instance.source = self.source
         self.instance.form = self.guideline.form
         self.instance.technique = self.guideline.technique
