@@ -589,12 +589,14 @@ class importSpellGuidelineExamples(forms.Form):
         newExample = SpellGuidelineExample()
         newExample.level = 0
         newExample.description = 'ERROR IN IMPORT'
+        first = True
         try:
             for line in data:
                 if line[0].islower():
                     newExample.description = newExample.description + ' ' + line
                 else:
-                    output.append(newExample)
+                    if not first:
+                        output.append(newExample)
                     if ':' in line:
                         parsedLine = line.split(':')
                         newExample = SpellGuidelineExample()
