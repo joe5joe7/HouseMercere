@@ -595,7 +595,9 @@ class importSpellGuidelineExamples(forms.Form):
                 if line[0].islower():
                     newExample.description = newExample.description + ' ' + line
                 else:
-                    if not first:
+                    if first:
+                        first = False
+                    else:
                         output.append(newExample)
                     if ':' in line:
                         parsedLine = line.split(':')
