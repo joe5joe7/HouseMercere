@@ -448,7 +448,7 @@ class Spell(models.Model):
 
     def levelReason(self):
         """Returns a breakdown on the spell level calculation"""
-        output = 'base: ' + str(self.base) + ' R: ' + self.spellRange.name + "(" + str(self.spellRange.level) + ")" \
+        output = 'base: ' + str(self.base) + '\n R: ' + self.spellRange.name + "(" + str(self.spellRange.level) + ")" \
                  + ' D: ' + self.spellDuration.name + "(" + str(self.spellDuration.level) + ")" \
                  + ' T: ' + self.spellTarget.name + "(" + str(self.spellTarget.level) + ")"
         if self.other:

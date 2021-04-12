@@ -157,12 +157,16 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title border-bottom">{{ spell.name }}</h5>
-                <h5 class="card-subtitle mb-2 text-muted">Level: {{ spell.level }}</h5>
+                {% if spell.ritual %}
+                <h6 class="card-subtitle mb-2 text-muted">Level: {{ spell.level }}  Ritual</h6>
+                {% else %}
+                <h6 class="card-subtitle mb-2 text-muted">Level: {{ spell.level }}</h6>
+                {% endif %}
                 <p class="card-text"> {{ spell.description|linebreaks }} </p>
 
             </div>
             <div class="card-footer">
-                <p class="text-muted">{{ spell.levelReason }}</p>
+                <p class="text-muted">{{ spell.levelReason|linebreaks }}</p>
             </div>
         </div>
     {% if forloop.counter|divisibleby:3 %}
