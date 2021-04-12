@@ -645,7 +645,7 @@ class spellLibForm(forms.ModelForm):
             'spellRange': forms.Select(attrs={'class': 'form-control'}),
             'spellDuration': forms.Select(attrs={'class': 'form-control'}),
             'spellTarget': forms.Select(attrs={'class': 'form-control'}),
-            'other': forms.IntegerField(attrs={'class': 'form-control'}),
+            'other': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
