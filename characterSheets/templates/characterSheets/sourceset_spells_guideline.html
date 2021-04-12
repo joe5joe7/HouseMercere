@@ -79,19 +79,24 @@
         General:
     </div>
     <div class="col">
-        {{ guideline.general }}
+        {{ guideline.general|linebreaks }}
     </div>
     </div>
     {% endif %}
+    {% load last_iteration %}
+    {% define 'INVALID' as last %}
     {% for example in examples %}
         <div class="row">
         <div class="col-1">
+            {% if example.level != last %}
             {{ example.level }}
+            {% endif %}
         </div>
         <div class="col">
             {{ example.description }}
         </div>
         </div>
+        {% define example.level as last %}
     {% endfor %}
         <form method="post">
         <div class="row">
