@@ -1,6 +1,6 @@
 {% extends 'base_generic.html' %}
-{% block content %}
 
+{% block content %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <a class="navbar-brand" href="{% url 'view-sourceset' ss.id %}">{{ ss.name }}</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'sourceset-virtues' ss.id %}">Virtues</a>
     </li>
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'sourceset-flaws' ss.id %}">Flaws</a>
     </li>
     <li class="nav-item">
@@ -22,38 +22,61 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'sourceset-spells' ss.id %}">Spells</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="{% url 'sourceset-char' ss.id %}">Spell Characteristics</a>
     </li>
 </ul>
 </nav>
-
-<div class="row bg-info border-bottom">
-    <div class="col-6">
-        Flaws
-    </div>
-    <div class="col">
-        <a href="{% url 'edit-flaws' ss.id %}" class="btn btn-primary">Edit Flaws</a>
-    </div>
-    <div class="col">
-        <a href="{% url 'import-flaws' ss.id %}" class="btn btn-primary">Import Flaws (JSON)</a>
-    </div>
-    <div class="col">
-        <a href="{% url 'export-flaws' ss.id %}" class="btn btn-primary">Export Flaws (JSON)</a>
+<div class="container-fluid">
+<div class="row">
+    <div class="col bg-info">
+        Ranges
     </div>
 </div>
-    {% for flaw in ssFlaws %}
-        <div class="row"><div class="col">
-    {{ flaw }}
-        </div>
-        <div class="col">
-            <ul class='list-group'>
-                <li class='list-group-item'><b>Description: </b>{{ flaw.description }}</li>
-                <li class='list-group-item'><b>Value: </b>{{ flaw.value }}</li>
-                <li class='list-group-item'><b>Type: </b>{{ flaw.type }}</li>
-            </ul>
-        </div>
-        </div>
-    {% endfor %}
-    
+{% for char in ranges %}
+<div class="row"><div class="col">
+    Name: {{ char.name }}
+</div>
+<div class="col"> Description: {{ char.description }}</div>
+<div class="col"> Level: {{ char.level }}</div>
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col bg-info">
+        Durations
+    </div>
+</div>
+{% for char in durations %}
+<div class="row"><div class="col">
+    Name: {{ char.name }}
+</div>
+<div class="col"> Description: {{ char.description }}</div>
+<div class="col"> Level: {{ char.level }}</div>
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col bg-info">
+        Targets
+    </div>
+</div>
+{% for char in targets %}
+<div class="row"><div class="col">
+    Name: {{ char.name }}
+</div>
+<div class="col"> Description: {{ char.description }}</div>
+<div class="col"> Level: {{ char.level }}</div>
+</div>
+{% endfor %}
+</div>
+
+<form method="post">
+{% csrf_token %}
+<table>
+    {{ form.as_table }}
+</table>
+<button class="btn btn-primary"> Submit </button>
+</form>
+
+
+
 {% endblock %}

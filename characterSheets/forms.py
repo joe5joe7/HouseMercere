@@ -13,7 +13,7 @@ from pip._internal.utils import logging
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
-    SpellGuideline, SpellGuidelineExample, Spell
+    SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic
 
 
 class changeSaga(ModelForm):
@@ -613,6 +613,24 @@ class importSpellGuidelineExamples(forms.Form):
             return output
         except:
             raise ValidationError('data is improperly formatted.')
+
+
+class addCharacteristic(forms.ModelForm):
+    class Meta:
+        model = spellCharacteristic
+        fields = ('type', 'name', 'description', 'level')
+
+        widgets = {
+            'type': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'level': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.pop('source', None)
+        super(addCharacteristic, self).__init__(*args, **kwargs)
+        self.instance.source = self.source
 
 
 class spellLibForm(forms.ModelForm):

@@ -14,14 +14,14 @@ from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip, WeaponInstance, ArmorInstance, \
-    MiscEquipInstance, SpellGuideline, SpellGuidelineExample
+    MiscEquipInstance, SpellGuideline, SpellGuidelineExample, Spell
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
     weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm, \
-    importSpellGuidelineExamples
+    importSpellGuidelineExamples, addCharacteristic
 
 import logging
 
@@ -1001,6 +1001,8 @@ def sourceset_guideline(request, pk, t, f):
     guideline = SpellGuideline.objects.filter(form=formsDetailed[f], technique=techniquesDetailed[t]).first()
     examples = SpellGuidelineExample.objects.filter(guideline=guideline)
 
+    spells = Spell.objects.filter(form=f, technique=t, source=ss)
+
     if guideline is None:
         form = spellGuidelineForm(request.POST or None, form=formsDetailed[f], technique=techniquesDetailed[t])
     else:
@@ -1020,6 +1022,7 @@ def sourceset_guideline(request, pk, t, f):
         'guideline': guideline,
         'examples': examples,
         'form': form,
+        'spells': spells,
     }
 
     return render(request, 'characterSheets/sourceset_spells_guideline.html', context)
@@ -1044,7 +1047,8 @@ def source_guidelines_import(request, pk, guideline):
                 example.guideline = guideline
                 example.save()
 
-            return redirect('sourceset-spells-guideline', pk=pk, f=guideline.get_form_display(), t=guideline.get_technique_display())
+            return redirect('sourceset-spells-guideline', pk=pk, f=guideline.get_form_display(),
+                            t=guideline.get_technique_display())
 
     context = {
         'form': form,
@@ -1056,3 +1060,29 @@ def source_guidelines_import(request, pk, guideline):
     }
 
     return render(request, 'characterSheets/sourceset_spells_guideline_import.html', context)
+
+
+def source_spellCharacteristics(request, pk):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    ranges = ss.spellcharacteristic_set.filter(type='r')
+    durations = ss.spellcharacteristic_set.filter(type='d')
+    targets = ss.spellcharacteristic_set.filter(type='t')
+    form = addCharacteristic(request.POST or None, source=ss)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+
+    context = {
+        'ss': ss,
+        'ranges': ranges,
+        'durations': durations,
+        'targets': targets,
+        'form': form,
+    }
+
+    return render(request, 'characterSheets/sourceset_spellCharacteristics.html', context)
+
+
+def source_guideline_addSpell(request, pk, guideline):
+    ss = get_object_or_404(SourceSet, pk=pk)
+    guideline = get_object_or_404(SpellGuideline, pk=guideline)

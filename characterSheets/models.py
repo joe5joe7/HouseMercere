@@ -426,10 +426,27 @@ class Spell(models.Model):
         ('vi', 'vim'),
     )
     technique = models.CharField(choices=techniques, max_length=2)
-    level = models.IntegerField()
-    spellRange = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'r'}, on_delete=models.CASCADE, related_name='range')
-    spellDuration = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'd'}, on_delete=models.CASCADE, related_name='duration')
-    spellTarget = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 't'}, on_delete=models.CASCADE, related_name='target')
+    spellRange = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'r'}, on_delete=models.CASCADE,
+                                   related_name='range')
+    spellDuration = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 'd'}, on_delete=models.CASCADE,
+                                      related_name='duration')
+    spellTarget = models.ForeignKey(spellCharacteristic, limit_choices_to={'type': 't'}, on_delete=models.CASCADE,
+                                    related_name='target')
+    base = models.IntegerField(default=0)
+    other = models.IntegerField(null=True, blank=True)
+
+    def level(self):
+        """Returns the spell level"""
+        return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
+
+    def levelReason(self):
+        """Returns a breakdown on the spell level calculation"""
+        output = 'base: ' + str(self.base) + ' R: ' + self.spellRange.name + "(" + str(self.spellRange.level) + ")" \
+                 + ' D: ' + self.spellDuration.name + "(" + str(self.spellDuration.level) + ")" \
+                 + ' T: ' + self.spellTarget.name + "(" + str(self.spellTarget.level) + ")"
+        if self.other:
+            output += ' other: ' + str(self.other)
+        return output
 
 
 class SpellInstance(models.Model):
@@ -470,7 +487,7 @@ class SpellGuideline(models.Model):
         return self.get_form_display().capitalize() + ' ' + self.get_technique_display().capitalize() + ' Guidelines'
 
     class Meta:
-        unique_together = ('form','technique')
+        unique_together = ('form', 'technique')
 
 
 class SpellGuidelineExample(models.Model):
