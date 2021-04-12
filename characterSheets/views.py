@@ -14,7 +14,7 @@ from guardian.shortcuts import assign_perm
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, Ability, VF, DefaultSpeciality, Weapon, Armor, MiscEquip, WeaponInstance, ArmorInstance, \
-    MiscEquipInstance, SpellGuideline, SpellGuidelineExample, Spell
+    MiscEquipInstance, SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic
 from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_detailsForm, AbilityFormset, addCharacterToSaga, removeCharacterSaga, \
     confirmationForm, VirtueFormset, FlawFormset, characterBasicForm, characterDetailForm, abilitiesForm, \
@@ -1086,3 +1086,10 @@ def source_spellCharacteristics(request, pk):
 def source_guideline_addSpell(request, pk, guideline):
     ss = get_object_or_404(SourceSet, pk=pk)
     guideline = get_object_or_404(SpellGuideline, pk=guideline)
+
+
+def delete_spellCharacteristic(request, pk):
+    char = get_object_or_404(spellCharacteristic, pk=pk)
+    char.delete()
+
+    return redirect('sourceset-char', pk=char.source_id)

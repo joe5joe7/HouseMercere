@@ -50,4 +50,5 @@ urlpatterns = [
     path('sourceset/spells/<int:pk>/guidelines/<str:f>/<str:t>', views.sourceset_guideline, name='sourceset-spells-guideline'),
     path('sourceset/spells/<int:pk>/guidelines/<int:guideline>', views.source_guidelines_import, name='sourceset-spells-import'),
     path('sourceset/spellcharacteristic/<int:pk>', views.source_spellCharacteristics, name='sourceset-char'),
+    path('sourceset/spellcharacteristic/<int:pk>/delete', views.delete_spellCharacteristic, name='delete-char'),
 ]

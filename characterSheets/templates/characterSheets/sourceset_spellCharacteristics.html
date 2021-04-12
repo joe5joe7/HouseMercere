@@ -39,6 +39,9 @@
 </div>
 <div class="col"> Description: {{ char.description }}</div>
 <div class="col"> Level: {{ char.level }}</div>
+<div class="col-1">
+    <a class="btn btn-primary" href="{% url 'delete-char' pk=char.id %}">Delete</a>
+</div>
 </div>
 {% endfor %}
 <div class="row">
@@ -52,6 +55,9 @@
 </div>
 <div class="col"> Description: {{ char.description }}</div>
 <div class="col"> Level: {{ char.level }}</div>
+<div class="col-1">
+    <a class="btn btn-primary" href="{% url 'delete-char' pk=char.id %}">Delete</a>
+</div>
 </div>
 {% endfor %}
 <div class="row">
@@ -65,6 +71,9 @@
 </div>
 <div class="col"> Description: {{ char.description }}</div>
 <div class="col"> Level: {{ char.level }}</div>
+<div class="col-1">
+    <a class="btn btn-primary" href="{% url 'delete-char' pk=char.id %}">Delete</a>
+</div>
 </div>
 {% endfor %}
 </div>
