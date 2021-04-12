@@ -592,7 +592,7 @@ class importSpellGuidelineExamples(forms.Form):
         first = True
         try:
             for line in data:
-                if line[0].islower():
+                if line[0].islower() or not line[0].isalpha():
                     newExample.description = newExample.description + ' ' + line
                 else:
                     if first:
@@ -614,7 +614,8 @@ class importSpellGuidelineExamples(forms.Form):
         except:
             raise ValidationError('data is improperly formatted.')
 
+
 class spellLibForm(forms.ModelForm):
     class Meta:
         model = Spell
-        fields = ('name','description','spellRange','spellDuration','spellTarget')
+        fields = ('name', 'description', 'spellRange', 'spellDuration', 'spellTarget')
