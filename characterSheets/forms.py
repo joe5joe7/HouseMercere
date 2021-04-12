@@ -651,12 +651,12 @@ class importSpells(forms.Form):
                 newSpell.name = lastLine.capitalize()
                 newSpell.spellRange = spellCharacteristic.objects.filter(type='r',
                                                                          name__contains=re.sub(r'[\W_]+', '',
-                                                                                               test[1][:-1])).first()
+                                                                                               test[1])).first()
                 newSpell.spellDuration = spellCharacteristic.objects.filter(type='d',
                                                                             name__contains=re.sub(r'[\W_]+', '',
-                                                                                                  test[3][:-1])).first()
+                                                                                                  test[3])).first()
                 newSpell.spellTarget = spellCharacteristic.objects.filter(type='t',
-                                                                          name__contains=re.sub(r'[\W_]+', '', test[5]))
+                                                                          name__contains=re.sub(r'[\W_]+', '', test[5])).first()
                 if len(test) > 5:
                     newSpell.ritual = True
                 newSpell.form = self.form
