@@ -447,8 +447,7 @@ class Spell(models.Model):
                     return self.base + (
                                 self.spellRange.level + self.spellDuration.level + self.spellTarget.level + self.other) * 5
                 else:
-                    return self.base + (
-                                (self.spellRange.level + self.spellDuration.level + self.spellTarget.level + self.other) - (5 - self.base)) * 5 + 5 - self.base
+                    return self.base + (self.spellRange.level + self.spellDuration.level + self.spellTarget.level + self.other - (5 - self.base)) * 5 + 5
             else:
                 return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
 
@@ -458,9 +457,7 @@ class Spell(models.Model):
                     return self.base + (
                             self.spellRange.level + self.spellDuration.level + self.spellTarget.level) * 5
                 else:
-                    return self.base + (
-                            (self.spellRange.level + self.spellDuration.level + self.spellTarget.level) - (
-                                5 - self.base)) * 5 + 5
+                    return self.base + (self.spellRange.level + self.spellDuration.level + self.spellTarget.level - (5 - self.base)) * 5 + 5
             else:
                 return self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
 
