@@ -86,7 +86,7 @@
     {% load last_iteration %}
     {% define 'INVALID' as last %}
     {% for example in examples %}
-        <div class="row">
+        <div class="row border-bottom border-light">
         <div class="col-1">
             {% if example.level != last %}
             {{ example.level }}
