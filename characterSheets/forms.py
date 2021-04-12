@@ -695,7 +695,7 @@ class characterArt(forms.ModelForm):
         fields = ('name', 'score', 'xp')
 
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.Select(attrs={'class': 'form-control'}),
             'score': forms.NumberInput(attrs={'class': 'form-control'}),
             'xp': forms.NumberInput(attrs={'class': 'form-control'}),
         }
