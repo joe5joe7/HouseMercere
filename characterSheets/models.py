@@ -440,8 +440,10 @@ class Spell(models.Model):
 
     def level(self):
         """Returns the spell level"""
-        return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
-
+        if self.other:
+            return self.base + self.other + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
+        else:
+            return self.base + self.spellRange.level + self.spellDuration.level + self.spellTarget.level
     def levelReason(self):
         """Returns a breakdown on the spell level calculation"""
         output = 'base: ' + str(self.base) + ' R: ' + self.spellRange.name + "(" + str(self.spellRange.level) + ")" \
