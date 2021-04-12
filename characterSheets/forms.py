@@ -664,7 +664,7 @@ class importSpells(forms.Form):
                 newSpell.source = self.source
                 gettingDesc = True
                 desc = ''
-            if gettingDesc and newSpell is not None:
+            elif gettingDesc and newSpell is not None:
                 if '(Base' in line:
                     newSpell.description = desc
                     if test[1].isdigit():
@@ -674,7 +674,10 @@ class importSpells(forms.Form):
                     output.append(newSpell)
                     gettingDesc = False
                 else:
-                    desc += ' ' + line
+                    if line.replace('\n','')[-1] == '-':
+                        desc += ' ' + line.replace('\n','')[-1]
+                    else:
+                        desc += ' ' + line.replace('\n','')
             lastLine = line
         return output
 
