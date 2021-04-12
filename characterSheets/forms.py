@@ -668,7 +668,7 @@ class importSpells(forms.Form):
                 if '(Base' in line:
                     newSpell.description = desc
                     if re.sub(r'[\W_]+', '',test[1]).isdigit():
-                        newSpell.base = int(test[1])
+                        newSpell.base = int(re.sub(r'[\W_]+', '',test[1]))
                     else:
                         newSpell.base = 0
                     output.append(newSpell)
