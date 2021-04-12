@@ -2,7 +2,7 @@ from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 
 from .models import Character, Ability, Saga, VF, SourceSet, DefaultSpeciality, Weapon, WeaponInstance, ArmorInstance, \
-    SpellGuideline, SpellGuidelineExample
+    SpellGuideline, SpellGuidelineExample, spellCharacteristic
 
 admin.site.register(Character)
 
@@ -25,5 +25,6 @@ admin.site.register(WeaponInstance)
 admin.site.register(ArmorInstance)
 admin.site.register(SpellGuideline)
 admin.site.register(SpellGuidelineExample)
+admin.site.register(spellCharacteristic)
 
 admin.site.register(DefaultSpeciality)
