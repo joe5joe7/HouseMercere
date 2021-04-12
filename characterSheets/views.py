@@ -1002,6 +1002,7 @@ def sourceset_guideline(request, pk, t, f):
     examples = SpellGuidelineExample.objects.filter(guideline=guideline)
 
     spells = Spell.objects.filter(form=guideline.form, technique=guideline.technique, source=ss)
+    spells = sorted(spells, key=lambda a: a.level())
 
     if guideline is None:
         form = spellGuidelineForm(request.POST or None, form=formsDetailed[f], technique=techniquesDetailed[t])
