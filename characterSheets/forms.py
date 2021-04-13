@@ -705,10 +705,11 @@ class characterArt(forms.ModelForm):
         super(characterArt, self).__init__(*args, **kwargs)
         self.instance.character = self.character
 
+
 class characterSpell(forms.ModelForm):
     class Meta:
         model = SpellInstance
-        fields = ('referenceSpell','notes', 'sigil')
+        fields = ('referenceSpell', 'notes', 'sigil')
 
         widgets = {
             'referenceSpell': forms.Select(attrs={'class': 'form-control'}),
@@ -716,11 +717,12 @@ class characterSpell(forms.ModelForm):
             'sigil': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         self.character = kwargs.pop('character', None)
-        super(characterSpell, self).__init__(*args,**kwargs)
+        super(characterSpell, self).__init__(*args, **kwargs)
         self.instance.character = self.character
-        self.fields['referenceSpell'].queryset = Spell.objects.filter(source__in=self.character.player.subscribers.all())
+        self.fields['referenceSpell'].queryset = Spell.objects.filter(
+            source__in=self.character.player.subscribers.all())
 
 
 class addCharacteristic(forms.ModelForm):

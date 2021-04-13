@@ -86,13 +86,26 @@
                 {{ spell.referenceSpell.name }}
             </h5>
             {% if spell.ritual %}
-                <h6 class="card-subtitle mb-2 text-muted">{{ spell.referenceSpell.form }} {{ spell.referenceSpell.technique }} Level: {{ spell.referenceSpell.level }}  Ritual</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{ spell.referenceSpell.form }} {{ spell.referenceSpell.technique }} {{ spell.type }} Level: {{ spell.referenceSpell.level }}  Ritual</h6>
             {% else %}
-                <h6 class="card-subtitle mb-2 text-muted">Level: {{ spell.referenceSpell.level }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{ spell.referenceSpell.form }} {{ spell.referenceSpell.technique }} {{ spell.type }} Level: {{ spell.referenceSpell.level }}</h6>
             {% endif %}
+            <div class="row"><div class="col-11">
+                Description
+            </div>
+            <div class="col-1">
+                <a data-toggle="collapse" href="{{ spell.id }}"  role="button" aria-expanded="false" aria-controls="collapse{{ spell.id }}description" style="color:#000000;">
+                    <i onclick="dropdownState('{{ spell.id }}');" id="toggle{{ spell.id }}" class="bi bi-menu-up" ></i>
+                </a>
+            </div>
+            </div>
+            <div class="collapse" id="{{ spell.id }}">
             <p class="card-text border-bottom">{{ spell.referenceSpell.description|linebreaks }}</p>
+            </div>
             <p class="card-text border-bottom"> Notes: {{ spell.notes }}</p>
             <p class="card-text">Sigil: {{ spell.sigil }}</p>
+            <p class="card-text">Mastery: {{ spell.mastery }}</p>
+            <p class="card-text">Mastery XP: {{ spell.xp }}</p>
         </div>
         <div class="card-footer">
             <p class="text-muted">{{ spell.referenceSpell.levelReason|linebreaks }}</p>

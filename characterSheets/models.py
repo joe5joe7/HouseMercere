@@ -35,7 +35,7 @@ class Saga(models.Model):
 
     name = models.CharField(max_length=200, help_text='The name of the saga', primary_key=True)
     storyGuide = models.ManyToManyField(User, related_name='Storyguide')
-    members = models.ManyToManyField(User, related_name='Member', null=True, blank=True)
+    members = models.ManyToManyField(User, related_name='Member', blank=True)
     sourceSets = models.ManyToManyField(SourceSet, blank=True)
 
     def __str__(self):
@@ -489,6 +489,12 @@ class SpellInstance(models.Model):
     mastery = models.IntegerField(default=0)
     notes = models.CharField(max_length=1000, null=True, blank=True)
     sigil = models.CharField(max_length=1000, null=True, blank=True)
+    types = (
+        ('d','draft'),
+        ('s','spontaneous'),
+        ('f','formulaic'),
+    )
+    type = models.CharField(choices=types, max_length=1, default='d')
 
 
 class SpellGuideline(models.Model):

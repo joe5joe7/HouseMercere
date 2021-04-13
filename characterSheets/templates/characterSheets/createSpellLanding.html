@@ -1,0 +1,24 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+<ul class="navbar-nav mr-auto">
+    {% for frm in forms %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create-spell-form' f=frm %}">{{ frm }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</nav>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+<ul class="navbar-nav mr-auto">
+    {% for technique in techniques %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create-spell-technique' t=technique %}">{{ technique }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</nav>
+</div>
+{% endblock %}

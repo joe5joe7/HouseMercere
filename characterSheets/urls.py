@@ -10,6 +10,11 @@ urlpatterns = [
     path('saga/create/', views.createSaga, name='saga-create'),
     path('saga/<str:pk>/update',views.SagaUpdate, name='saga-update'),
     path('saga/<str:pk>/delete',views.SagaDelete.as_view(), name='saga-delete'),
+    path('createSpell',views.create_spellLanding, name='create-spell-landing'),
+    path('createSpell/form/<str:f>',views.create_spell_form, name='create-spell-form'),
+    path('createSpell/technique/<str:t>',views.create_spell_technique, name='create-spell-technique'),
+    path('createSpell/<str:f>/<str:t>', views.create_spell, name='create-spell'),
+
     path('character/create/', views.createCharacter, name='character-create'),
     path('character/<int:pk>/edit/', views.editCharacter, name='edit-character'),
     path('character/create/details/<int:pk>', views.createCharacter_details, name='create-character-details'),
@@ -22,8 +27,10 @@ urlpatterns = [
     path('character/<int:pk>/charactercombat', views.CharacterCombatView, name='character-combat'),
     path('character/<int:pk>/characterequipment', views.CharacterEquipmentView, name='character-equipment'),
     path('character/<int:pk>charactermagic', views.CharacterMagicView, name='character-magic'),
+
     path('equipment/<str:equipType>/<int:pk>/<str:status>', views.changeStatusEquip, name='change-status'),
     path('equipment/partial/armor/<int:pk>', views.changePartialArmor, name='change-partial-armor'),
+
     path('add_sourceset',views.add_sourceset, name='add-sourceset'),
     path('view_sourceset/<int:pk>', views.view_sourceset, name='view-sourceset'),
     path('import_virtues/<int:pk>', views.import_virtues, name='import-virtues'),

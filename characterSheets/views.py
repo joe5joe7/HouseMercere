@@ -179,7 +179,7 @@ def CharacterMagicView(request, pk):
     character = get_object_or_404(Character, pk=pk)
     arts = Art.objects.filter(character=character)
     spells = SpellInstance.objects.filter(character=character)
-    artsFormset = modelformset_factory(Art, form=characterArt, extra=15-len(arts), can_delete=True)
+    artsFormset = modelformset_factory(Art, form=characterArt, extra=15 - len(arts), can_delete=True)
     artsForm = artsFormset(
         None,
         queryset=character.art_set.all(),
@@ -203,7 +203,7 @@ def CharacterMagicView(request, pk):
             return redirect('character-magic', pk=pk)
 
     context = {
-        'character':character,
+        'character': character,
         'arts': arts,
         'spells': spells,
         'artsForm': artsForm,
@@ -211,6 +211,7 @@ def CharacterMagicView(request, pk):
     }
 
     return render(request, 'characterSheets/character_magic.html', context)
+
 
 def CharacterEquipmentView(request, pk):
     character = get_object_or_404(Character, pk=pk)
@@ -482,7 +483,6 @@ def editCharacter(request, pk):
     }
 
     return render(request, 'characterSheets/edit_character.html', context)
-
 
 
 def add_fatigue(request, pk):
@@ -1195,3 +1195,145 @@ def delete_spellCharacteristic(request, pk):
     char.delete()
 
     return redirect('sourceset-char', pk=char.source_id)
+
+
+def create_spellLanding(request):
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'forms': forms,
+        'techniques': techniques,
+    }
+
+    return render(request, 'characterSheets/createSpellLanding.html', context)
+
+
+def create_spell_form(request, f):
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'forms': forms,
+        'techniques': techniques,
+        'selectedForm': f,
+    }
+
+    return render(request, 'characterSheets/createSpellForm.html', context)
+
+
+def create_spell_technique(request, t):
+    forms = (
+        'creo',
+        'intellego',
+        'muto',
+        'perdo',
+        'rego'
+    )
+    techniques = (
+        'animal',
+        'aquam',
+        'auram',
+        'corpus',
+        'herbam',
+        'ignem',
+        'imaginem',
+        'mentem',
+        'terram',
+        'vim'
+    )
+
+    context = {
+        'forms': forms,
+        'techniques': techniques,
+        'selectedTechnique': t,
+    }
+
+    return render(request, 'characterSheets/createSpellTechnique.html', context)
+
+
+def create_spell(request, f, t):
+    ss = SourceSet.objects.filter(personal=request.user)
+    formsDetailed = {
+        'creo': 'cr',
+        'intellego': 'in',
+        'muto': 'mu',
+        'perdo': 'pe',
+        'rego': 're',
+    }
+    techniquesDetailed = {
+        'animal': 'an',
+        'aquam': 'aq',
+        'auram': 'au',
+        'corpus': 'co',
+        'herbam': 'he',
+        'ignem': 'ig',
+        'imaginem': 'im',
+        'mentem': 'me',
+        'terram': 'te',
+        'vim': 'vi',
+    }
+
+    guideline = SpellGuideline.objects.filter(form=formsDetailed[f], technique=techniquesDetailed[t]).first()
+    examples = SpellGuidelineExample.objects.filter(guideline=guideline)
+
+    forms = []
+    for x in guideline.forms:
+        forms.append(x[1])
+    techniques = []
+    for technique in guideline.techniques:
+        techniques.append(technique[1])
+
+    spells = Spell.objects.filter(form=guideline.form, technique=guideline.technique, source__in=request.user.subscribers.all())
+    spells = sorted(spells, key=lambda a: a.level())
+
+    form = spellLibForm(request.POST or None, source=ss, guideline=guideline)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('create_spell', f=guideline.get_form_display(), t=guideline.get_technique_display())
+
+    context = {
+        'forms': forms,
+        'techniques': techniques,
+        'guideline': guideline,
+        'spells': spells,
+        'examples': examples,
+        'spellForm': form,
+    }
+
+    return render(request, 'characterSheets/createSpell.html', context)
