@@ -1,7 +1,7 @@
 {% extends "character_view.html" %}
 {% load generic_extras %}
 {% block extraLoads %}
-<div class="modal fade" id="artsModal" role="dialog" aria-label="Edit Arts FOrm" aria-hidden="true">
+<div class="modal fade" id="artsModal" role="dialog" aria-label="Edit Arts Form" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -26,6 +26,31 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="spellModal" role="dialog" aria-label="Add Spell Form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Spell</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+            {% csrf_token %}
+                <div class="form-group">
+                    <table>
+                        {{ spellForm.as_table }}
+                    </table>
+                </div>
+                <input type="hidden" id="form_type" name="form-type" value="spell">
+                <button class="btn btn-primary" value="cancel" data-dismiss="modal" aria-label="cancel"> Cancel </button>
+                <button class="btn btn-primary" value="submit" type="submit"> Add Spell </button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block character_content %}
 
@@ -33,6 +58,9 @@
 <div class="row">
     <div class="col-10">
         Arts:
+    </div>
+    <div class="col-1">
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#spellModal">Add Spell</button>
     </div>
     <div class="col-1">
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#artsModal">Edit Arts</button>
@@ -49,6 +77,32 @@
         {% endif %}
     {% endfor %}
 </div>
+</div>
+<div class="card-group">
+{% for spell in spells %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ spell.referenceSpell.name }}
+            </h5>
+            {% if spell.ritual %}
+                <h6 class="card-subtitle mb-2 text-muted">{{ spell.referenceSpell.form }} {{ spell.referenceSpell.technique }} Level: {{ spell.referenceSpell.level }}  Ritual</h6>
+            {% else %}
+                <h6 class="card-subtitle mb-2 text-muted">Level: {{ spell.referenceSpell.level }}</h6>
+            {% endif %}
+            <p class="card-text border-bottom">{{ spell.referenceSpell.description|linebreaks }}</p>
+            <p class="card-text border-bottom"> Notes: {{ spell.notes }}</p>
+            <p class="card-text">Sigil: {{ spell.sigil }}</p>
+        </div>
+        <div class="card-footer">
+            <p class="text-muted">{{ spell.referenceSpell.levelReason|linebreaks }}</p>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:3 %}
+    </div>
+    <div class="card-group">
+    {% endif %}
+{% endfor %}
 </div>
 
 

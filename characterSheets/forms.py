@@ -13,7 +13,7 @@ from pip._internal.utils import logging
 
 from characterSheets.models import Character, Saga, AbilityInstance, VirtueInstance, FlawInstance, Personality, \
     Reputation, SourceSet, VF, Ability, Armor, Weapon, MiscEquip, WeaponInstance, ArmorInstance, MiscEquipInstance, \
-    SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic, Art
+    SpellGuideline, SpellGuidelineExample, Spell, spellCharacteristic, Art, SpellInstance
 
 
 class changeSaga(ModelForm):
@@ -704,6 +704,23 @@ class characterArt(forms.ModelForm):
         self.character = kwargs.pop('character', None)
         super(characterArt, self).__init__(*args, **kwargs)
         self.instance.character = self.character
+
+class characterSpell(forms.ModelForm):
+    class Meta:
+        model = SpellInstance
+        fields = ('referenceSpell','notes', 'sigil')
+
+        widgets = {
+            'referenceSpell': forms.Select(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control'}),
+            'sigil': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self,*args,**kwargs):
+        self.character = kwargs.pop('character', None)
+        super(characterSpell, self).__init__(*args,**kwargs)
+        self.instance.character = self.character
+        self.fields['referenceSpell'].queryset = Spell.objects.filter(source__in=self.character.player.subscribers.all())
 
 
 class addCharacteristic(forms.ModelForm):

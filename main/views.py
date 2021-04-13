@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from guardian.shortcuts import get_objects_for_user
+from guardian.shortcuts import get_objects_for_user, assign_perm
 
 from characterSheets.models import Saga, Character, SourceSet
 from main.forms import NewUserForm
@@ -44,6 +44,13 @@ def register(request):
             ss = SourceSet.objects.filter(name='Core')
             if ss.first():
                 ss.subscribers.add(user)
+            ss = SourceSet()
+            ss.name = user.username + '\'s source'
+            ss.subscribers.add(user)
+            ss.personal = user
+            assign_perm('characterSheets.source_can_edit', user, ss)
+            assign_perm('characterSheets.source_owner', user, ss)
+            assign_perm('characterSheets.source_can_view', user, ss)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Registration successful.")
             return redirect('index')

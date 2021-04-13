@@ -11,6 +11,7 @@ class SourceSet(models.Model):
     name = models.CharField(max_length=200, unique=True)
     subscribers = models.ManyToManyField(User, blank=True, related_name='subscribers')
     public = models.BooleanField(default=True)
+    personal = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -34,7 +35,7 @@ class Saga(models.Model):
 
     name = models.CharField(max_length=200, help_text='The name of the saga', primary_key=True)
     storyGuide = models.ManyToManyField(User, related_name='Storyguide')
-    members = models.ManyToManyField(User, related_name='Member')
+    members = models.ManyToManyField(User, related_name='Member', null=True, blank=True)
     sourceSets = models.ManyToManyField(SourceSet, blank=True)
 
     def __str__(self):
@@ -487,6 +488,7 @@ class SpellInstance(models.Model):
     xp = models.IntegerField(default=0)
     mastery = models.IntegerField(default=0)
     notes = models.CharField(max_length=1000, null=True, blank=True)
+    sigil = models.CharField(max_length=1000, null=True, blank=True)
 
 
 class SpellGuideline(models.Model):

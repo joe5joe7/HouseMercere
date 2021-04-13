@@ -21,7 +21,7 @@ from characterSheets.forms import changeSaga, createCharacterForm, \
     createCharacter_virtueForm, createCharacter_flawForm, personalityForm, reputationForm, addSourceSet, abiLibForm, \
     vfLibForm, weaponLibForm, importVirtuesForm, importFlawsForm, importAbilitiesForm, armorLibForm, miscEquipLibForm, \
     weaponInstForm, armorInstForm, miscInstForm, spellGuidelineForm, spellGuidelineExampleForm, \
-    importSpellGuidelineExamples, addCharacteristic, spellLibForm, importSpells, characterArt
+    importSpellGuidelineExamples, addCharacteristic, spellLibForm, importSpells, characterArt, characterSpell
 
 import logging
 
@@ -186,6 +186,7 @@ def CharacterMagicView(request, pk):
         form_kwargs={'character': character},
         prefix='arts-form',
     )
+    spellForm = characterSpell(request.POST or None, character=character)
 
     if request.method == 'POST':
         artsForm = artsFormset(
@@ -194,9 +195,11 @@ def CharacterMagicView(request, pk):
             form_kwargs={'character': character},
             prefix='arts-form',
         )
+        if spellForm.is_valid():
+            spellForm.save()
+            return redirect('character-magic', pk=pk)
         if artsForm.is_valid():
             artsForm.save()
-
             return redirect('character-magic', pk=pk)
 
     context = {
@@ -204,6 +207,7 @@ def CharacterMagicView(request, pk):
         'arts': arts,
         'spells': spells,
         'artsForm': artsForm,
+        'spellForm': spellForm,
     }
 
     return render(request, 'characterSheets/character_magic.html', context)
