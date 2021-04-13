@@ -1325,7 +1325,7 @@ def create_spell(request, f, t):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect('create_spell', f=guideline.get_form_display(), t=guideline.get_technique_display())
+            # return redirect('create_spell', f=guideline.get_form_display(), t=guideline.get_technique_display())
 
     context = {
         'forms': forms,
