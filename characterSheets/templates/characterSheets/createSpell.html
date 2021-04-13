@@ -38,6 +38,7 @@
     <form method="post">
         {% csrf_token %}
         {{ spellForm.as_p }}
+        <button type="submit" class="btn btn-primary" value="Submit">Submit Spell</button>
     </form>
 </div>
 
