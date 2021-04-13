@@ -1287,7 +1287,7 @@ def create_spell_technique(request, t):
 
 
 def create_spell(request, f, t):
-    ss = SourceSet.objects.filter(personal=request.user)
+    ss = SourceSet.objects.filter(personal=request.user).first()
     formsDetailed = {
         'creo': 'cr',
         'intellego': 'in',
