@@ -6,7 +6,7 @@
 <ul class="navbar-nav mr-auto">
     {% for frm in forms %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'create-spell-form' f=frm %}">{{ frm }}</a>
+            <a class="nav-link" href="{% url 'create-spell' f=frm t=selectedTechnique %}">{{ frm }}</a>
         </li>
     {% endfor %}
 </ul>

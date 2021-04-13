@@ -7,7 +7,7 @@
     {% for frm in forms %}
         {% if frm == selectedForm %}
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'create-spell-form' f=form %}">{{ form }}</a>
+            <a class="nav-link" href="{% url 'create-spell-form' f=frm %}">{{ form }}</a>
         </li>
         {% else %}
         <li class="nav-item">
@@ -21,7 +21,7 @@
 <ul class="navbar-nav mr-auto">
     {% for technique in techniques %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'create-spell-technique' t=technique %}">{{ technique }}</a>
+            <a class="nav-link" href="{% url 'create-spell' t=technique f=selectedForm %}">{{ technique }}</a>
         </li>
     {% endfor %}
 </ul>
