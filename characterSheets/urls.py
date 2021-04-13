@@ -11,7 +11,7 @@ urlpatterns = [
     path('saga/<str:pk>/update',views.SagaUpdate, name='saga-update'),
     path('saga/<str:pk>/delete',views.SagaDelete.as_view(), name='saga-delete'),
     path('createSpell',views.create_spellLanding, name='create-spell-landing'),
-    path('createSpell/form/<str:f>',views.create_spell_form, name='create-spell-form'),
+    path('createSpell/<str:f>/form/',views.create_spell_form, name='create-spell-form'),
     path('createSpell/technique/<str:t>',views.create_spell_technique, name='create-spell-technique'),
     path('createSpell/<str:f>/<str:t>', views.create_spell, name='create-spell'),
 
