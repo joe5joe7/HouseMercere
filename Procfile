@@ -1,1 +1,1 @@
-web: gunicorn houseMercere.wsgi:application --log-file -
+web: gunicorn house-mercere.wsgi:application --log-file -
